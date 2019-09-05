@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Invoice xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:ccts="urn:un:unece:uncefact:documentation:2" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:ext="urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2" xmlns:qdt="urn:oasis:names:specification:ubl:schema:xsd:QualifiedDatatypes-2" xmlns:udt="urn:un:unece:uncefact:data:specification:UnqualifiedDataTypesSchemaModule:2" xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2">
+  <!-- GENERADO DESDE WWW.NUBEFACT.COM -->
+  <ext:UBLExtensions>
+    <ext:UBLExtension>
+      <ext:ExtensionContent>
+        <ds:Signature Id="NubeFacTSign">
+          <ds:SignedInfo>
+            <ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+            <ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/>
+            <ds:Reference URI="">
+              <ds:Transforms>
+                <ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+              </ds:Transforms>
+              <ds:DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256"/>
+              <ds:DigestValue>SLblqGq/rn8q4Bnb8zZlpdpuVePg/cB/M0OEX6Ub6m8=</ds:DigestValue>
+            </ds:Reference>
+          </ds:SignedInfo>
+          <ds:SignatureValue>SDGREAKRiExfYTRvRDgGK/nP7QJeffn1WZ6OO+7UB493I+tm+XaqSJcmjcjWJ95RsSmuCb/mxQoviKv+++rdntjHzWS3y8JxrlePiFiDITy7jIz1OGmFMfMeZydeXxYJ6/BdkS98X80bfuJwfa4I0kXW8wZ75gN6jQkMlEWoeGts5/mrZevY8TRphaQWYr1e43t1BxSTT5aR2fUWO/iin9hPPC8JRfStfVBFsas6LzlvHtYe+vWUGUnE3/qA7r1GSzDRs5gsp+RAYOLkAFdURxHRVbGM4ZfCZAZigBHvqd3donBYgE049L/kEIKcl5Eyz28d8ghNRT2mVsIccoZaIQ==</ds:SignatureValue>
+          <ds:KeyInfo>
+            <ds:X509Data>
+              <ds:X509SubjectName>DC=LLAMA.PE SA,C=PE,ST=LIMA,L=LIMA,O=TU EMPRESA S.A.,OU=DNI 9999999 RUC 20600695771 - CERTIFICADO PARA DEMOSTRACI\xC3\x93N,CN=NOMBRE REPRESENTANTE LEGAL - CERTIFICADO PARA DEMOSTRACI\xC3\x93N,emailAddress=demo@llama.pe</ds:X509SubjectName>
+              <ds:X509Certificate>
+MIIE8TCCA9mgAwIBAgICGVgwDQYJKoZIhvcNAQEFBQAwggENMRswGQYKCZImiZPy
+LGQBGRYLTExBTUEuUEUgU0ExCzAJBgNVBAYTAlBFMQ0wCwYDVQQIDARMSU1BMQ0w
+CwYDVQQHDARMSU1BMRgwFgYDVQQKDA9UVSBFTVBSRVNBIFMuQS4xRTBDBgNVBAsM
+PEROSSA5OTk5OTk5IFJVQyAyMDYwMDY5NTc3MSAtIENFUlRJRklDQURPIFBBUkEg
+REVNT1NUUkFDScOTTjFEMEIGA1UEAww7Tk9NQlJFIFJFUFJFU0VOVEFOVEUgTEVH
+QUwgLSBDRVJUSUZJQ0FETyBQQVJBIERFTU9TVFJBQ0nDk04xHDAaBgkqhkiG9w0B
+CQEWDWRlbW9AbGxhbWEucGUwHhcNMTgwNzAyMjEzNDQ5WhcNMjAwNzAxMjEzNDQ5
+WjCCAQ0xGzAZBgoJkiaJk/IsZAEZFgtMTEFNQS5QRSBTQTELMAkGA1UEBhMCUEUx
+DTALBgNVBAgMBExJTUExDTALBgNVBAcMBExJTUExGDAWBgNVBAoMD1RVIEVNUFJF
+U0EgUy5BLjFFMEMGA1UECww8RE5JIDk5OTk5OTkgUlVDIDIwNjAwNjk1NzcxIC0g
+Q0VSVElGSUNBRE8gUEFSQSBERU1PU1RSQUNJw5NOMUQwQgYDVQQDDDtOT01CUkUg
+UkVQUkVTRU5UQU5URSBMRUdBTCAtIENFUlRJRklDQURPIFBBUkEgREVNT1NUUkFD
+ScOTTjEcMBoGCSqGSIb3DQEJARYNZGVtb0BsbGFtYS5wZTCCASIwDQYJKoZIhvcN
+AQEBBQADggEPADCCAQoCggEBAOZLQVNvx7knB8kSn1bNiaGdljHwSlSqohUY2Yue
+eSIO/l1OlW6P6+ygYA/eEc5VOnOpj4PK3hUbKL8k77JrRk8lpV/AufPVOQex5F8H
+ap7UUAtDec3GbS89F7jias5KuKdmIUFoZOiqQl3h4Da5Z87BtshjzMs7GorN6Nqz
+miFjnMvuN1YwtjnxxtdCh1cC+xQCywPTUtl28gAsyBPKUBf0+ssdKVRZJJSytra6
+MI2M5yY4+zgYc0PkwIGpUyHwabRCiRbxMfatOzvO2xl6ky64ympAhmsJ9S4ykCjR
+tjmCaDLxNZhDAPvKH04g6BnC0MKtlPImjNW41lhoBKnd3WMCAwEAAaNXMFUwHQYD
+VR0OBBYEFHOa+GGsibQveO1T+rJlOBM4eWUQMB8GA1UdIwQYMBaAFHOa+GGsibQv
+eO1T+rJlOBM4eWUQMBMGA1UdJQQMMAoGCCsGAQUFBwMBMA0GCSqGSIb3DQEBBQUA
+A4IBAQA3K4bko9Gk2slesvrxf57B2KpeFTTFds3egjdFY+iprQF6umPiJbHFQGIB
+XFRuYjlGVc3O6P23SgUhRPIGtNp2u188PBFYqADITy2ZCpEFg6cSieyQfZ06RpTX
+QiBPRRbLqNklfTwqcd1/0pnS2DdOXj52LZwBCNovzd5gpt5Kb6jHygYXTQDmhzaY
+5lVD2+NcxjMS1cd5xGmMANXRlLk9kohiqo6wPaUWqMyeVy8gJTG1+W/SIo65mCpN
+5FAYouSXIMYaB2Hf5gk+h4P/H6VO+mCjT4+yzXSswOF9r6iu1aW9rOeIDNQeDxO4
+nvg0dK27WHtHQOofapP9+ql57M27
+
+</ds:X509Certificate>
+            </ds:X509Data>
+          </ds:KeyInfo>
+        </ds:Signature>
+      </ext:ExtensionContent>
+    </ext:UBLExtension>
+  </ext:UBLExtensions>
+  <!-- GENERADO DESDE WWW.NUBEFACT.COM -->
+  <cbc:UBLVersionID>2.1</cbc:UBLVersionID>
+  <cbc:CustomizationID>2.0</cbc:CustomizationID>
+  <cbc:ID>FFF1-4</cbc:ID>
+  <cbc:IssueDate>2019-05-30</cbc:IssueDate>
+  <cbc:IssueTime>14:38:29</cbc:IssueTime>
+  <cbc:InvoiceTypeCode listID="0101" listAgencyName="PE:SUNAT" listName="Tipo de Documento" listURI="urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo01" name="Tipo de Operacion" listSchemeURI="urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo51">01</cbc:InvoiceTypeCode>
+  <cbc:Note languageLocaleID="1000">CERO CON 00/100 SOLES</cbc:Note>
+  <cbc:Note>EJEMPLO JSON GENERAR CPE FACTURA 4 GRATUITAS</cbc:Note>
+  <cbc:DocumentCurrencyCode listID="ISO 4217 Alpha" listAgencyName="United Nations Economic Commission for Europe" listName="Currency">PEN</cbc:DocumentCurrencyCode>
+  <cac:Signature>
+    <cbc:ID>20600695771</cbc:ID>
+    <cbc:Note>WWW.NUBEFACT.COM</cbc:Note>
+    <cac:SignatoryParty>
+      <cac:PartyIdentification>
+        <cbc:ID>20600695771</cbc:ID>
+      </cac:PartyIdentification>
+      <cac:PartyName>
+        <cbc:Name>NUBEFACT S.A.</cbc:Name>
+      </cac:PartyName>
+    </cac:SignatoryParty>
+    <cac:DigitalSignatureAttachment>
+      <cac:ExternalReference>
+        <cbc:URI>20600695771</cbc:URI>
+      </cac:ExternalReference>
+    </cac:DigitalSignatureAttachment>
+  </cac:Signature>
+  <cac:AccountingSupplierParty>
+    <cac:Party>
+      <cac:PartyIdentification>
+        <cbc:ID schemeID="6" schemeName="Documento de Identidad" schemeAgencyName="PE:SUNAT" schemeURI="urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo06">20600695771</cbc:ID>
+      </cac:PartyIdentification>
+      <cac:PartyName>
+        <cbc:Name>NUBEFACT S.A.</cbc:Name>
+      </cac:PartyName>
+      <cac:PartyLegalEntity>
+        <cbc:RegistrationName>NUBEFACT S.A.</cbc:RegistrationName>
+        <cac:RegistrationAddress>
+          <cbc:ID schemeName="Ubigeos" schemeAgencyName="PE:INEI">150122</cbc:ID>
+          <cbc:AddressTypeCode listAgencyName="PE:SUNAT" listName="Establecimientos anexos">0001</cbc:AddressTypeCode>
+          <cbc:CityName>LIMA</cbc:CityName>
+          <cbc:CountrySubentity>LIMA</cbc:CountrySubentity>
+          <cbc:District>MIRAFLORES</cbc:District>
+          <cac:AddressLine>
+            <cbc:Line>CAL. MARTIR JOSE OLAYA NRO. 129 INT. 903</cbc:Line>
+          </cac:AddressLine>
+          <cac:Country>
+            <cbc:IdentificationCode listID="ISO 3166-1" listAgencyName="United Nations Economic Commission for Europe" listName="Country">PE</cbc:IdentificationCode>
+          </cac:Country>
+        </cac:RegistrationAddress>
+      </cac:PartyLegalEntity>
+    </cac:Party>
+  </cac:AccountingSupplierParty>
+  <cac:AccountingCustomerParty>
+    <cac:Party>
+      <cac:PartyIdentification>
+        <cbc:ID schemeID="6" schemeName="Documento de Identidad" schemeAgencyName="PE:SUNAT" schemeURI="urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo06">20600695771</cbc:ID>
+      </cac:PartyIdentification>
+      <cac:PartyLegalEntity>
+        <cbc:RegistrationName>NUBEFACT SA</cbc:RegistrationName>
+      </cac:PartyLegalEntity>
+    </cac:Party>
+  </cac:AccountingCustomerParty>
+  <cac:TaxTotal>
+    <cbc:TaxAmount currencyID="PEN">0.00</cbc:TaxAmount>
+    <cac:TaxSubtotal>
+      <cbc:TaxableAmount currencyID="PEN">600.00</cbc:TaxableAmount>
+      <cbc:TaxAmount currencyID="PEN">0.00</cbc:TaxAmount>
+      <cac:TaxCategory>
+        <cac:TaxScheme>
+          <cbc:ID schemeName="Codigo de tributos" schemeAgencyName="PE:SUNAT" schemeURI="urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo05">9996</cbc:ID>
+          <cbc:Name>GRA</cbc:Name>
+          <cbc:TaxTypeCode>FRE</cbc:TaxTypeCode>
+        </cac:TaxScheme>
+      </cac:TaxCategory>
+    </cac:TaxSubtotal>
+  </cac:TaxTotal>
+  <cac:LegalMonetaryTotal>
+    <cbc:LineExtensionAmount currencyID="PEN">0.00</cbc:LineExtensionAmount>
+    <cbc:TaxInclusiveAmount currencyID="PEN">0.00</cbc:TaxInclusiveAmount>
+    <cbc:AllowanceTotalAmount currencyID="PEN">0.00</cbc:AllowanceTotalAmount>
+    <cbc:ChargeTotalAmount currencyID="PEN">0.00</cbc:ChargeTotalAmount>
+    <cbc:PrepaidAmount currencyID="PEN">0.00</cbc:PrepaidAmount>
+    <cbc:PayableAmount currencyID="PEN">0.00</cbc:PayableAmount>
+  </cac:LegalMonetaryTotal>
+  <!-- GENERADO DESDE WWW.NUBEFACT.COM -->
+  <cac:InvoiceLine>
+    <cbc:ID>1</cbc:ID>
+    <cbc:InvoicedQuantity unitCode="NIU" unitCodeListID="UN/ECE rec 20" unitCodeListAgencyName="United Nations Economic Commission for Europe">1.0</cbc:InvoicedQuantity>
+    <cbc:LineExtensionAmount currencyID="PEN">500.00</cbc:LineExtensionAmount>
+    <cac:PricingReference>
+      <cac:AlternativeConditionPrice>
+        <cbc:PriceAmount currencyID="PEN">500.0</cbc:PriceAmount>
+        <cbc:PriceTypeCode listAgencyName="PE:SUNAT" listName="Tipo de Precio" listURI="urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo16">02</cbc:PriceTypeCode>
+      </cac:AlternativeConditionPrice>
+    </cac:PricingReference>
+    <cac:TaxTotal>
+      <cbc:TaxAmount currencyID="PEN">76.27</cbc:TaxAmount>
+      <cac:TaxSubtotal>
+        <cbc:TaxableAmount currencyID="PEN">423.73</cbc:TaxableAmount>
+        <cbc:TaxAmount currencyID="PEN">76.27</cbc:TaxAmount>
+        <cac:TaxCategory>
+          <cbc:Percent>18.00</cbc:Percent>
+          <cbc:TaxExemptionReasonCode listAgencyName="PE:SUNAT" listName="Afectacion del IGV" listURI="urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo07">15</cbc:TaxExemptionReasonCode>
+          <cac:TaxScheme>
+            <cbc:ID schemeName="Codigo de tributos" schemeAgencyName="PE:SUNAT" schemeURI="urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo05">9996</cbc:ID>
+            <cbc:Name>GRA</cbc:Name>
+            <cbc:TaxTypeCode>FRE</cbc:TaxTypeCode>
+          </cac:TaxScheme>
+        </cac:TaxCategory>
+      </cac:TaxSubtotal>
+    </cac:TaxTotal>
+    <cac:Item>
+      <cbc:Description>001 DETALLE DEL PRODUCTO</cbc:Description>
+      <cac:CommodityClassification>
+        <cbc:ItemClassificationCode listID="UNSPSC" listAgencyName="GS1 US" listName="Item Classification">10000000</cbc:ItemClassificationCode>
+      </cac:CommodityClassification>
+    </cac:Item>
+    <cac:Price>
+      <cbc:PriceAmount currencyID="PEN">0.00</cbc:PriceAmount>
+    </cac:Price>
+  </cac:InvoiceLine>
+  <cac:InvoiceLine>
+    <cbc:ID>2</cbc:ID>
+    <cbc:InvoicedQuantity unitCode="ZZ" unitCodeListID="UN/ECE rec 20" unitCodeListAgencyName="United Nations Economic Commission for Europe">5.0</cbc:InvoicedQuantity>
+    <cbc:LineExtensionAmount currencyID="PEN">100.00</cbc:LineExtensionAmount>
+    <cac:PricingReference>
+      <cac:AlternativeConditionPrice>
+        <cbc:PriceAmount currencyID="PEN">20.0</cbc:PriceAmount>
+        <cbc:PriceTypeCode listAgencyName="PE:SUNAT" listName="Tipo de Precio" listURI="urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo16">02</cbc:PriceTypeCode>
+      </cac:AlternativeConditionPrice>
+    </cac:PricingReference>
+    <cac:TaxTotal>
+      <cbc:TaxAmount currencyID="PEN">15.25</cbc:TaxAmount>
+      <cac:TaxSubtotal>
+        <cbc:TaxableAmount currencyID="PEN">84.75</cbc:TaxableAmount>
+        <cbc:TaxAmount currencyID="PEN">15.25</cbc:TaxAmount>
+        <cac:TaxCategory>
+          <cbc:Percent>18.00</cbc:Percent>
+          <cbc:TaxExemptionReasonCode listAgencyName="PE:SUNAT" listName="Afectacion del IGV" listURI="urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo07">15</cbc:TaxExemptionReasonCode>
+          <cac:TaxScheme>
+            <cbc:ID schemeName="Codigo de tributos" schemeAgencyName="PE:SUNAT" schemeURI="urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo05">9996</cbc:ID>
+            <cbc:Name>GRA</cbc:Name>
+            <cbc:TaxTypeCode>FRE</cbc:TaxTypeCode>
+          </cac:TaxScheme>
+        </cac:TaxCategory>
+      </cac:TaxSubtotal>
+    </cac:TaxTotal>
+    <cac:Item>
+      <cbc:Description>001 DETALLE DEL SERVICIO</cbc:Description>
+      <cac:CommodityClassification>
+        <cbc:ItemClassificationCode listID="UNSPSC" listAgencyName="GS1 US" listName="Item Classification">10000000</cbc:ItemClassificationCode>
+      </cac:CommodityClassification>
+    </cac:Item>
+    <cac:Price>
+      <cbc:PriceAmount currencyID="PEN">0.00</cbc:PriceAmount>
+    </cac:Price>
+  </cac:InvoiceLine>
+  <!-- GENERADO DESDE WWW.NUBEFACT.COM -->
+</Invoice>
