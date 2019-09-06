@@ -1,0 +1,51 @@
+{
+    "001": {
+        "name": "Tipo de cambio",
+        "code": {
+            "description": "Moneda+Fecha de cambio",
+            "type": "an14",
+            "format": "/^([0-2]{2}[0-9]{2})(((0)[0-9])|((1)[0-2]))(((3)[0-1])|[0-2][0-9])$/g"
+        },
+        "description": {
+            "description": "Monto del tipo de cambio",
+            "type": "n..8",
+            "format": "(5 enteros, 3 decimales)"
+        }
+    },
+    "002": {
+        "name": "Regimen de percepción",
+        "code": {
+            "description": "Código de tipo de regimen de percepción",
+            "type": "n2"
+        },
+        "description": {
+            "description": "Porcentaje de la percepción",
+            "type": "n..8",
+            "format": "(5 enteros, 3 decimales)"
+        }
+    },
+    "003": {
+        "name": "Regimen de retención",
+        "code": {
+            "description": "Código de tipo de regimen de retención",
+            "type": "n2s"
+        },
+        "description": {
+            "description": "Porcentaje de la retención",
+            "type": "n..8",
+            "format": "(5 enteros, 3 decimales)"
+        }
+    },
+    "004": {
+        "name": "Plazo maximo de envío",
+        "code": {
+            "description": "Código de comprobante",
+            "type": "n2"
+        },
+        "description": {
+            "description": "Número de días",
+            "type": "n..3",
+            "format": "(3 enteros)"
+        }
+    }
+}

@@ -67,9 +67,9 @@ nvg0dK27WHtHQOofapP9+ql57M27
     </ext:UBLExtensions>
     <!-- GENERADO DESDE WWW.NUBEFACT.COM -->
     <cbc:UBLVersionID>2.1</cbc:UBLVersionID>
-    <cbc:CustomizationID schemeAgencyName="PE:SUNsAT">2.0</cbc:CustomizationID>
+    <cbc:CustomizationID schemeAgencyName="PE:SUNAT">2.0</cbc:CustomizationID>
     <cbc:ID>FFF1-1</cbc:ID>
-    <cbc:IssueDate>2019-05-30</cbc:IssueDate>
+    <cbc:IssueDate>2019-09-06</cbc:IssueDate>
     <cbc:IssueTime>14:37:08</cbc:IssueTime>
     <cbc:InvoiceTypeCode listID="0101" listAgencyName="PE:SUNAT" listName="Tipo de Documento" listURI="urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo01" name="Tipo de Operacion" listSchemeURI="urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo51">01</cbc:InvoiceTypeCode>
     <cbc:Note languageLocaleID="1000">SETECIENTOS OCHO CON 00/100 SOLES</cbc:Note>
