@@ -50,6 +50,10 @@ class DomDocumentHelper {
     }
 
     select(xpathExpression, dom = this.dom, xpath = this.xpath) {
+        var xpathExpressionExist = xpathExpression.replace('string', 'boolean');
+        // console.log(xpathExpressionExist);
+        // console.log(xpath(xpathExpressionExist, dom));
+        if (!xpath(xpathExpressionExist, dom)) return false;
         return xpath(xpathExpression, dom);
     }
 }

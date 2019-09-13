@@ -1,6 +1,7 @@
 "use strict"
-
-class Boleta2_0Loader {
+const BaseSale = require('../templates/BaseSale');
+var DomDocumentHelper = require('../helpers/DomDocumentHelper');
+class Boleta2_0Loader extends BaseSale {
     constructor(xml) {
         this._xml = xml;
     }

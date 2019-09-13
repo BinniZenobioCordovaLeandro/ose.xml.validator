@@ -1,6 +1,6 @@
 ose.xml.validator
 ====
-This is a single xml validator script implemented into ose.soap.server, a server to be "Operador de Servicios Electrónicos" - OSE SUNAT
+This is a single xml validator script implemented into ose.soap-server, a server to be "Operador de Servicios Electrónicos" - OSE SUNAT
 
 I used the concept of POO, loaders, templates and the patron Object Literal to designed the script logic writed with JavaScript and run with node.js
 
