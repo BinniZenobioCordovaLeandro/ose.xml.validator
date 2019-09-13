@@ -1,4 +1,5 @@
 "use strict";
+
 var moment = require('moment');
 
 var Parameter = require('../catalogs/Parameter.json');
@@ -8,6 +9,7 @@ var Company = require('./Company');
 var Client = require('./Client');
 var Document = require('./Document');
 var SaleDetail = require('./SaleDetail');
+var Signature = require('./Signature');
 
 class BaseSale {
     constructor() {
@@ -16,7 +18,7 @@ class BaseSale {
         this._customization = null;
         this._id = null;
 
-        this._customization_SchemeAgencyName = null;
+        this._customization_schemeAgencyName = null;
 
         this._tipoDoc = null;
         this._tipoDoc_listAgencyName = null;
@@ -29,7 +31,6 @@ class BaseSale {
         this._fechaEmision = null;
         this._horaEmision = null;
 
-
         this._company = new Company();
         this._client = new Client();
 
@@ -39,6 +40,8 @@ class BaseSale {
         this._tipoMoneda_listAgencyName = null;
 
         this._fechaVencimiento = null;
+
+        this._signature = new Signature();
 
         this._sumOtrosCargos = null;
         this._mtoOperGravadas = null;
@@ -84,13 +87,13 @@ class BaseSale {
         if (!/^([0-9.]){3}$/.test(value)) throw new Error('2072');
         this._customization = value;
     }
-    get customization_SchemeAgencyName() {
-        return this._customization_SchemeAgencyName;
+    get customization_schemeAgencyName() {
+        return this._customization_schemeAgencyName;
     }
-    set customization_SchemeAgencyName(value) {
+    set customization_schemeAgencyName(value) {
         if (value) {
             if (!/^PE:SUNAT$/.test(value)) this.warning.push('4256');
-            this._customization_SchemeAgencyName = value;
+            this._customization_schemeAgencyName = value;
         }
     }
     get id() {
@@ -223,7 +226,12 @@ class BaseSale {
     set fechaVencimiento(value) {
         this._fechaVencimiento = value;
     }
-
+    get signature() {
+        return this._signature;
+    }
+    set signature(value) {
+        this._signature = value;
+    }
 }
 
 module.exports = BaseSale;

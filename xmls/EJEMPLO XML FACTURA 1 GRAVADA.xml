@@ -17,7 +17,7 @@
                     <ds:SignedInfo>
                         <ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
                         <ds:SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256"/>
-                        <ds:Reference URI="">
+                        <ds:Reference URI="123">
                             <ds:Transforms>
                                 <ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
                             </ds:Transforms>
@@ -69,7 +69,7 @@ nvg0dK27WHtHQOofapP9+ql57M27
     <cbc:UBLVersionID>2.1</cbc:UBLVersionID>
     <cbc:CustomizationID schemeAgencyName="PE:SUNAT">2.0</cbc:CustomizationID>
     <cbc:ID>FFF1-1</cbc:ID>
-    <cbc:IssueDate>2019-09-06</cbc:IssueDate>
+    <cbc:IssueDate>2019-09-12</cbc:IssueDate>
     <cbc:IssueTime>14:37:08</cbc:IssueTime>
     <cbc:InvoiceTypeCode listID="0101" listAgencyName="PE:SUNAT" listName="Tipo de Documento" listURI="urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo01" name="Tipo de Operacion" listSchemeURI="urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo51">01</cbc:InvoiceTypeCode>
     <cbc:Note languageLocaleID="1000">SETECIENTOS OCHO CON 00/100 SOLES</cbc:Note>
@@ -112,7 +112,7 @@ nvg0dK27WHtHQOofapP9+ql57M27
                         <cbc:Line>CAL. MARTIR JOSE OLAYA NRO. 129 INT. 903</cbc:Line>
                     </cac:AddressLine>
                     <cac:Country>
-                        <cbc:IdentificationCode listID="ISO 3166-1" listAgencyName="United Nations Economic Commission for Europe" listName="Country">PE</cbc:IdentificationCode>
+                        <cbc:IdentificationCode listID="ISO 3166-1" listAgencyName="United Nations Economic Commission for Europe" listName="Country">PEN</cbc:IdentificationCode>
                     </cac:Country>
                 </cac:RegistrationAddress>
             </cac:PartyLegalEntity>

@@ -1,0 +1,33 @@
+{
+    "ublVersion": "string(/xmlns:Invoice/cbc:UBLVersionID)",
+    "customization": "string(/xmlns:Invoice/cbc:CustomizationID)",
+    "customization_schemeAgencyName": "string(/xmlns:Invoice/cbc:CustomizationID/@schemeAgencyName)",
+    "id": "string(/xmlns:Invoice/cbc:ID)",
+    "fechaEmision": "string(/xmlns:Invoice/cbc:IssueDate)",
+    "horaEmision": "string(/xmlns:Invoice/cbc:IssueTime)",
+    "tipoDoc": "string(/xmlns:Invoice/cbc:InvoiceTypeCode)",
+    "tipoDoc_listAgencyName": "string(/xmlns:Invoice/cbc:InvoiceTypeCode/@listAgencyName)",
+    "tipoDoc_listName": "string(/xmlns:Invoice/cbc:InvoiceTypeCode/@listName)",
+    "tipoDoc_listURI": "string(/xmlns:Invoice/cbc:InvoiceTypeCode/@listURI)",
+    "tipoMoneda": "string(/xmlns:Invoice/cbc:DocumentCurrencyCode)",
+    "tipoMoneda_listID": "string(/xmlns:Invoice/cbc:DocumentCurrencyCode/@listID)",
+    "tipoMoneda_listName": "string(/xmlns:Invoice/cbc:DocumentCurrencyCode/@listName)",
+    "tipoMoneda_listAgencyName": "string(/xmlns:Invoice/cbc:DocumentCurrencyCode/@listAgencyName)",
+    "fechaVencimiento": "string(/xmlns:Invoice/cbc:DueDate)",
+    "signature": {
+        "id": "string(/xmlns:Invoice/ext:UBLExtensions/ext:UBLExtension/ext:ExtensionContent/ds:Signature/@Id)",
+        "canonicalization_algorithm": "string(/xmlns:Invoice/ext:UBLExtensions/ext:UBLExtension/ext:ExtensionContent/ds:Signature/ds:SignedInfo/ds:CanonicalizationMethod/@Algorithm)",
+        "signature_algorithm": "string(/xmlns:Invoice/ext:UBLExtensions/ext:UBLExtension/ext:ExtensionContent/ds:Signature/ds:SignedInfo/ds:SignatureMethod/@Algorithm)",
+        "reference_uri": "string(/xmlns:Invoice/ext:UBLExtensions/ext:UBLExtension/ext:ExtensionContent/ds:Signature/ds:SignedInfo/ds:Reference/@URI)",
+        "transform_algorithm": "string(/xmlns:Invoice/ext:UBLExtensions/ext:UBLExtension/ext:ExtensionContent/ds:Signature/ds:SignedInfo/ds:Reference/ds:Transforms/ds:Transform/@Algorithm)",
+        "digest_algorithm": "string(/xmlns:Invoice/ext:UBLExtensions/ext:UBLExtension/ext:ExtensionContent/ds:Signature/ds:SignedInfo/ds:Reference/ds:DigestMethod/@Algorithm)",
+        "digestValue": "string(/xmlns:Invoice/ext:UBLExtensions/ext:UBLExtension/ext:ExtensionContent/ds:Signature/ds:SignedInfo/ds:Reference/ds:DigestValue)",
+        "signatureValue": "string(/xmlns:Invoice/ext:UBLExtensions/ext:UBLExtension/ext:ExtensionContent/ds:Signature/ds:SignatureValue)",
+        "x509Certificate": "string(/xmlns:Invoice/ext:UBLExtensions/ext:UBLExtension/ext:ExtensionContent/ds:Signature/ds:KeyInfo/ds:X509Data/ds:X509Certificate)",
+        "signature": "string(/xmlns:Invoice/cac:Signature)",
+        "signature_id": "string(/xmlns:Invoice/cac:Signature/cbc:ID)",
+        "partyIdentificationId": "string(/xmlns:Invoice/cac:Signature/cac:SignatoryParty/cac:PartyIdentification/cbc:ID)",
+        "partyName": "string(/xmlns:Invoice/cac:Signature/cac:SignatoryParty/cac:PartyName/cbc:Name)",
+        "externalReferenceUri": "string(/xmlns:Invoice/cac:Signature/cac:DigitalSignatureAttachment/cac:ExternalReference/cbc:URI)"
+    }
+}
