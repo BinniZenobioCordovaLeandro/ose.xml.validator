@@ -1,0 +1,16 @@
+{
+    "20600695771-01-FFF1": {
+        "num_ruc": "20600695771",
+        "cod_cpe": "01",
+        "num_serie_cpe": "FFF1",
+        "num_ini_cpe": "5",
+        "num_fin_cpe": "7"
+    },
+    "20600695771-01-FFF2": {
+        "num_ruc": "20600695771",
+        "cod_cpe": "01",
+        "num_serie_cpe": "FFF2",
+        "num_ini_cpe": "31",
+        "num_fin_cpe": "55"
+    }
+}

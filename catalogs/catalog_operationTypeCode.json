@@ -1,0 +1,149 @@
+{
+    "0101": {
+        "code": "0101",
+        "description": "Venta interna",
+        "documentTypeCodeRelated": [
+            "01", "03"
+        ]
+    },
+    "0112": {
+        "code": "0112",
+        "description": "Venta Interna - Sustenta Gastos Deducibles Persona Natural",
+        "documentTypeCodeRelated": [
+            "01"
+        ]
+    },
+    "0113": {
+        "code": "0113",
+        "description": "Venta Interna-NRUS",
+        "documentTypeCodeRelated": [
+            "03"
+        ]
+    },
+    "0200": {
+        "code": "0200",
+        "description": "Exportación de Bienes",
+        "documentTypeCodeRelated": [
+            "01", "03"
+        ]
+    },
+    "0201": {
+        "code": "0201",
+        "description": "Exportación de Servicios – Prestación servicios realizados íntegramente en el país",
+        "documentTypeCodeRelated": [
+            "01", "03"
+        ]
+    },
+    "0202": {
+        "code": "0202",
+        "description": "Exportación de Servicios– Prestación de servicios de hospedaje No Domiciliado",
+        "documentTypeCodeRelated": [
+            "01", "03"
+        ]
+    },
+    "0203": {
+        "code": "0203",
+        "description": "Exportación de Servicios– Transporte de navieras ",
+        "documentTypeCodeRelated": [
+            "01", "03"
+        ]
+    },
+    "0204": {
+        "code": "0204",
+        "description": "Exportación de Servicios– Servicios a naves y aeronaves de bandera extranjera",
+        "documentTypeCodeRelated": [
+            "01", "03"
+        ]
+    },
+    "0205": {
+        "code": "0205",
+        "description": "Exportación de Servicios - Servicios que conformen un Paquete Turístico",
+        "documentTypeCodeRelated": [
+            "01", "03"
+        ]
+    },
+    "0206": {
+        "code": "0206",
+        "description": "Exportación de Servicios– Servicios complementarios al transporte de carga",
+        "documentTypeCodeRelated": [
+            "01", "03"
+        ]
+    },
+    "0207": {
+        "code": "0207",
+        "description": "Exportación de Servicios– Suministro de energía eléctrica a favor de sujetos domiciliados en ZED",
+        "documentTypeCodeRelated": [
+            "01", "03"
+        ]
+    },
+    "0208": {
+        "code": "0208",
+        "description": "Exportación de Servicios– Prestación servicios realizados parcialmente en el extranjero",
+        "documentTypeCodeRelated": [
+            "01", "03"
+        ]
+    },
+    "0301": {
+        "code": "0301",
+        "description": "Operaciones con Carta de porte aéreo(emitidas en el ámbito nacional)",
+        "documentTypeCodeRelated": [
+            "01", "03"
+        ]
+    },
+    "0302": {
+        "code": "0302",
+        "description": "Operaciones de Transporte ferroviario de pasajeros",
+        "documentTypeCodeRelated": [
+            "01", "03"
+        ]
+    },
+    "0303": {
+        "code": "0303",
+        "description": "Operaciones de Pago de regalía petrolera",
+        "documentTypeCodeRelated": [
+            "01", "03"
+        ]
+    },
+    "0401": {
+        "code": "0401",
+        "description": "Ventas no domiciliados que no califican como exportación",
+        "documentTypeCodeRelated": [
+            "01", "03"
+        ]
+    },
+    "1001": {
+        "code": "1001",
+        "description": "Operación Sujeta a Detracción",
+        "documentTypeCodeRelated": [
+            "01", "03"
+        ]
+    },
+    "1002": {
+        "code": "1002",
+        "description": "Operación Sujeta a Detracción - Recursos Hidrobiológicos",
+        "documentTypeCodeRelated": [
+            "01", "03"
+        ]
+    },
+    "1003": {
+        "code": "1003",
+        "description": "Operación Sujeta a Detracción - Servicios de Transporte Pasajeros",
+        "documentTypeCodeRelated": [
+            "01", "03"
+        ]
+    },
+    "1004": {
+        "code": "1004",
+        "description": "Operación Sujeta a Detracción - Servicios de Transporte Carga",
+        "documentTypeCodeRelated": [
+            "01", "03"
+        ]
+    },
+    "2001": {
+        "code": "2001",
+        "description": "Operación Sujeta a Percepción",
+        "documentTypeCodeRelated": [
+            "01", "03"
+        ]
+    }
+}

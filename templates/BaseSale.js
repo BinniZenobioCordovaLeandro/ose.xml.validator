@@ -3,7 +3,7 @@
 var moment = require('moment');
 
 var Parameter = require('../catalogs/Parameter.json');
-const Catalog02 = require('../catalogs/Catalog02.json');
+const Catalog02 = require('../catalogs/catalog_coinTypeCode.json');
 
 var Company = require('./Company');
 var Client = require('./Client');
@@ -14,13 +14,15 @@ var Signature = require('./Signature');
 class BaseSale {
     constructor() {
         this._warning = [];
+        
         this._ublVersion = null;
-        this._customization = null;
         this._id = null;
 
+        this._customization = null;
         this._customization_schemeAgencyName = null;
 
         this._tipoDoc = null;
+        this._tipoDoc_listID = null;
         this._tipoDoc_listAgencyName = null;
         this._tipoDoc_listName = null;
         this._tipoDoc_listURI = null;
@@ -31,9 +33,6 @@ class BaseSale {
         this._fechaEmision = null;
         this._horaEmision = null;
 
-        this._company = new Company();
-        this._client = new Client();
-
         this._tipoMoneda = null;
         this._tipoMoneda_listID = null;
         this._tipoMoneda_listName = null;
@@ -42,6 +41,9 @@ class BaseSale {
         this._fechaVencimiento = null;
 
         this._signature = new Signature();
+
+        this._company = new Company();
+        this._client = new Client();
 
         this._sumOtrosCargos = null;
         this._mtoOperGravadas = null;
@@ -100,15 +102,7 @@ class BaseSale {
         return this._id;
     }
     set id(value) {
-        var matches = /^([A-Z0-9]{1,4})-([0-9]{1,8})$/.exec(value);
-        // if (matches[1] != global.value.serie) throw new Error('1035');
-        // if (matches[2] != global.value.correlativo) throw new Error('1036');
         if (!(/^[F][A-Z0-9]{3}-[0-9]{1,8}$/.test(value) || /^[0-9]{1,4}-[0-9]{1,8}$/.test(value))) throw new Error('1001');
-        // if (!/^[0-9]{1}/.test(value) && vouchers.id(value).indicador == 1) throw new Error('1033');
-        // if (/^[0-9]{1}/.test(value) && vouchers.id(value).indicador == 2) throw new Error('1032');
-        // if (!/^[0-9]{1}/.test(value) && (vouchers.id(value).indicador == 0 || vouchers.id(value).indicador == 2)) throw new Error('1032');
-        // if (/^[0-9]{1}/.test(value) && vouchersAuthorityContingency.id(value)) throw new Error('3207');
-        // if (/^[0-9]{1}/.test(value) && !vouchersAuthorityPhysical.id(value)) throw new Error('3207');
         this._id = value;
     }
     get tipoDoc() {
@@ -116,8 +110,13 @@ class BaseSale {
     }
     set tipoDoc(value) {
         if (!value) throw new Error('1004');
-        // if (value != file.tipoDoc) throw new Error('1004');
         this._tipoDoc = value;
+    }
+    get tipoDoc_listID() { // tipo de operacion
+        return this._tipoDoc_listID;
+    }
+    set tipoDoc_listID(value) {
+        this._tipoDoc_listID = value;
     }
     get tipoDoc_listAgencyName() {
         return this._tipoDoc_listAgencyName;
@@ -163,8 +162,6 @@ class BaseSale {
     }
     set fechaEmision(value) {
         if (moment().diff(moment(value), 'days') > 2) throw new Error('2329');
-        // check 2108
-        // console.log(Parameter["004"]);
         this._fechaEmision = value;
     }
     get horaEmision() {
@@ -172,18 +169,6 @@ class BaseSale {
     }
     set horaEmision(value) {
         this._horaEmision = value;
-    }
-    get company() {
-        return this._company;
-    }
-    set company(value) {
-        this._company = value;
-    }
-    get client() {
-        return this._client;
-    }
-    set client(value) {
-        this._client = value;
     }
     get tipoMoneda() {
         return this._tipoMoneda;
@@ -232,6 +217,19 @@ class BaseSale {
     set signature(value) {
         this._signature = value;
     }
+    get company() {
+        return this._company;
+    }
+    set company(value) {
+        this._company = value;
+    }
+    get client() {
+        return this._client;
+    }
+    set client(value) {
+        this._client = value;
+    }
+
 }
 
 module.exports = BaseSale;

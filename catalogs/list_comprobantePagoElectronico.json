@@ -1,0 +1,16 @@
+{
+    "20600695771-01-FFF1-1": {
+        "num_ruc": "20600695771",
+        "cod_cpe": "01",
+        "num_serie_cpe": "FFF1",
+        "num_cpe": "1",
+        "ind_estado_cpe": "1",
+        "fec_emision_cpe": "2019-09-13 14:37:53.sssss",
+        "mto_importe_cpe": "",
+        "cod_moneda_cpe": "",
+        "cod_mot_traslado": "",
+        "cod_mod_traslado": "",
+        "ind_transbordo": "",
+        "fec_ini_traslado": ""
+    }
+}

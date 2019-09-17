@@ -1,0 +1,842 @@
+{
+    "01": {
+        "departmento": "Amazonas",
+        "provincia": null,
+        "distrito": null,
+        "ubigeo": "01",
+        "capital": "CHACHAPOYAS",
+        "prov": "7",
+        "dist": "84",
+        "regNatural": null
+    },
+    "0102": {
+        "departmento": "Amazonas",
+        "provincia": "Bagua",
+        "distrito": null,
+        "ubigeo": "0102",
+        "capital": "BAGUA",
+        "prov": 1,
+        "dist": 6,
+        "regNatural": null
+    },
+    "0103": {
+        "departmento": "Amazonas",
+        "provincia": "Bongará",
+        "distrito": null,
+        "ubigeo": "0103",
+        "capital": "JUMBILLA",
+        "prov": 1,
+        "dist": 12,
+        "regNatural": null
+    },
+    "0104": {
+        "departmento": "Amazonas",
+        "provincia": "Condorcanqui",
+        "distrito": null,
+        "ubigeo": "0104",
+        "capital": "SANTA MARIA DE NIEVA",
+        "prov": 1,
+        "dist": 3,
+        "regNatural": null
+    },
+    "0105": {
+        "departmento": "Amazonas",
+        "provincia": "Luya",
+        "distrito": null,
+        "ubigeo": "0105",
+        "capital": "LAMUD",
+        "prov": 1,
+        "dist": 23,
+        "regNatural": null
+    },
+    "0106": {
+        "departmento": "Amazonas",
+        "provincia": "Rodríguez de Mendoza",
+        "distrito": null,
+        "ubigeo": "0106",
+        "capital": "MENDOZA",
+        "prov": 1,
+        "dist": 12,
+        "regNatural": null
+    },
+    "0107": {
+        "departmento": "Amazonas",
+        "provincia": "Utcubamba",
+        "distrito": null,
+        "ubigeo": "0107",
+        "capital": "BAGUA GRANDE",
+        "prov": 1,
+        "dist": 7,
+        "regNatural": null
+    },
+    "02": {
+        "departmento": "Áncash",
+        "provincia": null,
+        "distrito": null,
+        "ubigeo": "02",
+        "capital": "HUARAZ",
+        "prov": "20",
+        "dist": "166",
+        "regNatural": null
+    },
+    "03": {
+        "departmento": "Apurímac",
+        "provincia": null,
+        "distrito": null,
+        "ubigeo": "03",
+        "capital": "ABANCAY",
+        "prov": "7",
+        "dist": "84",
+        "regNatural": null
+    },
+    "04": {
+        "departmento": "Arequipa",
+        "provincia": null,
+        "distrito": null,
+        "ubigeo": "04",
+        "capital": "AREQUIPA",
+        "prov": "8",
+        "dist": "109",
+        "regNatural": null
+    },
+    "05": {
+        "departmento": "Ayacucho",
+        "provincia": null,
+        "distrito": null,
+        "ubigeo": "05",
+        "capital": "AYACUCHO",
+        "prov": "11",
+        "dist": "119",
+        "regNatural": null
+    },
+    "06": {
+        "departmento": "Cajamarca",
+        "provincia": null,
+        "distrito": null,
+        "ubigeo": "06",
+        "capital": "CAJAMARCA",
+        "prov": "13",
+        "dist": "127",
+        "regNatural": null
+    },
+    "07": {
+        "departmento": "Callao",
+        "provincia": null,
+        "distrito": null,
+        "ubigeo": "07",
+        "capital": "CALLAO",
+        "prov": "1",
+        "dist": "7",
+        "regNatural": null
+    },
+    "08": {
+        "departmento": "Cusco",
+        "provincia": null,
+        "distrito": null,
+        "ubigeo": "08",
+        "capital": "CUSCO",
+        "prov": "13",
+        "dist": "112",
+        "regNatural": null
+    },
+    "09": {
+        "departmento": "Huancavelica",
+        "provincia": null,
+        "distrito": null,
+        "ubigeo": "09",
+        "capital": "HUANCAVELICA",
+        "prov": "7",
+        "dist": "100",
+        "regNatural": null
+    },
+    "10": {
+        "departmento": "Huánuco",
+        "provincia": null,
+        "distrito": null,
+        "ubigeo": "10",
+        "capital": "HUANUCO",
+        "prov": "11",
+        "dist": "84",
+        "regNatural": null
+    },
+    "11": {
+        "departmento": "Ica",
+        "provincia": null,
+        "distrito": null,
+        "ubigeo": "11",
+        "capital": "ICA",
+        "prov": "5",
+        "dist": "43",
+        "regNatural": null
+    },
+    "12": {
+        "departmento": "Junín",
+        "provincia": null,
+        "distrito": null,
+        "ubigeo": "12",
+        "capital": "HUANCAYO",
+        "prov": "9",
+        "dist": "124",
+        "regNatural": null
+    },
+    "13": {
+        "departmento": "La Libertad",
+        "provincia": null,
+        "distrito": null,
+        "ubigeo": "13",
+        "capital": "TRUJILLO",
+        "prov": "12",
+        "dist": "83",
+        "regNatural": null
+    },
+    "14": {
+        "departmento": "Lambayeque",
+        "provincia": null,
+        "distrito": null,
+        "ubigeo": "14",
+        "capital": "CHICLAYO",
+        "prov": "3",
+        "dist": "38",
+        "regNatural": null
+    },
+    "15": {
+        "departmento": "Lima",
+        "provincia": null,
+        "distrito": null,
+        "ubigeo": "15",
+        "capital": "LIMA",
+        "prov": "10",
+        "dist": "171",
+        "regNatural": null
+    },
+    "1501": {
+        "departamento": "Lima",
+        "provincia": "Lima",
+        "distrito": null,
+        "ubigeo": "1501",
+        "capital": "LIMA",
+        "prov": 1,
+        "dist": 43,
+        "regNatural": null
+    },
+    "150101": {
+        "departamento": "Lima",
+        "provincia": "Lima",
+        "distrito": "Lima",
+        "ubigeo": "150101",
+        "capital": "LIMA",
+        "prov": null,
+        "dist": 1,
+        "regNatural": "Costa"
+    },
+    "150102": {
+        "departamento": "Lima",
+        "provincia": "Lima",
+        "distrito": "Ancón",
+        "ubigeo": "150102",
+        "capital": "ANCON",
+        "prov": null,
+        "dist": 2,
+        "regNatural": "Costa"
+    },
+    "150103": {
+        "departamento": "Lima",
+        "provincia": "Lima",
+        "distrito": "Ate",
+        "ubigeo": "150103",
+        "capital": "VITARTE",
+        "prov": null,
+        "dist": 3,
+        "regNatural": "Costa"
+    },
+    "150104": {
+        "departamento": "Lima",
+        "provincia": "Lima",
+        "distrito": "Barranco",
+        "ubigeo": "150104",
+        "capital": "BARRANCO",
+        "prov": null,
+        "dist": 4,
+        "regNatural": "Costa"
+    },
+    "150105": {
+        "departamento": "Lima",
+        "provincia": "Lima",
+        "distrito": "Breña",
+        "ubigeo": "150105",
+        "capital": "BRE+æA",
+        "prov": null,
+        "dist": 5,
+        "regNatural": "Costa"
+    },
+    "150106": {
+        "departamento": "Lima",
+        "provincia": "Lima",
+        "distrito": "Carabayllo",
+        "ubigeo": "150106",
+        "capital": "CARABAYLLO",
+        "prov": null,
+        "dist": 6,
+        "regNatural": "Costa"
+    },
+    "150107": {
+        "departamento": "Lima",
+        "provincia": "Lima",
+        "distrito": "Chaclacayo",
+        "ubigeo": "150107",
+        "capital": "CHACLACAYO",
+        "prov": null,
+        "dist": 7,
+        "regNatural": "Costa"
+    },
+    "150108": {
+        "departamento": "Lima",
+        "provincia": "Lima",
+        "distrito": "Chorrillos",
+        "ubigeo": "150108",
+        "capital": "CHORRILLOS",
+        "prov": null,
+        "dist": 8,
+        "regNatural": "Costa"
+    },
+    "150109": {
+        "departamento": "Lima",
+        "provincia": "Lima",
+        "distrito": "Cieneguilla",
+        "ubigeo": "150109",
+        "capital": "CIENEGUILLA",
+        "prov": null,
+        "dist": 9,
+        "regNatural": "Costa"
+    },
+    "150110": {
+        "departamento": "Lima",
+        "provincia": "Lima",
+        "distrito": "Comas",
+        "ubigeo": "150110",
+        "capital": "LA LIBERTAD",
+        "prov": null,
+        "dist": 10,
+        "regNatural": "Costa"
+    },
+    "150111": {
+        "departamento": "Lima",
+        "provincia": "Lima",
+        "distrito": "El Agustino",
+        "ubigeo": "150111",
+        "capital": "EL AGUSTINO",
+        "prov": null,
+        "dist": 11,
+        "regNatural": "Costa"
+    },
+    "150112": {
+        "departamento": "Lima",
+        "provincia": "Lima",
+        "distrito": "Independencia",
+        "ubigeo": "150112",
+        "capital": "INDEPENDENCIA",
+        "prov": null,
+        "dist": 12,
+        "regNatural": "Costa"
+    },
+    "150113": {
+        "departamento": "Lima",
+        "provincia": "Lima",
+        "distrito": "Jesús María",
+        "ubigeo": "150113",
+        "capital": "JESUS MARIA",
+        "prov": null,
+        "dist": 13,
+        "regNatural": "Costa"
+    },
+    "150114": {
+        "departamento": "Lima",
+        "provincia": "Lima",
+        "distrito": "La Molina",
+        "ubigeo": "150114",
+        "capital": "LA MOLINA",
+        "prov": null,
+        "dist": 14,
+        "regNatural": "Costa"
+    },
+    "150115": {
+        "departamento": "Lima",
+        "provincia": "Lima",
+        "distrito": "La Victoria",
+        "ubigeo": "150115",
+        "capital": "LA VICTORIA",
+        "prov": null,
+        "dist": 15,
+        "regNatural": "Costa"
+    },
+    "150116": {
+        "departamento": "Lima",
+        "provincia": "Lima",
+        "distrito": "Lince",
+        "ubigeo": "150116",
+        "capital": "LINCE",
+        "prov": null,
+        "dist": 16,
+        "regNatural": "Costa"
+    },
+    "150117": {
+        "departamento": "Lima",
+        "provincia": "Lima",
+        "distrito": "Los Olivos",
+        "ubigeo": "150117",
+        "capital": "LAS PALMERAS",
+        "prov": null,
+        "dist": 17,
+        "regNatural": "Costa"
+    },
+    "150118": {
+        "departamento": "Lima",
+        "provincia": "Lima",
+        "distrito": "Lurigancho",
+        "ubigeo": "150118",
+        "capital": "CHOSICA",
+        "prov": null,
+        "dist": 18,
+        "regNatural": "Costa"
+    },
+    "150119": {
+        "departamento": "Lima",
+        "provincia": "Lima",
+        "distrito": "Lurin",
+        "ubigeo": "150119",
+        "capital": "LURIN",
+        "prov": null,
+        "dist": 19,
+        "regNatural": "Costa"
+    },
+    "150120": {
+        "departamento": "Lima",
+        "provincia": "Lima",
+        "distrito": "Magdalena del Mar",
+        "ubigeo": "150120",
+        "capital": "MAGDALENA DEL MAR",
+        "prov": null,
+        "dist": 20,
+        "regNatural": "Costa"
+    },
+    "150121": {
+        "departamento": "Lima",
+        "provincia": "Lima",
+        "distrito": "Pueblo Libre",
+        "ubigeo": "150121",
+        "capital": "PUEBLO LIBRE",
+        "prov": null,
+        "dist": 21,
+        "regNatural": "Costa"
+    },
+    "150122": {
+        "departamento": "Lima",
+        "provincia": "Lima",
+        "distrito": "Miraflores",
+        "ubigeo": "150122",
+        "capital": "MIRAFLORES",
+        "prov": null,
+        "dist": 22,
+        "regNatural": "Costa"
+    },
+    "150123": {
+        "departamento": "Lima",
+        "provincia": "Lima",
+        "distrito": "Pachacamac",
+        "ubigeo": "150123",
+        "capital": "PACHACAMAC",
+        "prov": null,
+        "dist": 23,
+        "regNatural": "Costa"
+    },
+    "150124": {
+        "departamento": "Lima",
+        "provincia": "Lima",
+        "distrito": "Pucusana",
+        "ubigeo": "150124",
+        "capital": "PUCUSANA",
+        "prov": null,
+        "dist": 24,
+        "regNatural": "Costa"
+    },
+    "150125": {
+        "departamento": "Lima",
+        "provincia": "Lima",
+        "distrito": "Puente Piedra",
+        "ubigeo": "150125",
+        "capital": "PUENTE PIEDRA",
+        "prov": null,
+        "dist": 25,
+        "regNatural": "Costa"
+    },
+    "150126": {
+        "departamento": "Lima",
+        "provincia": "Lima",
+        "distrito": "Punta Hermosa",
+        "ubigeo": "150126",
+        "capital": "PUNTA HERMOSA",
+        "prov": null,
+        "dist": 26,
+        "regNatural": "Costa"
+    },
+    "150127": {
+        "departamento": "Lima",
+        "provincia": "Lima",
+        "distrito": "Punta Negra",
+        "ubigeo": "150127",
+        "capital": "PUNTA NEGRA",
+        "prov": null,
+        "dist": 27,
+        "regNatural": "Costa"
+    },
+    "150128": {
+        "departamento": "Lima",
+        "provincia": "Lima",
+        "distrito": "Rímac",
+        "ubigeo": "150128",
+        "capital": "RIMAC",
+        "prov": null,
+        "dist": 28,
+        "regNatural": "Costa"
+    },
+    "150129": {
+        "departamento": "Lima",
+        "provincia": "Lima",
+        "distrito": "San Bartolo",
+        "ubigeo": "150129",
+        "capital": "SAN BARTOLO",
+        "prov": null,
+        "dist": 29,
+        "regNatural": "Costa"
+    },
+    "150130": {
+        "departamento": "Lima",
+        "provincia": "Lima",
+        "distrito": "San Borja",
+        "ubigeo": "150130",
+        "capital": "SAN FRANCISCO DE BORJA",
+        "prov": null,
+        "dist": 30,
+        "regNatural": "Costa"
+    },
+    "150131": {
+        "departamento": "Lima",
+        "provincia": "Lima",
+        "distrito": "San Isidro",
+        "ubigeo": "150131",
+        "capital": "SAN ISIDRO",
+        "prov": null,
+        "dist": 31,
+        "regNatural": "Costa"
+    },
+    "150132": {
+        "departamento": "Lima",
+        "provincia": "Lima",
+        "distrito": "San Juan de Lurigancho",
+        "ubigeo": "150132",
+        "capital": "SAN JUAN DE LURIGANCHO",
+        "prov": null,
+        "dist": 32,
+        "regNatural": "Costa"
+    },
+    "150133": {
+        "departamento": "Lima",
+        "provincia": "Lima",
+        "distrito": "San Juan de Miraflores",
+        "ubigeo": "150133",
+        "capital": "CIUDAD DE DIOS",
+        "prov": null,
+        "dist": 33,
+        "regNatural": "Costa"
+    },
+    "150134": {
+        "departamento": "Lima",
+        "provincia": "Lima",
+        "distrito": "San Luis",
+        "ubigeo": "150134",
+        "capital": "SAN LUIS",
+        "prov": null,
+        "dist": 34,
+        "regNatural": "Costa"
+    },
+    "150135": {
+        "departamento": "Lima",
+        "provincia": "Lima",
+        "distrito": "San Martín de Porres",
+        "ubigeo": "150135",
+        "capital": "BARRIO OBRERO INDUSTRIAL",
+        "prov": null,
+        "dist": 35,
+        "regNatural": "Costa"
+    },
+    "150136": {
+        "departamento": "Lima",
+        "provincia": "Lima",
+        "distrito": "San Miguel",
+        "ubigeo": "150136",
+        "capital": "SAN MIGUEL",
+        "prov": null,
+        "dist": 36,
+        "regNatural": "Costa"
+    },
+    "150137": {
+        "departamento": "Lima",
+        "provincia": "Lima",
+        "distrito": "Santa Anita",
+        "ubigeo": "150137",
+        "capital": "SANTA ANITA - LOS FICUS",
+        "prov": null,
+        "dist": 37,
+        "regNatural": "Costa"
+    },
+    "150138": {
+        "departamento": "Lima",
+        "provincia": "Lima",
+        "distrito": "Santa María del Mar",
+        "ubigeo": "150138",
+        "capital": "SANTA MARIA DEL MAR",
+        "prov": null,
+        "dist": 38,
+        "regNatural": "Costa"
+    },
+    "150139": {
+        "departamento": "Lima",
+        "provincia": "Lima",
+        "distrito": "Santa Rosa",
+        "ubigeo": "150139",
+        "capital": "SANTA ROSA",
+        "prov": null,
+        "dist": 39,
+        "regNatural": "Costa"
+    },
+    "150140": {
+        "departamento": "Lima",
+        "provincia": "Lima",
+        "distrito": "Santiago de Surco",
+        "ubigeo": "150140",
+        "capital": "SANTIAGO DE SURCO",
+        "prov": null,
+        "dist": 40,
+        "regNatural": "Costa"
+    },
+    "150141": {
+        "departamento": "Lima",
+        "provincia": "Lima",
+        "distrito": "Surquillo",
+        "ubigeo": "150141",
+        "capital": "SURQUILLO",
+        "prov": null,
+        "dist": 41,
+        "regNatural": "Costa"
+    },
+    "150142": {
+        "departamento": "Lima",
+        "provincia": "Lima",
+        "distrito": "Villa El Salvador",
+        "ubigeo": "150142",
+        "capital": "VILLA EL SALVADOR",
+        "prov": null,
+        "dist": 42,
+        "regNatural": "Costa"
+    },
+    "150143": {
+        "departamento": "Lima",
+        "provincia": "Lima",
+        "distrito": "Villa María del Triunfo",
+        "ubigeo": "150143",
+        "capital": "VILLA MARIA DEL TRIUNFO",
+        "prov": null,
+        "dist": 43,
+        "regNatural": "Costa"
+    },
+    "1502": {
+        "departamento": "Lima",
+        "provincia": "Barranca",
+        "distrito": null,
+        "ubigeo": "1502",
+        "capital": "BARRANCA",
+        "prov": 1,
+        "dist": 5,
+        "regNatural": null
+    },
+    "1503": {
+        "departamento": "Lima",
+        "provincia": "Cajatambo",
+        "distrito": null,
+        "ubigeo": "1503",
+        "capital": "CAJATAMBO",
+        "prov": 1,
+        "dist": 5,
+        "regNatural": null
+    },
+    "1504": {
+        "departamento": "Lima",
+        "provincia": "Canta",
+        "distrito": null,
+        "ubigeo": "1504",
+        "capital": "CANTA",
+        "prov": 1,
+        "dist": 7,
+        "regNatural": null
+    },
+    "1505": {
+        "departamento": "Lima",
+        "provincia": "Cañete",
+        "distrito": null,
+        "ubigeo": "1505",
+        "capital": "SAN VICENTE DE CAÑETE",
+        "prov": 1,
+        "dist": 16,
+        "regNatural": null
+    },
+    "1506": {
+        "departamento": "Lima",
+        "provincia": "Huaral",
+        "distrito": null,
+        "ubigeo": "1506",
+        "capital": "HUARAL",
+        "prov": 1,
+        "dist": 12,
+        "regNatural": null
+    },
+    "1507": {
+        "departamento": "Lima",
+        "provincia": "Huarochirí",
+        "distrito": null,
+        "ubigeo": "1507",
+        "capital": "MATUCANA",
+        "prov": 1,
+        "dist": 32,
+        "regNatural": null
+    },
+    "1508": {
+        "departamento": "Lima",
+        "provincia": "Huaura",
+        "distrito": null,
+        "ubigeo": "1508",
+        "capital": "HUACHO",
+        "prov": 1,
+        "dist": 12,
+        "regNatural": null
+    },
+    "1509": {
+        "departamento": "Lima",
+        "provincia": "Oyón",
+        "distrito": null,
+        "ubigeo": "1509",
+        "capital": "OYON",
+        "prov": 1,
+        "dist": 6,
+        "regNatural": null
+    },
+    "1510": {
+        "departamento": "Lima",
+        "provincia": "Yauyos",
+        "distrito": null,
+        "ubigeo": "1510",
+        "capital": "YAUYOS",
+        "prov": 1,
+        "dist": 33,
+        "regNatural": null
+    },
+    "16": {
+        "departmento": "Loreto",
+        "provincia": null,
+        "distrito": null,
+        "ubigeo": "16",
+        "capital": "IQUITOS",
+        "prov": "8",
+        "dist": "53",
+        "regNatural": null
+    },
+    "17": {
+        "departmento": "Madre de Dios",
+        "provincia": null,
+        "distrito": null,
+        "ubigeo": "17",
+        "capital": "PUERTO MALDONADO",
+        "prov": "3",
+        "dist": "11",
+        "regNatural": null
+    },
+    "18": {
+        "departmento": "Moquegua",
+        "provincia": null,
+        "distrito": null,
+        "ubigeo": "18",
+        "capital": "MOQUEGUA",
+        "prov": "3",
+        "dist": "20",
+        "regNatural": null
+    },
+    "19": {
+        "departmento": "Pasco",
+        "provincia": null,
+        "distrito": null,
+        "ubigeo": "19",
+        "capital": "CERRO DE PASCO",
+        "prov": "3",
+        "dist": "29",
+        "regNatural": null
+    },
+    "20": {
+        "departmento": "Piura",
+        "provincia": null,
+        "distrito": null,
+        "ubigeo": "20",
+        "capital": "PIURA",
+        "prov": "8",
+        "dist": "65",
+        "regNatural": null
+    },
+    "21": {
+        "departmento": "Puno",
+        "provincia": null,
+        "distrito": null,
+        "ubigeo": "21",
+        "capital": "PUNO",
+        "prov": "13",
+        "dist": "110",
+        "regNatural": null
+    },
+    "22": {
+        "departmento": "San Martín",
+        "provincia": null,
+        "distrito": null,
+        "ubigeo": "22",
+        "capital": "MOYOBAMBA",
+        "prov": "10",
+        "dist": "77",
+        "regNatural": null
+    },
+    "23": {
+        "departmento": "Tacna",
+        "provincia": null,
+        "distrito": null,
+        "ubigeo": "23",
+        "capital": "TACNA",
+        "prov": "4",
+        "dist": "28",
+        "regNatural": null
+    },
+    "24": {
+        "departmento": "Tumbes",
+        "provincia": null,
+        "distrito": null,
+        "ubigeo": "24",
+        "capital": "TUMBES",
+        "prov": "3",
+        "dist": "13",
+        "regNatural": null
+    },
+    "25": {
+        "departmento": "Ucayali",
+        "provincia": null,
+        "distrito": null,
+        "ubigeo": "25",
+        "capital": "PUCALLPA",
+        "prov": "4",
+        "dist": "17",
+        "regNatural": null
+    }
+}

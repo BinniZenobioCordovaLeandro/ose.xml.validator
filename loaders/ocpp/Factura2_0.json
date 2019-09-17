@@ -6,6 +6,7 @@
     "fechaEmision": "string(/xmlns:Invoice/cbc:IssueDate)",
     "horaEmision": "string(/xmlns:Invoice/cbc:IssueTime)",
     "tipoDoc": "string(/xmlns:Invoice/cbc:InvoiceTypeCode)",
+    "tipoDoc_listID": "string(/xmlns:Invoice/cbc:InvoiceTypeCode/@listID)",
     "tipoDoc_listAgencyName": "string(/xmlns:Invoice/cbc:InvoiceTypeCode/@listAgencyName)",
     "tipoDoc_listName": "string(/xmlns:Invoice/cbc:InvoiceTypeCode/@listName)",
     "tipoDoc_listURI": "string(/xmlns:Invoice/cbc:InvoiceTypeCode/@listURI)",
@@ -29,5 +30,27 @@
         "partyIdentificationId": "string(/xmlns:Invoice/cac:Signature/cac:SignatoryParty/cac:PartyIdentification/cbc:ID)",
         "partyName": "string(/xmlns:Invoice/cac:Signature/cac:SignatoryParty/cac:PartyName/cbc:Name)",
         "externalReferenceUri": "string(/xmlns:Invoice/cac:Signature/cac:DigitalSignatureAttachment/cac:ExternalReference/cbc:URI)"
+    },
+    "company": {
+        "ruc": "string(/xmlns:Invoice/cac:AccountingSupplierParty/cac:Party/cac:PartyIdentification/cbc:ID)",
+        "ruc_schemeId": "string(/xmlns:Invoice/cac:AccountingSupplierParty/cac:Party/cac:PartyIdentification/cbc:ID/@schemeID)",
+        "ruc_schemeName": "string(/xmlns:Invoice/cac:AccountingSupplierParty/cac:Party/cac:PartyIdentification/cbc:ID/@schemeName)",
+        "ruc_schemeAgencyName": "string(/xmlns:Invoice/cac:AccountingSupplierParty/cac:Party/cac:PartyIdentification/cbc:ID/@schemeAgencyName)",
+        "ruc_schemeUri": "string(/xmlns:Invoice/cac:AccountingSupplierParty/cac:Party/cac:PartyIdentification/cbc:ID/@schemeURI)",
+        "nombreComercial": "string(/xmlns:Invoice/cac:AccountingSupplierParty/cac:Party/cac:PartyName/cbc:Name)",
+        "razonSocial": "string(/xmlns:Invoice/cac:AccountingSupplierParty/cac:Party/cac:PartyLegalEntity/cbc:RegistrationName)",
+        "address": {
+            "direccion": "string(/xmlns:Invoice/cac:AccountingSupplierParty/cac:Party/cac:PartyLegalEntity/cac:RegistrationAddress/cac:AddressLine/cbc:Line)",
+            "urbanizacion": "string(/xmlns:Invoice/cac:AccountingSupplierParty/cac:Party/cac:PartyLegalEntity/cac:RegistrationAddress/cbc:CitySubdivisionName)",
+            "provincia": "string(/xmlns:Invoice/cac:AccountingSupplierParty/cac:Party/cac:PartyLegalEntity/cac:RegistrationAddress/cbc:CityName)",
+            "ubigueo": "string(/xmlns:Invoice/cac:AccountingSupplierParty/cac:Party/cac:PartyLegalEntity/cac:RegistrationAddress/cbc:ID)",
+            "ubigueo_schemeAgencyName": "string(/xmlns:Invoice/cac:AccountingSupplierParty/cac:Party/cac:PartyLegalEntity/cac:RegistrationAddress/cbc:ID/@schemeAgencyName)",
+            "ubigueo_schemeName": "string(/xmlns:Invoice/cac:AccountingSupplierParty/cac:Party/cac:PartyLegalEntity/cac:RegistrationAddress/cbc:ID/@schemeName)",
+            "departamento": "string(/xmlns:Invoice/cac:AccountingSupplierParty/cac:Party/cac:PartyLegalEntity/cac:RegistrationAddress/cbc:CountrySubentity)",
+            "distrito": "string(/xmlns:Invoice/cac:AccountingSupplierParty/cac:Party/cac:PartyLegalEntity/cac:RegistrationAddress/cbc:District)",
+            "codigoPais_listId" : "",
+            "codigoPais_listAgencyName" : "",
+            "codigoPais_listName" : ""
+        }
     }
 }

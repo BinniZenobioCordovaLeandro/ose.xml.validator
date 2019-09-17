@@ -1,7 +1,7 @@
 "use strict";
 
 const ReturnCode = require('./catalogs/ReturnCode.json'),
-    Catalog01 = require('./catalogs/Catalog01.json');
+    catalog_documentTypeCode = require('./catalogs/catalog_documentTypeCode.json');
 
 var DomDocumentHelper = require('./helpers/DomDocumentHelper'),
     LoaderController = require('./LoaderController');
@@ -12,9 +12,9 @@ const chalk = require('chalk'),
     dom = require('xmldom').DOMParser,
     xpathModule = require('xpath');
 
-console.log(chalk.cyan('- Hi!, i\'m ose.xml.validator, and well be, i running now.'))
+console.log(chalk.cyan('\n', '- Hi!, i\'m ose.xml.validator, and well be, i running now.'))
 
-var xmlpath = path.resolve('./xmls/EJEMPLO XML FACTURA 1 GRAVADA.xml');
+var xmlpath = path.resolve('./xmls/EJEMPLO XML FACTURA 2 EXONERADA.xml');
 var xml = fs.readFileSync(xmlpath, 'utf8');
 
 var domDocumentHelper = new DomDocumentHelper(xml);
@@ -24,16 +24,16 @@ var ublVersion = domDocumentHelper.select("string(//xmlns:Invoice/cbc:UBLVersion
 var documentType = domDocumentHelper.select("string(//xmlns:Invoice/cbc:InvoiceTypeCode)");
 console.log(chalk.white('xmlInfo'), {
     'ublVersion': ublVersion,
-    'documentType': Catalog01[documentType]
+    'documentType': catalog_documentTypeCode[documentType]
 });
 
-console.log(chalk.white(`- now, i will create a Loader class to `), chalk.yellow(`${Catalog01[documentType]} ${ublVersion}`));
+console.log(chalk.white(`- now, i will create a Loader class to `), chalk.yellow(`${catalog_documentTypeCode[documentType]} ${ublVersion}`));
 
 var fileInfo = {
     rucEmisor: '20600695771',
     tipoComprobante: '01',
     serieComprobante: 'FFF1',
-    correlativoComprobante: '1',
+    correlativoComprobante: '2',
 }
 
 var loader = new LoaderController(documentType, ublVersion, xml, fileInfo, domDocumentHelper);

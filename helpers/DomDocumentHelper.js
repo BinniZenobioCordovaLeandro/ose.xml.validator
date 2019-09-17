@@ -48,12 +48,20 @@ class DomDocumentHelper {
         this.namespaces = namespaces;
         this.xpath = xpathModule.useNamespaces(namespaces);
     }
-
     select(xpathExpression, dom = this.dom, xpath = this.xpath) {
-        var xpathExpressionExist = xpathExpression.replace('string', 'boolean');
+        if (/^[string]{1,6}/.test(xpathExpression)) {
+            var xpathExpressionExist = xpathExpression.replace('string', 'boolean');
+            var exist = xpath(xpathExpressionExist, dom);
+            // console.log(xpathExpressionExist, exist);
+            if (!exist) return false;
+
+            var xpathExpressionCount = xpathExpression.replace('string', 'count');
+            var count = xpath(xpathExpressionCount, dom);
+            // console.log(xpathExpressionCount, count);
+            if (count != 1) return false;
+        }
         // console.log(xpathExpressionExist);
         // console.log(xpath(xpathExpressionExist, dom));
-        if (!xpath(xpathExpressionExist, dom)) return false;
         return xpath(xpathExpression, dom);
     }
 }
