@@ -50,7 +50,10 @@
             "distrito": "string(/xmlns:Invoice/cac:AccountingSupplierParty/cac:Party/cac:PartyLegalEntity/cac:RegistrationAddress/cbc:District)",
             "codigoPais_listId" : "",
             "codigoPais_listAgencyName" : "",
-            "codigoPais_listName" : ""
+            "codigoPais_listName" : "",
+            "codLocal":"string(/xmlns:Invoice/cac:AccountingSupplierParty/cac:Party/cac:PartyLegalEntity/cac:RegistrationAddress/cbc:AddressTypeCode)",
+            "codLocal_listAgencyName" : "string(/xmlns:Invoice/cac:AccountingSupplierParty/cac:Party/cac:PartyLegalEntity/cac:RegistrationAddress/cbc:AddressTypeCode/@listAgencyName)",
+            "codLocal_listName" : "string(/xmlns:Invoice/cac:AccountingSupplierParty/cac:Party/cac:PartyLegalEntity/cac:RegistrationAddress/cbc:AddressTypeCode/@listName)" 
         }
     }
 }

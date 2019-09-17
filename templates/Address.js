@@ -21,7 +21,12 @@ class Address {
         this._distrito = null;
         this._urbanizacion = null;
         this._direccion = null;
-        this._codLocal = '0000';
+        this._codLocal = null;
+        this._codLocal_listAgencyName = null;
+        this._codLocal_listName = null;
+
+
+
     }
     get warning() {
         return this._warning;
@@ -148,6 +153,30 @@ class Address {
         }
         this._direccion = value;
     }
+    get codLocal() {
+        return this._codLocal;
+    }
+    set codLocal(value) {
+        if (!value) this.warning.push('3030');
+        if (value && !/^[0-9]{4}$/.test(value)) this.warning.push('4242');
+        this._codLocal = value;
+    }
+    get codLocal_listAgencyName() {
+        return this._codLocal_listAgencyName;
+    }
+    set codLocal_listAgencyName(value) {
+        if (value && value != 'PE:SUNAT') this.warning.push('4251');
+        this._codLocal_listAgencyName = value;
+    }
+    get codLocal_listName() {
+        return this._codLocal_listName;
+    }
+    set codLocal_listName(value) {
+        if (value && value != 'Establecimientos anexos') this.warning.push('4252');
+        this._codLocal_listName = value;
+    }
+
+
 
 }
 
