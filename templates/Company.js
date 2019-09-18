@@ -71,8 +71,8 @@ class Company {
     set razonSocial(value) {
         if (!value) throw new Error('1037');
         if (
-            /^([ ]{1})?/.test(value) ||
-            /([ ]{1})?$/.test(value) ||
+            /^([ ]{1})/.test(value) ||
+            /([ ]{1})$/.test(value) ||
             /[\t\n\r]{1,}/.test(value) ||
             !/^.{1,1500}$/.test(value)
         ) this.warning.push('4338');
@@ -84,10 +84,10 @@ class Company {
     set nombreComercial(value) {
         if (value) {
             if (
-                /^([ ]{1})?/.test(value) ||
-                /([ ]{1})?$/.test(value) ||
+                /^([ ]{1})/.test(value) ||
+                /([ ]{1})$/.test(value) ||
                 /[\t\n\r]{1,}/.test(value) ||
-                !/^.{1,1500}$/.test(value)
+                !(/^.{1,1500}$/.test(value))
             ) this.warning.push('4092');
         }
         this._nombreComercial = value;

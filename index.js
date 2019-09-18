@@ -45,7 +45,9 @@ loader.load().then((result) => {
             warnings[warning] = ReturnCode[warning];
         });
         console.log(chalk.yellow(':/ ', 'All was loaded, but well... found warnings.'));
-        console.log(chalk.yellow(JSON.stringify(warnings)), '\n');
+        console.log(chalk.yellow('warnings'));
+        console.dir(warnings);
+        console.log('\n');
     } else {
         console.log(chalk.blue(':) ', 'All was loaded good. '), '\n');
     }

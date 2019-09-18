@@ -147,6 +147,7 @@ class Factura2_0Loader extends BaseSale {
             this.company.address.ubigueo_schemeName = domDocumentHelper.select(path.company.address.ubigueo_schemeName);
             this.company.address.departamento = domDocumentHelper.select(path.company.address.departamento);
             this.company.address.distrito = domDocumentHelper.select(path.company.address.distrito);
+            this.company.address.codigoPais = domDocumentHelper.select(path.company.address.codigoPais);
             this.company.address.codigoPais_listId = domDocumentHelper.select(path.company.address.codigoPais_listId);
             this.company.address.codigoPais_listAgencyName = domDocumentHelper.select(path.company.address.codigoPais_listAgencyName);
             this.company.address.codigoPais_listName = domDocumentHelper.select(path.company.address.codigoPais_listName);
@@ -154,7 +155,7 @@ class Factura2_0Loader extends BaseSale {
             this.company.address.codLocal = domDocumentHelper.select(path.company.address.codLocal);
             this.company.address.codLocal_listAgencyName = domDocumentHelper.select(path.company.address.codLocal_listAgencyName);
             this.company.address.codLocal_listName = domDocumentHelper.select(path.company.address.codLocal_listName);
-           
+
             resolve(
                 this.warning.concat(this.company.warning, this.company.address.warning) ?
                 this.warning.concat(this.company.warning, this.company.address.warning) :

@@ -25,8 +25,6 @@ class Address {
         this._codLocal_listAgencyName = null;
         this._codLocal_listName = null;
 
-
-
     }
     get warning() {
         return this._warning;
@@ -89,8 +87,8 @@ class Address {
     set departamento(value) {
         if (value) {
             if (
-                /^([ ]{1})?/.test(value) ||
-                /([ ]{1})?$/.test(value) ||
+                /^([ ]{1})/.test(value) ||
+                /([ ]{1})$/.test(value) ||
                 /[\t\n\r]{1,}/.test(value) ||
                 !/^.{1,30}$/.test(value)
             ) this.warning.push('4097');
@@ -103,8 +101,8 @@ class Address {
     set provincia(value) {
         if (value) {
             if (
-                /^([ ]{1})?/.test(value) ||
-                /([ ]{1})?$/.test(value) ||
+                /^([ ]{1})/.test(value) ||
+                /([ ]{1})$/.test(value) ||
                 /[\t\n\r]{1,}/.test(value) ||
                 !/^.{1,30}$/.test(value)
             ) this.warning.push('4096');
@@ -117,8 +115,8 @@ class Address {
     set distrito(value) {
         if (value) {
             if (
-                /^([ ]{1})?/.test(value) ||
-                /([ ]{1})?$/.test(value) ||
+                /^([ ]{1})/.test(value) ||
+                /([ ]{1})$/.test(value) ||
                 /[\t\n\r]{1,}/.test(value) ||
                 !/^.{1,30}$/.test(value)
             ) this.warning.push('4098');
@@ -131,8 +129,8 @@ class Address {
     set urbanizacion(value) {
         if (value) {
             if (
-                /^([ ]{1})?/.test(value) ||
-                /([ ]{1})?$/.test(value) ||
+                /^([ ]{1})/.test(value) ||
+                /([ ]{1})$/.test(value) ||
                 /[\t\n\r]{1,}/.test(value) ||
                 !/^.{1,25}$/.test(value)
             ) this.warning.push('4095');
@@ -145,8 +143,8 @@ class Address {
     set direccion(value) {
         if (value) {
             if (
-                /^([ ]{1})?/.test(value) ||
-                /([ ]{1})?$/.test(value) ||
+                /^([ ]{1})/.test(value) ||
+                /([ ]{1})$/.test(value) ||
                 /[\t\n\r]{1,}/.test(value) ||
                 !/^.{1,200}$/.test(value)
             ) this.warning.push('4094');
@@ -175,9 +173,7 @@ class Address {
         if (value && value != 'Establecimientos anexos') this.warning.push('4252');
         this._codLocal_listName = value;
     }
-
-
-
+    
 }
 
 module.exports = Address;
