@@ -156,10 +156,39 @@ class Factura2_0Loader extends BaseSale {
             this.company.address.codLocal_listAgencyName = domDocumentHelper.select(path.company.address.codLocal_listAgencyName);
             this.company.address.codLocal_listName = domDocumentHelper.select(path.company.address.codLocal_listName);
 
+            this.client.numDoc = domDocumentHelper.select(path.client.numDoc);
+            this.client.tipoDoc = domDocumentHelper.select(path.client.tipoDoc);
+            if ((
+                    this.tipoDoc_listID == '0200' ||
+                    this.tipoDoc_listID == '0201' ||
+                    this.tipoDoc_listID == '0204' ||
+                    this.tipoDoc_listID == '0208'
+                ) && this.client.tipoDoc == '6') throw new Error('2800');
+            if (
+
+                this.tipoDoc_listID == '0202' ||
+                this.tipoDoc_listID == '0203' ||
+                this.tipoDoc_listID == '0205' ||
+                this.tipoDoc_listID == '0206' ||
+                this.tipoDoc_listID == '0207' ||
+                this.tipoDoc_listID == '0401'
+            ) throw new Error('2800');
+            //ICOMPLETO (ERROR : 2800)
+            if (
+                this.tipoDoc_listID == '0112 Venta Interna - Sustenta Gastos Deducibles Persona Natural' &&
+                this.client.tipoDoc != '1' && this.client.tipoDoc != '6'
+            ) throw new Error('2800');
+            this.client.tipoDoc_schemeName = domDocumentHelper.select(path.client.tipoDoc_schemeName);
+            this.client.tipoDoc_schemeAgencyName = domDocumentHelper.select(path.client.tipoDoc_schemeAgencyName);
+            this.client.tipoDoc_schemeURI = domDocumentHelper.select(path.client.tipoDoc_schemeURI);
+            this.client.rznSocial = domDocumentHelper.select(path.client.rznSocial);
+            this.client.address.direccion = domDocumentHelper.select(path.client.address.direccion);
+
             resolve(
-                this.warning.concat(this.company.warning, this.company.address.warning) ?
-                this.warning.concat(this.company.warning, this.company.address.warning) :
+                this.warning.concat(this.company.warning, this.company.address.warning,this.client.warning,this.client.address.warning) ?
+                this.warning.concat(this.company.warning, this.company.address.warning,this.client.warning,this.client.address.warning) :
                 null);
+
         });
     }
 }

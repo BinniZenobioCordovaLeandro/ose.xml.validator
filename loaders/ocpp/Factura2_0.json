@@ -39,6 +39,7 @@
         "ruc_schemeUri": "string(/xmlns:Invoice/cac:AccountingSupplierParty/cac:Party/cac:PartyIdentification/cbc:ID/@schemeURI)",
         "nombreComercial": "string(/xmlns:Invoice/cac:AccountingSupplierParty/cac:Party/cac:PartyName/cbc:Name)",
         "razonSocial": "string(/xmlns:Invoice/cac:AccountingSupplierParty/cac:Party/cac:PartyLegalEntity/cbc:RegistrationName)",
+
         "address": {
             "direccion": "string(/xmlns:Invoice/cac:AccountingSupplierParty/cac:Party/cac:PartyLegalEntity/cac:RegistrationAddress/cac:AddressLine/cbc:Line)",
             "urbanizacion": "string(/xmlns:Invoice/cac:AccountingSupplierParty/cac:Party/cac:PartyLegalEntity/cac:RegistrationAddress/cbc:CitySubdivisionName)",
@@ -56,5 +57,19 @@
             "codLocal_listAgencyName": "string(/xmlns:Invoice/cac:AccountingSupplierParty/cac:Party/cac:PartyLegalEntity/cac:RegistrationAddress/cbc:AddressTypeCode/@listAgencyName)",
             "codLocal_listName": "string(/xmlns:Invoice/cac:AccountingSupplierParty/cac:Party/cac:PartyLegalEntity/cac:RegistrationAddress/cbc:AddressTypeCode/@listName)"
         }
+    },
+    "client": {
+        "numDoc": "string(/xmlns:Invoice/cac:AccountingCustomerParty/cac:Party/cac:PartyIdentification/cbc:ID)",
+        "tipoDoc": "string(/xmlns:Invoice/cac:AccountingCustomerParty/cac:Party/cac:PartyIdentification/cbc:ID/@schemeID)",
+        "tipoDoc_schemeName": "string(/xmlns:Invoice/cac:AccountingCustomerParty/cac:Party/cac:PartyIdentification/cbc:ID/@schemeName)",
+        "tipoDoc_schemeAgencyName": "string(/xmlns:Invoice/cac:AccountingCustomerParty/cac:Party/cac:PartyIdentification/cbc:ID/@schemeAgencyName)",
+        "tipoDoc_schemeURI": "string(/xmlns:Invoice/cac:AccountingCustomerParty/cac:Party/cac:PartyIdentification/cbc:ID/@schemeURI)",
+        "rznSocial": "string(/xmlns:Invoice/cac:AccountingCustomerParty/cac:Party/cac:PartyLegalEntity/cbc:RegistrationName)",
+        "address": {
+            "direccion": "string(/xmlns:Invoice/cac:AccountingCustomerParty/cac:Party/cac:PartyLegalEntity/cac:RegistrationAddress/cac:AddressLine/cbc:Line)"
+        }
+
     }
+
+
 }

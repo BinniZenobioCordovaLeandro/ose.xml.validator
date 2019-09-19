@@ -129,8 +129,8 @@ class Address {
     set urbanizacion(value) {
         if (value) {
             if (
-                /^([ ]{1})/.test(value) ||
-                /([ ]{1})$/.test(value) ||
+                /^([ ]{1})?/.test(value) ||
+                /([ ]{1})?$/.test(value) ||
                 /[\t\n\r]{1,}/.test(value) ||
                 !/^.{1,25}$/.test(value)
             ) this.warning.push('4095');
@@ -173,7 +173,6 @@ class Address {
         if (value && value != 'Establecimientos anexos') this.warning.push('4252');
         this._codLocal_listName = value;
     }
-    
 }
 
 module.exports = Address;
