@@ -69,7 +69,21 @@
             "direccion": "string(/xmlns:Invoice/cac:AccountingCustomerParty/cac:Party/cac:PartyLegalEntity/cac:RegistrationAddress/cac:AddressLine/cbc:Line)"
         }
 
+    },
+    "guias": {
+        ".": "/xmlns:Invoice/cac:DespatchDocumentReference",
+        "nroDoc": "/xmlns:Invoice/cac:DespatchDocumentReference/cbc:ID",
+        "tipoDoc": "/xmlns:Invoice/cac:DespatchDocumentReference/cbc:DocumentTypeCode",
+        "tipoDoc_listAgencyName": "/xmlns:Invoice/cac:DespatchDocumentReference/cbc:DocumentTypeCode/@listAgencyName",
+        "tipoDoc_listName": "/xmlns:Invoice/cac:DespatchDocumentReference/cbc:DocumentTypeCode/@listName",
+        "tipoDoc_listURI": "/xmlns:Invoice/cac:DespatchDocumentReference/cbc:DocumentTypeCode/@listURI"
+    },
+    "relDocs": {
+        ".": "/xmlns:Invoice/cac:AdditionalDocumentReference",
+        "nroDoc": "/xmlns:Invoice/cac:AdditionalDocumentReference/cbc:ID",
+        "tipoDoc": "/xmlns:Invoice/cac:AdditionalDocumentReference/cbc:DocumentTypeCode",
+        "tipoDoc_listAgencyName": "/xmlns:Invoice/cac:AdditionalDocumentReference/cbc:DocumentTypeCode/@listAgencyName",
+        "tipoDoc_listName": "/xmlns:Invoice/cac:AdditionalDocumentReference/cbc:DocumentTypeCode/@listName",
+        "tipoDoc_listURI": "/xmlns:Invoice/cac:AdditionalDocumentReference/cbc:DocumentTypeCode/@listURI"
     }
-
-
 }

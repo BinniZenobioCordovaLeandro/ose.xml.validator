@@ -14,7 +14,7 @@ var Signature = require('./Signature');
 class BaseSale {
     constructor() {
         this._warning = [];
-        
+
         this._ublVersion = null;
         this._id = null;
 
@@ -229,7 +229,18 @@ class BaseSale {
     set client(value) {
         this._client = value;
     }
-
+    get guias() {
+        return this._guias;
+    }
+    set guias(value) {
+        this._guias = value;
+    }
+    get relDocs() {
+        return this._relDocs;
+    }
+    set relDocs(value) {
+        this._relDocs = value;
+    }
 }
 
 module.exports = BaseSale;
