@@ -58,7 +58,7 @@ class DomDocumentHelper {
             var xpathExpressionCount = xpathExpression.replace('string', 'count');
             var count = xpath(xpathExpressionCount, dom);
             // console.log(xpathExpressionCount, count);
-            if (count != 1) return false;
+            if (count != 1) return null;
         }
         // console.log(xpathExpressionExist);
         // console.log(xpath(xpathExpressionExist, dom));

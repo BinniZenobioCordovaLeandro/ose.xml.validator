@@ -8,11 +8,14 @@ var DomDocumentHelper = require('../helpers/DomDocumentHelper');
 var path = require('./ocpp/Factura2_0.json');
 
 var catalog_documentTypeCode = require('../catalogs/catalog_documentTypeCode.json'),
+    catalog_taxRelatedDocumentCode = require('../catalogs/catalog_taxRelatedDocumentCode.json'),
     list_padronContribuyente = require('../catalogs/list_padronContribuyente.json'),
     list_autorizacionComprobanteContingencia = require('../catalogs/list_autorizacionComprobanteContingencia.json'),
     list_autorizacionComprobanteFisico = require('../catalogs/list_autorizacionComprobanteFisico.json'),
     list_comprobantePagoElectronico = require('../catalogs/list_comprobantePagoElectronico.json'),
     parameter_maximunSendTerm = require('../catalogs/parameter_maximunSendTerm.json');
+
+var Document = require('../templates/Document');
 
 class Factura2_0Loader extends BaseSale {
     constructor(xml, fileInfo = null, domDocumentHelper = null) {
@@ -184,11 +187,83 @@ class Factura2_0Loader extends BaseSale {
             this.client.rznSocial = domDocumentHelper.select(path.client.rznSocial);
             this.client.address.direccion = domDocumentHelper.select(path.client.address.direccion);
 
-            resolve(
-                this.warning.concat(this.company.warning, this.company.address.warning,this.client.warning,this.client.address.warning) ?
-                this.warning.concat(this.company.warning, this.company.address.warning,this.client.warning,this.client.address.warning) :
-                null);
+            var guias = domDocumentHelper.select(path.guias['.']);
+            var guiasLength = guias.length ? guias.length : 0;
+            var guiasId = {};
+            for (let index = 0; index < guiasLength; index++) {
+                var document = new Document();
+                const guia = guias[index];
+                if (domDocumentHelper.select(path.guias.nroDoc)[index]) {
+                    document.nroDoc = domDocumentHelper.select(path.guias.nroDoc)[index].textContent;
+                    if (document.nroDoc &&
+                        !(
+                            /^[T][0-9]{3}-[0-9]{1,8}-[0-9]{4}-[0-9]{1,8}$/.test(document.nroDoc) ||
+                            /^[0-9]{4}-[0-9]{1,8}$/.test(document.nroDoc) ||
+                            /^[EG][0-9]{2}-[0-9]{1,8}$/.test(document.nroDoc) ||
+                            /^[G][0-9]{3}-[0-9]{1,8}$/.test(document.nroDoc)
+                        )
+                    ) document.warning.push('4006');
+                }
+                if (domDocumentHelper.select(path.guias.tipoDoc)[index]) {
+                    document.tipoDoc = domDocumentHelper.select(path.guias.tipoDoc)[index].textContent;
+                    if (document.tipoDoc && !catalog_documentTypeCode[document.tipoDoc] &&
+                        !(
+                            document.tipoDoc == '09' || document.tipoDoc == '31'
+                        )) document.warning.push('4005');
+                }
+                if (domDocumentHelper.select(path.guias.tipoDoc_listAgencyName)[index])
+                    document.tipoDoc_listAgencyName = domDocumentHelper.select(path.guias.tipoDoc_listAgencyName)[index].textContent;
+                if (domDocumentHelper.select(path.guias.tipoDoc_listName)[index])
+                    document.tipoDoc_listName = domDocumentHelper.select(path.guias.tipoDoc_listName)[index].textContent;
+                if (domDocumentHelper.select(path.guias.tipoDoc_listURI)[index]) {
+                    document.tipoDoc_listURI = domDocumentHelper.select(path.guias.tipoDoc_listURI)[index].textContent;
+                    if (document.tipoDoc_listURI && document.tipoDoc_listURI != 'urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo01') document.warning.push('4253');
+                }
+                if (guiasId[document.nroDoc]) throw new Error('2364');
+                guiasId[document.nroDoc] = document;
+                this.guias.push(document);
+                this.warning = this.warning.concat(document.warning);
+            }
 
+            var relDocs = domDocumentHelper.select(path.relDocs['.']);
+            var relDocsLength = relDocs.length ? relDocs.length : 0;
+            var relDocsId = [];
+            for (let index = 0; index < relDocsLength; index++) {
+                var document = new Document();
+                const rel = relDocs[index];
+                if (domDocumentHelper.select(path.relDocs.nroDoc)[index]) {
+                    document.nroDoc = domDocumentHelper.select(path.relDocs.nroDoc)[index].textContent;
+                    if (document.nroDoc && catalog_taxRelatedDocumentCode[document.nroDoc] &&
+                        !/^[A-Za-z0-9]{1,30}$/.test(document.nroDoc)
+                    ) document.warning.push('4010');
+                }
+                if (domDocumentHelper.select(path.relDocs.tipoDoc)[index]) {
+                    document.tipoDoc = domDocumentHelper.select(path.relDocs.tipoDoc)[index].textContent;
+                    if (document.tipoDoc && !catalog_taxRelatedDocumentCode[document.tipoDoc] && !(
+                            document.tipoDoc == '04' ||
+                            document.tipoDoc == '05' ||
+                            document.tipoDoc == '06' ||
+                            document.tipoDoc == '07' ||
+                            document.tipoDoc == '99' ||
+                            document.tipoDoc == '01'
+                        )) document.warning.push('4009');
+                }
+                if (domDocumentHelper.select(path.relDocs.tipoDoc_listAgencyName)[index])
+                    document.tipoDoc_listAgencyName = domDocumentHelper.select(path.relDocs.tipoDoc_listAgencyName)[index].textContent;
+                if (domDocumentHelper.select(path.relDocs.tipoDoc_listName)[index])
+                    document.tipoDoc_listName = domDocumentHelper.select(path.relDocs.tipoDoc_listName)[index].textContent;
+                if (domDocumentHelper.select(path.relDocs.tipoDoc_listURI)[index]) {
+                    document.tipoDoc_listURI = domDocumentHelper.select(path.relDocs.tipoDoc_listURI)[index].textContent;
+                    if (document.tipoDoc_listURI && document.tipoDoc_listURI != 'urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo12') document.warning.push('4253');
+                }
+                if (relDocsId[document.nroDoc]) throw new Error('2365');
+                relDocsId[document.nroDoc] = document;
+                this.relDocs.push(document);
+                this.warning = this.warning.concat(document.warning);
+            }
+
+            this.warning = this.warning.concat(this.company.warning, this.company.address.warning, this.client.warning, this.client.address.warning);
+            resolve(this.warning);
         });
     }
 }
