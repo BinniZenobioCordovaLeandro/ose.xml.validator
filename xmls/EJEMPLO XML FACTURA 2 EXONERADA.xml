@@ -162,6 +162,9 @@
         </cac:TaxTotal>
         <cac:Item>
             <cbc:Description>001 DETALLE DEL PRODUCTO</cbc:Description>
+            <cac:SellersItemIdentification>
+                <cbc:ID>alguncodigodeproducto</cbc:ID>
+            </cac:SellersItemIdentification>
             <cac:CommodityClassification>
                 <cbc:ItemClassificationCode listID="UNSPSC" listAgencyName="GS1 US" listName="Item Classification">10000000</cbc:ItemClassificationCode>
             </cac:CommodityClassification>

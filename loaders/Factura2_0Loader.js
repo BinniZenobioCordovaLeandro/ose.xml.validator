@@ -2,7 +2,9 @@
 
 var moment = require('moment');
 
-const BaseSale = require('../templates/BaseSale');
+var BaseSale = require('../templates/BaseSale'),
+    SaleDetail = require('../templates/SaleDetail');
+
 var DomDocumentHelper = require('../helpers/DomDocumentHelper');
 
 var path = require('./ocpp/Factura2_0.json');
@@ -103,7 +105,7 @@ class Factura2_0Loader extends BaseSale {
             this.horaEmision = domDocumentHelper.select(path.horaEmision);
             this.tipoDoc = domDocumentHelper.select(path.tipoDoc);
             if (this.tipoDoc != this.fileInfo.tipoComprobante && catalog_documentTypeCode[this.tipoDoc]) throw new Error('1003');
-            this.tipoDoc_listID = domDocumentHelper.select(path.tipoDoc_listID);
+            this.tipoOperacion = domDocumentHelper.select(path.tipoOperacion);
             this.tipoDoc_listAgencyName = domDocumentHelper.select(path.tipoDoc_listAgencyName);
             this.tipoDoc_listName = domDocumentHelper.select(path.tipoDoc_listName);
             this.tipoDoc_listURI = domDocumentHelper.select(path.tipoDoc_listURI);
@@ -132,7 +134,7 @@ class Factura2_0Loader extends BaseSale {
             this.company.ruc = domDocumentHelper.select(path.company.ruc);
             if (this.company.ruc != this.fileInfo.rucEmisor) throw new Error('1034');
             if (
-                this.tipoDoc_listID == '0201' &&
+                this.tipoOperacion == '0201' &&
                 list_padronContribuyente[this.company.ruc].ind_padron != '05'
             ) throw new Error('3097');
             this.company.ruc_schemeId = domDocumentHelper.select(path.company.ruc_schemeId);
@@ -162,23 +164,23 @@ class Factura2_0Loader extends BaseSale {
             this.client.numDoc = domDocumentHelper.select(path.client.numDoc);
             this.client.tipoDoc = domDocumentHelper.select(path.client.tipoDoc);
             if ((
-                    this.tipoDoc_listID == '0200' ||
-                    this.tipoDoc_listID == '0201' ||
-                    this.tipoDoc_listID == '0204' ||
-                    this.tipoDoc_listID == '0208'
+                    this.tipoOperacion == '0200' ||
+                    this.tipoOperacion == '0201' ||
+                    this.tipoOperacion == '0204' ||
+                    this.tipoOperacion == '0208'
                 ) && this.client.tipoDoc == '6') throw new Error('2800');
             if (
 
-                this.tipoDoc_listID == '0202' ||
-                this.tipoDoc_listID == '0203' ||
-                this.tipoDoc_listID == '0205' ||
-                this.tipoDoc_listID == '0206' ||
-                this.tipoDoc_listID == '0207' ||
-                this.tipoDoc_listID == '0401'
+                this.tipoOperacion == '0202' ||
+                this.tipoOperacion == '0203' ||
+                this.tipoOperacion == '0205' ||
+                this.tipoOperacion == '0206' ||
+                this.tipoOperacion == '0207' ||
+                this.tipoOperacion == '0401'
             ) throw new Error('2800');
             //ICOMPLETO (ERROR : 2800)
             if (
-                this.tipoDoc_listID == '0112 Venta Interna - Sustenta Gastos Deducibles Persona Natural' &&
+                this.tipoOperacion == '0112 Venta Interna - Sustenta Gastos Deducibles Persona Natural' &&
                 this.client.tipoDoc != '1' && this.client.tipoDoc != '6'
             ) throw new Error('2800');
             this.client.tipoDoc_schemeName = domDocumentHelper.select(path.client.tipoDoc_schemeName);
@@ -201,11 +203,21 @@ class Factura2_0Loader extends BaseSale {
             var guias = domDocumentHelper.select(path.guias['.']);
             var guiasLength = guias.length ? guias.length : 0;
             var guiasId = {};
+
+            var guiasLength = domDocumentHelper.select(path.guias['.']).length ? domDocumentHelper.select(path.guias['.']).length : 0,
+                guiasId = {},
+                guias = {
+                    nroDoc: domDocumentHelper.select(path.guias.nroDoc),
+                    tipoDoc: domDocumentHelper.select(path.guias.tipoDoc),
+                    tipoDoc_listAgencyName: domDocumentHelper.select(path.guias.tipoDoc_listAgencyName),
+                    tipoDoc_listName: domDocumentHelper.select(path.guias.tipoDoc_listName),
+                    tipoDoc_listURI: domDocumentHelper.select(path.guias.tipoDoc_listURI)
+                };
             for (let index = 0; index < guiasLength; index++) {
                 var document = new Document();
                 const guia = guias[index];
-                if (domDocumentHelper.select(path.guias.nroDoc)[index]) {
-                    document.nroDoc = domDocumentHelper.select(path.guias.nroDoc)[index].textContent;
+                if (guias.nroDoc[index]) {
+                    document.nroDoc = guias.nroDoc[index].textContent;
                     if (document.nroDoc &&
                         !(
                             /^[T][0-9]{3}-[0-9]{1,8}-[0-9]{4}-[0-9]{1,8}$/.test(document.nroDoc) ||
@@ -215,19 +227,19 @@ class Factura2_0Loader extends BaseSale {
                         )
                     ) document.warning.push('4006');
                 }
-                if (domDocumentHelper.select(path.guias.tipoDoc)[index]) {
-                    document.tipoDoc = domDocumentHelper.select(path.guias.tipoDoc)[index].textContent;
+                if (guias.tipoDoc[index]) {
+                    document.tipoDoc = guias.tipoDoc[index].textContent;
                     if (document.tipoDoc && !catalog_documentTypeCode[document.tipoDoc] &&
                         !(
                             document.tipoDoc == '09' || document.tipoDoc == '31'
                         )) document.warning.push('4005');
                 }
-                if (domDocumentHelper.select(path.guias.tipoDoc_listAgencyName)[index])
-                    document.tipoDoc_listAgencyName = domDocumentHelper.select(path.guias.tipoDoc_listAgencyName)[index].textContent;
-                if (domDocumentHelper.select(path.guias.tipoDoc_listName)[index])
-                    document.tipoDoc_listName = domDocumentHelper.select(path.guias.tipoDoc_listName)[index].textContent;
-                if (domDocumentHelper.select(path.guias.tipoDoc_listURI)[index]) {
-                    document.tipoDoc_listURI = domDocumentHelper.select(path.guias.tipoDoc_listURI)[index].textContent;
+                if (guias.tipoDoc_listAgencyName[index])
+                    document.tipoDoc_listAgencyName = guias.tipoDoc_listAgencyName[index].textContent;
+                if (guias.tipoDoc_listName[index])
+                    document.tipoDoc_listName = guias.tipoDoc_listName[index].textContent;
+                if (guias.tipoDoc_listURI[index]) {
+                    document.tipoDoc_listURI = guias.tipoDoc_listURI[index].textContent;
                     if (document.tipoDoc_listURI && document.tipoDoc_listURI != 'urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo01') document.warning.push('4253');
                 }
                 if (guiasId[document.nroDoc]) throw new Error('2364');
@@ -236,20 +248,26 @@ class Factura2_0Loader extends BaseSale {
                 this.warning = this.warning.concat(document.warning);
             }
 
-            var relDocs = domDocumentHelper.select(path.relDocs['.']);
-            var relDocsLength = relDocs.length ? relDocs.length : 0;
-            var relDocsId = [];
+            var relDocsLength = domDocumentHelper.select(path.relDocs['.']).length ? domDocumentHelper.select(path.relDocs['.']).length : 0,
+                relDocsId = {},
+                relDocs = {
+                    nroDoc: domDocumentHelper.select(path.relDocs.nroDoc),
+                    tipoDoc: domDocumentHelper.select(path.relDocs.tipoDoc),
+                    tipoDoc_listAgencyName: domDocumentHelper.select(path.relDocs.tipoDoc_listAgencyName),
+                    tipoDoc_listName: domDocumentHelper.select(path.relDocs.tipoDoc_listName),
+                    tipoDoc_listURI: domDocumentHelper.select(path.relDocs.tipoDoc_listURI)
+                }
             for (let index = 0; index < relDocsLength; index++) {
                 var document = new Document();
-                const rel = relDocs[index];
-                if (domDocumentHelper.select(path.relDocs.nroDoc)[index]) {
-                    document.nroDoc = domDocumentHelper.select(path.relDocs.nroDoc)[index].textContent;
+                const relDoc = relDocs[index];
+                if (relDocs.nroDoc[index]) {
+                    document.nroDoc = relDocs.nroDoc[index].textContent;
                     if (document.nroDoc && catalog_taxRelatedDocumentCode[document.nroDoc] &&
                         !/^[A-Za-z0-9]{1,30}$/.test(document.nroDoc)
                     ) document.warning.push('4010');
                 }
-                if (domDocumentHelper.select(path.relDocs.tipoDoc)[index]) {
-                    document.tipoDoc = domDocumentHelper.select(path.relDocs.tipoDoc)[index].textContent;
+                if (relDocs.tipoDoc[index]) {
+                    document.tipoDoc = relDocs.tipoDoc[index].textContent;
                     if (document.tipoDoc && !catalog_taxRelatedDocumentCode[document.tipoDoc] && !(
                             document.tipoDoc == '04' ||
                             document.tipoDoc == '05' ||
@@ -259,12 +277,12 @@ class Factura2_0Loader extends BaseSale {
                             document.tipoDoc == '01'
                         )) document.warning.push('4009');
                 }
-                if (domDocumentHelper.select(path.relDocs.tipoDoc_listAgencyName)[index])
-                    document.tipoDoc_listAgencyName = domDocumentHelper.select(path.relDocs.tipoDoc_listAgencyName)[index].textContent;
-                if (domDocumentHelper.select(path.relDocs.tipoDoc_listName)[index])
-                    document.tipoDoc_listName = domDocumentHelper.select(path.relDocs.tipoDoc_listName)[index].textContent;
-                if (domDocumentHelper.select(path.relDocs.tipoDoc_listURI)[index]) {
-                    document.tipoDoc_listURI = domDocumentHelper.select(path.relDocs.tipoDoc_listURI)[index].textContent;
+                if (relDocs.tipoDoc_listAgencyName[index])
+                    document.tipoDoc_listAgencyName = relDocs.tipoDoc_listAgencyName[index].textContent;
+                if (relDocs.tipoDoc_listName[index])
+                    document.tipoDoc_listName = relDocs.tipoDoc_listName[index].textContent;
+                if (relDocs.tipoDoc_listURI[index]) {
+                    document.tipoDoc_listURI = relDocs.tipoDoc_listURI[index].textContent;
                     if (document.tipoDoc_listURI && document.tipoDoc_listURI != 'urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo12') document.warning.push('4253');
                 }
                 if (relDocsId[document.nroDoc]) throw new Error('2365');
@@ -272,6 +290,48 @@ class Factura2_0Loader extends BaseSale {
                 this.relDocs.push(document);
                 this.warning = this.warning.concat(document.warning);
             }
+
+            var detailsLength = domDocumentHelper.select(path.details['.']).length ? domDocumentHelper.select(path.details['.']).length : 0,
+                detailsId = {},
+                detailsCodProducto = {},
+                details = {
+                    id: domDocumentHelper.select(path.details.id),
+                    unidad: domDocumentHelper.select(path.details.unidad),
+                    unidad_unitCodeListId: domDocumentHelper.select(path.details.unidad_unitCodeListId),
+                    unidad_unitCodeListAgencyName: domDocumentHelper.select(path.details.unidad_unitCodeListAgencyName),
+                    cantidad: domDocumentHelper.select(path.details.cantidad),
+                    codProducto: domDocumentHelper.select(path.details.codProducto),
+                    codProdSunat: domDocumentHelper.select(path.details.codProdSunat),
+                    codProdSunat_listID: domDocumentHelper.select(path.details.codProdSunat_listID),
+                    codProdSunat_listAgencyName: domDocumentHelper.select(path.details.codProdSunat_listAgencyName),
+                    codProdSunat_listName: domDocumentHelper.select(path.details.codProdSunat_listName),
+                    codProdGS1_schemeId: domDocumentHelper.select(path.details.codProdGS1_schemeId),
+                    codProdGS1: domDocumentHelper.select(path.details.codProdGS1)
+                }
+            for (let index = 0; index < detailsLength; index++) {
+                var saleDetail = new SaleDetail();
+                saleDetail.id = details.id[index] ? details.id[index].textContent : null;
+                saleDetail.unidad = details.unidad[index] ? details.unidad[index].textContent : null;
+                saleDetail.unidad_unitCodeListId = details.unidad_unitCodeListId[index] ? details.unidad_unitCodeListId[index].textContent : null;
+                saleDetail.unidad_unitCodeListAgencyName = details.unidad_unitCodeListAgencyName[index] ? details.unidad_unitCodeListAgencyName[index].textContent : null;
+                saleDetail.cantidad = details.cantidad[index] ? details.cantidad[index].textContent : null;
+                saleDetail.codProducto = details.codProducto[index] ? details.codProducto[index].textContent : null;
+                saleDetail.codProdSunat = details.codProdSunat[index] ? details.codProdSunat[index].textContent : null;
+                saleDetail.codProdSunat_listID = details.codProdSunat_listID[index] ? details.codProdSunat_listID[index].textContent : null;
+                saleDetail.codProdSunat_listAgencyName = details.codProdSunat_listAgencyName[index] ? details.codProdSunat_listAgencyName[index].textContent : null;
+                saleDetail.codProdSunat_listName = details.codProdSunat_listName[index] ? details.codProdSunat_listName[index].textContent : null;
+                saleDetail.codProdGS1_schemeId = details.codProdGS1_schemeId[index] ? details.codProdGS1_schemeId[index].textContent : null;
+                saleDetail.codProdGS1 = details.codProdGS1[index] ? details.codProdGS1[index].textContent : null;
+
+                if (list_padronContribuyente[this.company.ruc].ind_padron == 12 && !saleDetail.codProdSunat && !saleDetail.codProdGS1) saleDetail.warning.push('4331');
+
+                if (detailsId[saleDetail.id]) throw new Error('2752');
+                detailsId[saleDetail.id] = saleDetail;
+                detailsCodProducto[saleDetail.codProdSunat] = saleDetail.codProdSunat;
+                this.details.push(saleDetail);
+                this.warning = this.warning.concat(saleDetail.warning);
+            }
+            if (this.tipoOperacion == '0112' && !(detailsCodProducto['84121901'] || detailsCodProducto['80131501'])) throw new Error('3181');
 
             this.warning = this.warning.concat(this.company.warning, this.company.address.warning, this.client.warning, this.client.address.warning);
             resolve(this.warning);
