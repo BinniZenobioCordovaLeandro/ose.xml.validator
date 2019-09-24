@@ -186,7 +186,18 @@ class Factura2_0Loader extends BaseSale {
             this.client.tipoDoc_schemeURI = domDocumentHelper.select(path.client.tipoDoc_schemeURI);
             this.client.rznSocial = domDocumentHelper.select(path.client.rznSocial);
             this.client.address.direccion = domDocumentHelper.select(path.client.address.direccion);
-
+            this.client.address.urbanizacion = domDocumentHelper.select(path.client.address.urbanizacion);
+            this.client.address.provincia = domDocumentHelper.select(path.client.address.provincia);
+            this.client.address.ubigueo = domDocumentHelper.select(path.client.address.ubigueo);
+            this.client.address.adress_schemeAgencyName = domDocumentHelper.select(path.client.address.adress_schemeAgencyName);
+            this.client.address.address_schemeName = domDocumentHelper.select(path.client.address.address_schemeName);
+            this.client.address.departamento = domDocumentHelper.select(path.client.address.departamento);
+            this.client.address.distrito = domDocumentHelper.select(path.client.address.distrito);
+            this.client.address.codigoPais = domDocumentHelper.select(path.client.address.codigoPais);
+            this.client.address.address_listID = domDocumentHelper.select(path.client.address.address_listID);
+            this.client.address.address_listAgencyName = domDocumentHelper.select(path.client.address.address_listAgencyName);
+            this.client.address.address_listName = domDocumentHelper.select(path.client.address.address_listName);
+            
             var guias = domDocumentHelper.select(path.guias['.']);
             var guiasLength = guias.length ? guias.length : 0;
             var guiasId = {};

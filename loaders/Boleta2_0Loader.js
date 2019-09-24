@@ -12,7 +12,10 @@ class Boleta2_0Loader extends BaseSale {
         this._xml = value;
     }
     load(xml = this.xml) {
-        console.log('loading sentences to Boleta2_0Loader');
+        return new Promise((resolve, reject) => {
+            domDocumentHelper.mappingNameSpaces();
+
+        });
     }
 }
 

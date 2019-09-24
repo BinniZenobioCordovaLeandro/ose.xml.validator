@@ -38,7 +38,7 @@ class Client {
         return this._tipoDoc_schemeName;
     }
     set tipoDoc_schemeName(value) {
-        if(value && value != 'Documento de Identidad')this.warning('4255');
+        if (value && value != 'Documento de Identidad') this.warning('4255');
 
         this._tipoDoc_schemeName = value;
     }
@@ -46,7 +46,7 @@ class Client {
         return this._tipoDoc_schemeAgencyName;
     }
     set tipoDoc_schemeAgencyName(value) {
-        if(value && value != 'PE:SUNAT')this.warning('4256');
+        if (value && value != 'PE:SUNAT') this.warning('4256');
 
         this._tipoDoc_schemeAgencyName = value;
     }
@@ -54,7 +54,7 @@ class Client {
         return this._tipoDoc_schemeURI;
     }
     set tipoDoc_schemeURI(value) {
-        if(value && value != 'urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo06')this.warning('4257');
+        if (value && value != 'urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo06') this.warning('4257');
         this._tipoDoc_schemeURI = value;
     }
     get numDoc() {
@@ -67,11 +67,11 @@ class Client {
         if (this.tipoDoc == '6' && !list_contribuyente[value]) throw new Error('3202');
         if (this.tipoDoc == '6' && list_contribuyente[value].ind_estado != '00') this.warning('4013');
         if (this.tipoDoc == '6' && list_contribuyente[value].ind_condicion == '12') this.warning('4014');
-        if ((this.tipoDoc == "4" || this.tipoDoc == "7" || this.tipoDoc == "0" || this.tipoDoc == "A" 
-        || this.tipoDoc == "B" || this.tipoDoc == "C" || this.tipoDoc == "D" || this.tipoDoc == "E") && 
-        !/^[A-Za-z0-9]{15}$/.test(value)) throw new Error('2802');
+        if ((this.tipoDoc == "4" || this.tipoDoc == "7" || this.tipoDoc == "0" || this.tipoDoc == "A" ||
+                this.tipoDoc == "B" || this.tipoDoc == "C" || this.tipoDoc == "D" || this.tipoDoc == "E") &&
+            !/^[A-Za-z0-9]{15}$/.test(value)) throw new Error('2802');
         if (this.tipoDoc == "1" && !/^[0-9]{8}$/.test(value)) throw new Error('2801');
-           
+
         this._numDoc = value;
 
     }
@@ -79,8 +79,8 @@ class Client {
         return this._rznSocial;
     }
     set rznSocial(value) {
-        if(!value) throw new Error('2021');
-        if(/^[A-Za-z0-9]{3,1500}$/.test(value)) throw new Error('2022');
+        if (!value) throw new Error('2021');
+        if (/^[A-Za-z0-9]{3,1500}$/.test(value)) throw new Error('2022');
 
         this._rznSocial = value;
     }
