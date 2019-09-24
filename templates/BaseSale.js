@@ -3,13 +3,13 @@
 var moment = require('moment');
 
 var Parameter = require('../catalogs/Parameter.json');
-const Catalog02 = require('../catalogs/catalog_coinTypeCode.json');
+const catalog_coinTypeCode = require('../catalogs/catalog_coinTypeCode.json');
 
-var Company = require('./Company');
-var Client = require('./Client');
-var Document = require('./Document');
-var SaleDetail = require('./SaleDetail');
-var Signature = require('./Signature');
+var Company = require('./Company'),
+    Client = require('./Client'),
+    Document = require('./Document'),
+    SaleDetail = require('./SaleDetail'),
+    Signature = require('./Signature');
 
 class BaseSale {
     constructor() {
@@ -22,7 +22,7 @@ class BaseSale {
         this._customization_schemeAgencyName = null;
 
         this._tipoDoc = null;
-        this._tipoDoc_listID = null;
+        this._tipoOperacion = null;
         this._tipoDoc_listAgencyName = null;
         this._tipoDoc_listName = null;
         this._tipoDoc_listURI = null;
@@ -112,11 +112,11 @@ class BaseSale {
         if (!value) throw new Error('1004');
         this._tipoDoc = value;
     }
-    get tipoDoc_listID() { // tipo de operacion
-        return this._tipoDoc_listID;
+    get tipoOperacion() { // tipo de operacion
+        return this._tipoOperacion;
     }
-    set tipoDoc_listID(value) {
-        this._tipoDoc_listID = value;
+    set tipoOperacion(value) {
+        this._tipoOperacion = value;
     }
     get tipoDoc_listAgencyName() {
         return this._tipoDoc_listAgencyName;
@@ -175,7 +175,7 @@ class BaseSale {
     }
     set tipoMoneda(value) {
         if (!value) throw new Error('2070');
-        if (!Catalog02[value]) throw new Error('3088');
+        if (!catalog_coinTypeCode[value]) throw new Error('3088');
         this._tipoMoneda = value;
     }
     get tipoMoneda_listID() {
@@ -228,6 +228,12 @@ class BaseSale {
     }
     set client(value) {
         this._client = value;
+    }
+    get details() {
+        return this._details;
+    }
+    set details(value) {
+        this._details = value;
     }
     get guias() {
         return this._guias;

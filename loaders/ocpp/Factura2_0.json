@@ -6,7 +6,7 @@
     "fechaEmision": "string(/xmlns:Invoice/cbc:IssueDate)",
     "horaEmision": "string(/xmlns:Invoice/cbc:IssueTime)",
     "tipoDoc": "string(/xmlns:Invoice/cbc:InvoiceTypeCode)",
-    "tipoDoc_listID": "string(/xmlns:Invoice/cbc:InvoiceTypeCode/@listID)",
+    "tipoOperacion": "string(/xmlns:Invoice/cbc:InvoiceTypeCode/@listID)",
     "tipoDoc_listAgencyName": "string(/xmlns:Invoice/cbc:InvoiceTypeCode/@listAgencyName)",
     "tipoDoc_listName": "string(/xmlns:Invoice/cbc:InvoiceTypeCode/@listName)",
     "tipoDoc_listURI": "string(/xmlns:Invoice/cbc:InvoiceTypeCode/@listURI)",
@@ -85,5 +85,20 @@
         "tipoDoc_listAgencyName": "/xmlns:Invoice/cac:AdditionalDocumentReference/cbc:DocumentTypeCode/@listAgencyName",
         "tipoDoc_listName": "/xmlns:Invoice/cac:AdditionalDocumentReference/cbc:DocumentTypeCode/@listName",
         "tipoDoc_listURI": "/xmlns:Invoice/cac:AdditionalDocumentReference/cbc:DocumentTypeCode/@listURI"
+    },
+    "details": {
+        ".": "/xmlns:Invoice/cac:InvoiceLine",
+        "id": "/xmlns:Invoice/cac:InvoiceLine/cbc:ID",
+        "unidad": "/xmlns:Invoice/cac:InvoiceLine/cbc:InvoicedQuantity/@unitCode",
+        "unidad_unitCodeListId": "/xmlns:Invoice/cac:InvoiceLine/cbc:InvoicedQuantity/@unitCodeListID",
+        "unidad_unitCodeListAgencyName": "/xmlns:Invoice/cac:InvoiceLine/cbc:InvoicedQuantity/@unitCodeListAgencyName",
+        "cantidad": "/xmlns:Invoice/cac:InvoiceLine/cbc:InvoicedQuantity",
+        "codProducto": "/xmlns:Invoice/cac:InvoiceLine/cac:Item/cac:SellersItemIdentification/cbc:ID",
+        "codProdSunat": "/xmlns:Invoice/cac:InvoiceLine/cac:Item/cac:CommodityClassification/cbc:ItemClassificationCode",
+        "codProdSunat_listID": "/xmlns:Invoice/cac:InvoiceLine/cac:Item/cac:CommodityClassification/cbc:ItemClassificationCode/@codProdSunat_listID",
+        "codProdSunat_listAgencyName": "/xmlns:Invoice/cac:InvoiceLine/cac:Item/cac:CommodityClassification/cbc:ItemClassificationCode/@codProdSunat_listAgencyName",
+        "codProdSunat_listName": "/xmlns:Invoice/cac:InvoiceLine/cac:Item/cac:CommodityClassification/cbc:ItemClassificationCode/@codProdSunat_listName",
+        "codProdGS1_schemeId": "/xmlns:Invoice/cac:InvoiceLine/cac:Item/cac:StandardItemIdentification/cbc:ID/@schemeID",
+        "codProdGS1": "/xmlns:Invoice/cac:InvoiceLine/cac:Item/cac:StandardItemIdentification/cbc:ID"
     }
 }
