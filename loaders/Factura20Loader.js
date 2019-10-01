@@ -4,6 +4,8 @@ var moment = require('moment')
 
 var BaseSale = require('../templates/BaseSale')
 var SaleDetail = require('../templates/SaleDetail')
+var Document = require('../templates/Document')
+var TaxDetail = require('../templates/TaxDetail')
 
 var DomDocumentHelper = require('../helpers/DomDocumentHelper')
 
@@ -16,8 +18,6 @@ var listAutorizacionComprobanteContingencia = require('../catalogs/listAutorizac
 var listAutorizacionComprobanteFisico = require('../catalogs/listAutorizacionComprobanteFisico.json')
 var listComprobantePagoElectronico = require('../catalogs/listComprobantePagoElectronico.json')
 var parameterMaximunSendTerm = require('../catalogs/parameterMaximunSendTerm.json')
-
-var Document = require('../templates/Document')
 
 class Factura20Loader extends BaseSale {
   constructor (xml, fileInfo = null, domDocumentHelper = null) {
@@ -319,7 +319,65 @@ class Factura20Loader extends BaseSale {
       }
       if (this.tipoOperacion === '0112' && !(detailsCodProducto['84121901'] || detailsCodProducto['80131501'])) throw new Error('3181')
 
-      this.warning = this.warning.concat(this.company.warning, this.company.address.warning, this.client.warning, this.client.address.warning)
+      this.totalTax.taxAmount = domDocumentHelper.select(path.totalTax.taxAmount)
+      this.totalImpuestos = this.totalTax.taxAmount
+      this.totalTax.taxAmountCurrencyId = domDocumentHelper.select(path.totalTax.taxAmountCurrencyId)
+
+      var taxDetailsLength = domDocumentHelper.select(path.totalTax.taxDetails['.']).length ? domDocumentHelper.select(path.totalTax.taxDetails['.']).length : 0
+      var taxDetailsCode = {}
+      var taxDetails = {
+        taxableAmount: domDocumentHelper.select(path.totalTax.taxDetails.taxableAmount),
+        taxableAmountCurrencyId: domDocumentHelper.select(path.totalTax.taxDetails.taxableAmountCurrencyId),
+        taxAmount: domDocumentHelper.select(path.totalTax.taxDetails.taxAmount),
+        taxAmountCurrencyId: domDocumentHelper.select(path.totalTax.taxDetails.taxAmountCurrencyId),
+        code: domDocumentHelper.select(path.totalTax.taxDetails.code),
+        codeSchemeName: domDocumentHelper.select(path.totalTax.taxDetails.codeSchemeName),
+        codeSchemeAgencyName: domDocumentHelper.select(path.totalTax.taxDetails.codeSchemeAgencyName),
+        codeSchemeUri: domDocumentHelper.select(path.totalTax.taxDetails.codeSchemeUri),
+        name: domDocumentHelper.select(path.totalTax.taxDetails.name),
+        typeCode: domDocumentHelper.select(path.totalTax.taxDetails.typeCode)
+      }
+      for (let index = 0; index < taxDetailsLength; index++) {
+        var taxDetail = new TaxDetail()
+        taxDetail.code = taxDetails.code[index] ? taxDetails.code[index].textContent : null
+        if (taxDetail.code !== '7152' && !taxDetails.taxableAmount[index]) throw new Error('3003')
+        taxDetail.taxableAmount = taxDetails.taxableAmount[index] ? taxDetails.taxableAmount[index].textContent : null
+
+        taxDetail.taxableAmountCurrencyId = taxDetails.taxableAmountCurrencyId[index] ? taxDetails.taxableAmountCurrencyId[index].textContent : null
+        if (taxDetail.taxableAmountCurrencyId && taxDetail.taxableAmountCurrencyId !== this.tipoMoneda) throw new Error('2071')
+        taxDetail.taxAmount = taxDetails.taxAmount[index] ? taxDetails.taxAmount[index].textContent : null
+        taxDetail.taxAmountCurrencyId = taxDetails.taxAmountCurrencyId[index] ? taxDetails.taxAmountCurrencyId[index].textContent : null
+
+        taxDetail.codeSchemeName = taxDetails.codeSchemeName[index] ? taxDetails.codeSchemeName[index].textContent : null
+        taxDetail.codeSchemeAgencyName = taxDetails.codeSchemeAgencyName[index] ? taxDetails.codeSchemeAgencyName[index].textContent : null
+        taxDetail.codeSchemeUri = taxDetails.codeSchemeUri[index] ? taxDetails.codeSchemeUri[index].textContent : null
+        taxDetail.name = taxDetails.name[index] ? taxDetails.name[index].textContent : null
+        taxDetail.typeCode = taxDetails.typeCode[index] ? taxDetails.typeCode[index].textContent : null
+
+        if (taxDetailsCode[taxDetail.code]) throw new Error('3068')
+        taxDetailsCode[taxDetail.code] = taxDetail.taxAmount
+        this.totalTax.taxDetails.push(taxDetail)
+        this.warning = this.warning.concat(taxDetail.warning)
+      }
+
+      var totalTaxDetailsSum = Number(
+        (
+          Number(taxDetailsCode['1000'] ? taxDetailsCode['1000'] : 0) +
+          Number(taxDetailsCode['1016'] ? taxDetailsCode['1016'] : 0) +
+          Number(taxDetailsCode['2000'] ? taxDetailsCode['2000'] : 0) +
+          Number(taxDetailsCode['7152'] ? taxDetailsCode['7152'] : 0) +
+          Number(taxDetailsCode['9999'] ? taxDetailsCode['9999'] : 0)
+        ).toFixed(2))
+
+      if (!(
+        Number(totalTaxDetailsSum) === Number(Number(this.totalTax.taxAmount).toFixed(2)) ||
+        Number(totalTaxDetailsSum) === Number((Number(this.totalTax.taxAmount) - 1).toFixed(2)) ||
+        Number(totalTaxDetailsSum) === Number((Number(this.totalTax.taxAmount) + 1).toFixed(2))
+      )) this.totalTax.warning.push('4301')
+
+      // if(this.totalTax.taxAmount === (suma de todos los detalles))
+
+      this.warning = this.warning.concat(this.company.warning, this.company.address.warning, this.client.warning, this.client.address.warning, this.totalTax.warning)
       resolve(this.warning)
     })
   }

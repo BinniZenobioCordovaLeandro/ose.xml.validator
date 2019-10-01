@@ -9,6 +9,7 @@ var Client = require('./Client')
 var Document = require('./Document')
 var SaleDetail = require('./SaleDetail')
 var Signature = require('./Signature')
+var TotalTax = require('./TotalTax')
 
 class BaseSale {
   constructor () {
@@ -43,6 +44,7 @@ class BaseSale {
 
     this._company = new Company()
     this._client = new Client()
+    this._totalTax = new TotalTax()
 
     this._sumOtrosCargos = null
     this._mtoOperGravadas = null
@@ -271,6 +273,40 @@ class BaseSale {
 
   set client (value) {
     this._client = value
+  }
+
+  get totalTax () {
+    return this._totalTax
+  }
+
+  set totalTax (value) {
+    this._totalTax = value
+  }
+
+  get mtoBaseIsc () {
+    return this._mtoBaseIsc
+  }
+
+  set mtoBaseIsc (value) {
+    if (!/^[+]?[0-9]{1,12}\.[0-9]{1,2}$/.test(value) && !/^[+-][0.]{1,}$/.test(value)) throw new Error('2999')
+    this._mtoBaseIsc = value
+  }
+
+  get mtoOtrosTributos () {
+    return this._mtoOtrosTributos
+  }
+
+  set mtoOtrosTributos (value) {
+    this._mtoOtrosTributos = value
+  }
+
+  get totalImpuestos () {
+    return this._totalImpuestos
+  }
+
+  set totalImpuestos (value) {
+    if (value && !/^[+]?[0-9]{1,12}\.[0-9]{1,2}$/.test(value) && !/^[+-][0.]{1,}$/.test(value)) throw new Error('3020')
+    this._totalImpuestos = value
   }
 
   get details () {

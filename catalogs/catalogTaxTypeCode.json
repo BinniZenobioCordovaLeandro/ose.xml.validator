@@ -1,0 +1,56 @@
+{
+  "1000": {
+    "code": "1000",
+    "description": "IGV Impuesto General a las Ventas",
+    "international": "VAT",
+    "name": "IGV"
+  },
+  "1016": {
+    "code": "1016",
+    "description": "Impuesto a la Venta Arroz Pilado",
+    "international": "VAT",
+    "name": "IVAP"
+  },
+  "2000": {
+    "code": "2000",
+    "description": "ISC Impuesto Selectivo al Consumo",
+    "international": "EXC",
+    "name": "ISC"
+  },
+  "7152": {
+    "code": "7152",
+    "description": "Impuesto a la bolsa plastica",
+    "international": "OTH",
+    "name": "ICBPER"
+  },
+  "9995": {
+    "code": "9995",
+    "description": "Exportación",
+    "international": "FRE",
+    "name": "EXP"
+  },
+  "9996": {
+    "code": "9996",
+    "description": "Gratuito",
+    "international": "FRE",
+    "name": "GRA"
+  },
+  "9997": {
+    "code": "9997",
+    "description": "Exonerado",
+    "international": "VAT",
+    "name": "EXO"
+  },
+  "9998": {
+    "code": "9998",
+    "description": "Inafecto",
+    "international": "FRE",
+    "name": "INA"
+  },
+  "9999": {
+    "code": "9999",
+    "description": "Otros tributos",
+    "international": "OTH",
+    "name": "OTROS"
+  }
+}
