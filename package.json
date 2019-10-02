@@ -1,44 +1,48 @@
 {
-  "name": "ose.xml.validator",
-  "version": "0.0.1",
-  "description": "ose.xml.validator is a single xml validator script implemented into ose.soap.server",
-  "main": "index.js",
-  "directories": {
-    "test": "tests"
-  },
-  "scripts": {
-    "test": "tests/test.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/BinniZenobioCordovaLeandro/ose.xml.validator.git"
-  },
-  "keywords": [
-    "ose",
-    "sunat",
-    "validator",
-    "xml",
-    "ubl",
-    "2.0",
-    "2.1",
-    "ubl2.0",
-    "ubl2.1",
-    "node",
-    "node.js",
-    "javascript",
-    "ECMAScript"
-  ],
-  "author": "binni zenobio cordova leandro",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/BinniZenobioCordovaLeandro/ose.xml.validator/issues"
-  },
-  "homepage": "https://github.com/BinniZenobioCordovaLeandro/ose.xml.validator#readme",
-  "dependencies": {
-    "chalk": "^2.4.2",
-    "moment": "^2.24.0",
-    "path": "^0.12.7",
-    "xmldom": "^0.1.27",
-    "xpath": "0.0.27"
-  }
+    "name": "ose.xml.validator",
+    "version": "0.0.1",
+    "description": "ose.xml.validator is a single xml validator script implemented into ose.soap.server",
+    "main": "index.js",
+    "directories": {
+        "test": "tests"
+    },
+    "scripts": {
+        "test": "tests/test.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/BinniZenobioCordovaLeandro/ose.xml.validator.git"
+    },
+    "keywords": [
+        "ose",
+        "sunat",
+        "validator",
+        "xml",
+        "ubl",
+        "2.0",
+        "2.1",
+        "ubl2.0",
+        "ubl2.1",
+        "node",
+        "node.js",
+        "javascript",
+        "ECMAScript"
+    ],
+    "author": "binni zenobio cordova leandro",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/BinniZenobioCordovaLeandro/ose.xml.validator/issues"
+    },
+    "homepage": "https://github.com/BinniZenobioCordovaLeandro/ose.xml.validator#readme",
+    "dependencies": {
+        "chalk": "^2.4.2",
+        "global": "^4.4.0",
+        "moment": "^2.24.0",
+        "path": "^0.12.7",
+        "xmldom": "^0.1.27",
+        "xpath": "0.0.27"
+    },
+    "devDependencies": {
+        "standard": "^14.3.1"
+    }
 }

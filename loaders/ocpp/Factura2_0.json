@@ -111,6 +111,20 @@
         "codProdSunat_listAgencyName": "/xmlns:Invoice/cac:InvoiceLine/cac:Item/cac:CommodityClassification/cbc:ItemClassificationCode/@codProdSunat_listAgencyName",
         "codProdSunat_listName": "/xmlns:Invoice/cac:InvoiceLine/cac:Item/cac:CommodityClassification/cbc:ItemClassificationCode/@codProdSunat_listName",
         "codProdGS1_schemeId": "/xmlns:Invoice/cac:InvoiceLine/cac:Item/cac:StandardItemIdentification/cbc:ID/@schemeID",
-        "codProdGS1": "/xmlns:Invoice/cac:InvoiceLine/cac:Item/cac:StandardItemIdentification/cbc:ID"
+        "codProdGS1": "/xmlns:Invoice/cac:InvoiceLine/cac:Item/cac:StandardItemIdentification/cbc:ID",
+        "atributos":{
+            ".": "/xmlns:Invoice/cac:InvoiceLine/cac:Item/cac:AdditionalItemProperty",
+            "name": "/xmlns:Invoice/cac:InvoiceLine/cac:Item/cac:AdditionalItemProperty/cbc:Name",
+            "code": "/xmlns:Invoice/cac:InvoiceLine/cac:Item/cac:AdditionalItemProperty/cbc:NameCode",
+            "codeListName": "/xmlns:Invoice/cac:InvoiceLine/cac:Item/cac:AdditionalItemProperty/cbc:NameCode/@listName",
+            "codeListAgencyName": "/xmlns:Invoice/cac:InvoiceLine/cac:Item/cac:AdditionalItemProperty/cbc:NameCode/@listAgencyName",
+            "codeListURI": "/xmlns:Invoice/cac:InvoiceLine/cac:Item/cac:AdditionalItemProperty/cbc:NameCode/@listURI",
+            "value": "/xmlns:Invoice/cac:InvoiceLine/cac:Item/cac:AdditionalItemProperty/cbc:Value"
+
+        },
+        "descripcion": "/xmlns:Invoice/cac:InvoiceLine/cac:Item/cbc:Description",
+        "mtoValorUnitario": "/xmlns:Invoice/cac:InvoiceLine/cac:Price/cbc:PriceAmount"
+
+
     }
 }
