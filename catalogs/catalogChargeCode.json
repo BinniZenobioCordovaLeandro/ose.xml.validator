@@ -1,0 +1,82 @@
+{
+  "00": {
+    "code": "00",
+    "description": "Descuentos que afectan la base imponible del IGV/IVAP",
+    "level": "Item"
+  },
+  "01": {
+    "code": "01",
+    "description": "Descuentos que no afectan la base imponible del IGV/IVAP",
+    "level": "Item"
+  },
+  "02": {
+    "code": "02",
+    "description": "Descuentos globales que afectan la base imponible del IGV/IVAP",
+    "level": "Global"
+  },
+  "03": {
+    "code": "03",
+    "description": "Descuentos globales que no afectan la base imponible del IGV/IVAP",
+    "level": "Global"
+  },
+  "04": {
+    "code": "04",
+    "description": "Descuentos globales por anticipos gravados que afectan la base imponible del IGV/IVAP ",
+    "level": "Global"
+  },
+  "05": {
+    "code": "05",
+    "description": "Descuentos globales por anticipos exonerados",
+    "level": "Global"
+  },
+  "06": {
+    "code": "06",
+    "description": "Descuentos globales por anticipos inafectos",
+    "level": "Global"
+  },
+  "45": {
+    "code": "45",
+    "description": "FISE",
+    "level": "Global"
+  },
+  "46": {
+    "code": "46",
+    "description": "Recargo al consumo y/o propinas",
+    "level": "Global"
+  },
+  "47": {
+    "code": "47",
+    "description": "Cargos que afectan la base imponible del IGV/IVAP",
+    "level": "Item"
+  },
+  "48": {
+    "code": "48",
+    "description": "Cargos que no afectan la base imponible del IGV/IVAP",
+    "level": "Item"
+  },
+  "49": {
+    "code": "49",
+    "description": "Cargos globales que afectan la base imponible del IGV/IVAP",
+    "level": "Global"
+  },
+  "50": {
+    "code": "50",
+    "description": "Cargos globales que no afectan la base imponible del IGV/IVAP",
+    "level": "Global"
+  },
+  "51": {
+    "code": "51",
+    "description": "Percepción venta interna",
+    "level": "Global"
+  },
+  "52": {
+    "code": "52",
+    "description": "Percepción a la adquisición de combustible",
+    "level": "Global"
+  },
+  "53": {
+    "code": "53",
+    "description": "Percepción realizada al agente de percepción con tasa especial",
+    "level": "Global"
+  }
+}

@@ -115,5 +115,26 @@
       "name": "/xmlns:Invoice/cac:TaxTotal/cac:TaxSubtotal/cac:TaxCategory/cac:TaxScheme/cbc:Name",
       "typeCode": "/xmlns:Invoice/cac:TaxTotal/cac:TaxSubtotal/cac:TaxCategory/cac:TaxScheme/cbc:TaxTypeCode"
     }
-  }
+  },
+  "cargos": {
+    ".": "/xmlns:Invoice/cac:AllowanceCharge",
+    "codTipo": "/xmlns:Invoice/cac:AllowanceCharge/cbc:AllowanceChargeReasonCode",
+    "indicator": "/xmlns:Invoice/cac:AllowanceCharge/cbc:ChargeIndicator",
+    "codTipoListAgencyName": "/xmlns:Invoice/cac:AllowanceCharge/cbc:AllowanceChargeReasonCode/@listAgencyName",
+    "codTipoListName": "/xmlns:Invoice/cac:AllowanceCharge/cbc:AllowanceChargeReasonCode/@listName",
+    "codTipoListUri": "/xmlns:Invoice/cac:AllowanceCharge/cbc:AllowanceChargeReasonCode/@listURI",
+    "factor": "/xmlns:Invoice/cac:AllowanceCharge/cbc:MultiplierFactorNumeric",
+    "montoBase": "/xmlns:Invoice/cac:AllowanceCharge/cbc:BaseAmount",
+    "montoBaseCurrencyId": "/xmlns:Invoice/cac:AllowanceCharge/cbc:BaseAmount/@currencyID",
+    "monto": "/xmlns:Invoice/cac:AllowanceCharge/cbc:Amount",
+    "montoCurrencyId": "/xmlns:Invoice/cac:AllowanceCharge/cbc:Amount/@currencyID"
+  },
+  "mtoDescuentos": "string(/xmlns:Invoice/cac:LegalMonetaryTotal/cbc:AllowanceTotalAmount)",
+  "mtoDescuentosCurrencyId": "string(/xmlns:Invoice/cac:LegalMonetaryTotal/cbc:AllowanceTotalAmount/@currencyID)",
+  "sumOtrosCargos": "string(/xmlns:Invoice/cac:LegalMonetaryTotal/cbc:ChargeTotalAmount)",
+  "sumOtrosCargosCurrencyId": "string(/xmlns:Invoice/cac:LegalMonetaryTotal/cbc:ChargeTotalAmount/@currencyID)",
+  "mtoImpVenta": "string(/xmlns:Invoice/cac:LegalMonetaryTotal/cbc:PayableAmount)",
+  "mtoImpVentaCurrencyId": "string(/xmlns:Invoice/cac:LegalMonetaryTotal/cbc:PayableAmount/@currencyID)",
+  "valorVenta": "string(/xmlns:Invoice/cac:LegalMonetaryTotal/cbc:LineExtensionAmount)",
+  "valorVentaCurrencyId": "string(/xmlns:Invoice/cac:LegalMonetaryTotal/cbc:LineExtensionAmount/@currencyID)"
 }

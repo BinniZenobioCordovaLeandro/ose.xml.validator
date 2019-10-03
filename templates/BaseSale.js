@@ -47,6 +47,8 @@ class BaseSale {
     this._totalTax = new TotalTax()
 
     this._sumOtrosCargos = null
+    this._sumOtrosCargosCurrencyId = null
+
     this._mtoOperGravadas = null
     this._mtoOperInafectas = null
     this._mtoOperExoneradas = null
@@ -57,7 +59,9 @@ class BaseSale {
     this._mtoBaseOth = null
     this._mtoOtrosTributos = null
     this._totalImpuestos = null
+
     this._mtoImpVenta = null
+    this._mtoImpVentaCurrencyId = null
 
     this._details = [new SaleDetail()]
 
@@ -283,12 +287,28 @@ class BaseSale {
     this._totalTax = value
   }
 
+  get sumOtrosCargos () {
+    return this._sumOtrosCargos
+  }
+
+  set sumOtrosCargos (value) {
+    this._sumOtrosCargos = value
+  }
+
+  get sumOtrosCargosCurrencyId () {
+    return this._sumOtrosCargosCurrencyId
+  }
+
+  set sumOtrosCargosCurrencyId (value) {
+    this._sumOtrosCargosCurrencyId = value
+  }
+
   get mtoBaseIsc () {
     return this._mtoBaseIsc
   }
 
   set mtoBaseIsc (value) {
-    if (!/^[+]?[0-9]{1,12}\.[0-9]{1,2}$/.test(value) && !/^[+-][0.]{1,}$/.test(value)) throw new Error('2999')
+    if (!/^[+]?[0-9]{1,12}\.[0-9]{1,2}$/.test(value) || /^[+-0.]{1,}$/.test(value)) throw new Error('2999')
     this._mtoBaseIsc = value
   }
 
@@ -305,8 +325,26 @@ class BaseSale {
   }
 
   set totalImpuestos (value) {
-    if (value && !/^[+]?[0-9]{1,12}\.[0-9]{1,2}$/.test(value) && !/^[+-][0.]{1,}$/.test(value)) throw new Error('3020')
+    if (value &&
+      (!/^[+]?[0-9]{1,12}\.[0-9]{1,2}$/.test(value) || /^[+-0.]{1,}$/.test(value))
+    ) throw new Error('3020')
     this._totalImpuestos = value
+  }
+
+  get mtoImpVenta () {
+    return this._mtoImpVenta
+  }
+
+  set mtoImpVenta (value) {
+    this._mtoImpVenta = value
+  }
+
+  get mtoImpVentaCurrencyId () {
+    return this._mtoImpVentaCurrencyId
+  }
+
+  set mtoImpVentaCurrencyId (value) {
+    this._mtoImpVentaCurrencyId = value
   }
 
   get details () {

@@ -2,10 +2,11 @@
 
 var moment = require('moment')
 
-var BaseSale = require('../templates/BaseSale')
+var Invoice = require('../templates/Invoice')
 var SaleDetail = require('../templates/SaleDetail')
 var Document = require('../templates/Document')
 var TaxDetail = require('../templates/TaxDetail')
+var Charge = require('../templates/Charge')
 
 var DomDocumentHelper = require('../helpers/DomDocumentHelper')
 
@@ -19,7 +20,7 @@ var listAutorizacionComprobanteFisico = require('../catalogs/listAutorizacionCom
 var listComprobantePagoElectronico = require('../catalogs/listComprobantePagoElectronico.json')
 var parameterMaximunSendTerm = require('../catalogs/parameterMaximunSendTerm.json')
 
-class Factura20Loader extends BaseSale {
+class Factura20Loader extends Invoice {
   constructor (xml, fileInfo = null, domDocumentHelper = null) {
     super()
     this._xml = xml
@@ -323,7 +324,7 @@ class Factura20Loader extends BaseSale {
       this.totalImpuestos = this.totalTax.taxAmount
       this.totalTax.taxAmountCurrencyId = domDocumentHelper.select(path.totalTax.taxAmountCurrencyId)
 
-      var taxDetailsLength = domDocumentHelper.select(path.totalTax.taxDetails['.']).length ? domDocumentHelper.select(path.totalTax.taxDetails['.']).length : 0
+      var taxDetailsLength = domDocumentHelper.select(path.totalTax.taxDetails['.']) ? domDocumentHelper.select(path.totalTax.taxDetails['.']).length : 0
       var taxDetailsCode = {}
       var taxDetails = {
         taxableAmount: domDocumentHelper.select(path.totalTax.taxDetails.taxableAmount),
@@ -368,14 +369,59 @@ class Factura20Loader extends BaseSale {
           Number(taxDetailsCode['7152'] ? taxDetailsCode['7152'] : 0) +
           Number(taxDetailsCode['9999'] ? taxDetailsCode['9999'] : 0)
         ).toFixed(2))
-
       if (!(
         Number(totalTaxDetailsSum) === Number(Number(this.totalTax.taxAmount).toFixed(2)) ||
         Number(totalTaxDetailsSum) === Number((Number(this.totalTax.taxAmount) - 1).toFixed(2)) ||
         Number(totalTaxDetailsSum) === Number((Number(this.totalTax.taxAmount) + 1).toFixed(2))
       )) this.totalTax.warning.push('4301')
 
-      // if(this.totalTax.taxAmount === (suma de todos los detalles))
+      var cargosLength = domDocumentHelper.select(path.cargos['.']).length ? domDocumentHelper.select(path.cargos['.']).length : 0
+      if (cargosLength > 0) {
+        var cargos = {
+          indicator: domDocumentHelper.select(path.cargos.indicator),
+          codTipo: domDocumentHelper.select(path.cargos.codTipo),
+          codTipoListAgencyName: domDocumentHelper.select(path.cargos.codTipoListAgencyName),
+          codTipoListName: domDocumentHelper.select(path.cargos.codTipoListName),
+          codTipoListUri: domDocumentHelper.select(path.cargos.codTipoListUri),
+          factor: domDocumentHelper.select(path.cargos.factor),
+          monto: domDocumentHelper.select(path.cargos.monto),
+          montoCurrencyId: domDocumentHelper.select(path.cargos.montoCurrencyId),
+          montoBase: domDocumentHelper.select(path.cargos.montoBase),
+          montoBaseCurrencyId: domDocumentHelper.select(path.cargos.montoBaseCurrencyId)
+        }
+        for (let index = 0; index < cargosLength; index++) {
+          var charge = new Charge()
+          if ((cargos.indicator[index]) && !(cargos.codTipo[index])) throw new Error('3072')
+          charge.codTipo = cargos.codTipo[index] ? cargos.codTipo[index].textContent : null
+          charge.indicator = cargos.indicator[index] ? cargos.indicator[index].textContent : null
+          charge.codTipoListAgencyName = cargos.codTipoListAgencyName[index] ? cargos.codTipoListAgencyName[index].textContent : null
+          charge.codTipoListName = cargos.codTipoListName[index] ? cargos.codTipoListName[index].textContent : null
+          charge.codTipoListUri = cargos.codTipoListUri[index] ? cargos.codTipoListUri[index].textContent : null
+          charge.factor = cargos.factor[index] ? cargos.factor[index].textContent : null
+          charge.montoBase = cargos.montoBase[index] ? cargos.montoBase[index].textContent : null
+          charge.montoBaseCurrencyId = cargos.montoBaseCurrencyId[index] ? cargos.montoBaseCurrencyId[index].textContent : null
+          if (charge.montoBaseCurrencyId !== this.tipoMoneda) throw new Error('2071')
+          charge.monto = cargos.monto[index] ? cargos.monto[index].textContent : null
+          charge.montoCurrencyId = cargos.montoCurrencyId[index] ? cargos.montoCurrencyId[index].textContent : null
+          if (charge.montoCurrencyId !== this.tipoMoneda) throw new Error('2071')
+
+          this.cargos.push(charge)
+          this.warning = this.warning.concat(charge.warning)
+        }
+      }
+
+      if (domDocumentHelper.select(path.mtoDescuentos)) {
+        this.mtoDescuentos = domDocumentHelper.select(path.mtoDescuentos)
+        this.mtoDescuentosCurrencyId = domDocumentHelper.select(path.mtoDescuentosCurrencyId)
+      }
+      if (domDocumentHelper.select(path.sumOtrosCargos)) {
+        this.sumOtrosCargos = domDocumentHelper.select(path.sumOtrosCargos)
+        this.sumOtrosCargosCurrencyId = domDocumentHelper.select(path.sumOtrosCargosCurrencyId)
+      }
+      this.mtoImpVenta = domDocumentHelper.select(path.mtoImpVenta)
+      this.mtoImpVentaCurrencyId = domDocumentHelper.select(path.mtoImpVentaCurrencyId)
+      this.valorVenta = domDocumentHelper.select(path.valorVenta)
+      this.valorVentaCurrencyId = domDocumentHelper.select(path.valorVentaCurrencyId)
 
       this.warning = this.warning.concat(this.company.warning, this.company.address.warning, this.client.warning, this.client.address.warning, this.totalTax.warning)
       resolve(this.warning)
