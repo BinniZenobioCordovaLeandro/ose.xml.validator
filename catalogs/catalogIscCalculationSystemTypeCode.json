@@ -1,0 +1,17 @@
+{
+  "01": {
+    "code": "01",
+    "description": "Sistema al valor (Apéndice IV, lit. A – T.U.O IGV e ISC)",
+    "tax": "1.00"
+  },
+  "02": {
+    "code": "02",
+    "description": "Aplicación del Monto Fijo ( Sistema específico, bienes en el apéndice III, Apéndice IV, lit. B – T.U.O IGV e ISC)",
+    "tax": "2.00"
+  },
+  "03": {
+    "code": "03",
+    "description": "Sistema de Precios de Venta al Público (Apéndice IV, lit. C – T.U.O IGV e ISC)",
+    "tax": "0.50"
+  }
+}

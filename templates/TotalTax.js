@@ -24,11 +24,6 @@ class TotalTax {
   }
 
   set taxAmount (value) {
-    if (value === false) throw new Error('2956')
-    if (value &&
-      (!/^[+]?[0-9]{1,12}\.[0-9]{1,2}$/.test(value) || /^[+-0.]{1,}$/.test(value))
-    ) throw new Error('3020')
-    if (value === null) throw new Error('3024')
     this._taxAmount = value
   }
 

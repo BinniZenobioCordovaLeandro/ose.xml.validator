@@ -8,5 +8,10 @@
         "ruc": "20600695772",
         "ind_estado": "00",
         "ind_condicion": "12"
+    },
+    "20303115405": {
+      "ruc": "20303115405",
+        "ind_estado": "00",
+        "ind_condicion": "11"
     }
 }

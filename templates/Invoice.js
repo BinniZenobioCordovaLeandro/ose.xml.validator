@@ -24,6 +24,10 @@ class Invoice extends BaseSale {
     this._seller = null
     this._valorVenta = null
     this._valorVentaCurrencyId = null
+    this._precioVenta = null
+    this._precioVentaCurrencyId = null
+    this._mtoRndImpVenta = null
+    this._mtoRndImpVentaCurrencyId = null
   }
 
   get tipoOperacion () {
@@ -64,7 +68,7 @@ class Invoice extends BaseSale {
 
   set mtoDescuentos (value) {
     if (!/^[+]?[0-9]{1,12}\.[0-9]{1,2}$/.test(value) ||
-    /^[+-0.]{1,}$/.test(value)) throw new Error('2065')
+      !/^[+-0.]{1,}$/.test(value)) throw new Error('2065')
     this._mtoDescuentos = value
   }
 
@@ -153,6 +157,9 @@ class Invoice extends BaseSale {
   }
 
   set valorVenta (value) {
+    if (value &&
+      !/^[+]?[0-9]{1,12}\.[0-9]{1,2}$/.test(value) &&
+      !/^[+-0.]{1,}$/.test(value)) throw new Error('2062')
     this._valorVenta = value
   }
 
@@ -162,6 +169,41 @@ class Invoice extends BaseSale {
 
   set valorVentaCurrencyId (value) {
     this._valorVentaCurrencyId = value
+  }
+
+  get precioVenta () {
+    return this._precioVenta
+  }
+
+  set precioVenta (value) {
+    if (value &&
+      !/^[+]?[0-9]{1,12}\.[0-9]{1,2}$/.test(value) &&
+      !/^[+-0.]{1,}$/.test(value)) throw new Error('3019')
+    this._precioVenta = value
+  }
+
+  get precioVentaCurrencyId () {
+    return this._precioVentaCurrencyId
+  }
+
+  set precioVentaCurrencyId (value) {
+    this._precioVentaCurrencyId = value
+  }
+
+  get mtoRndImpVenta () {
+    return this._mtoRndImpVenta
+  }
+
+  set mtoRndImpVenta (value) {
+    this._mtoRndImpVenta = value
+  }
+
+  get mtoRndImpVentaCurrencyId () {
+    return this._mtoRndImpVentaCurrencyId
+  }
+
+  set mtoRndImpVentaCurrencyId (value) {
+    this._mtoRndImpVentaCurrencyId = value
   }
 }
 

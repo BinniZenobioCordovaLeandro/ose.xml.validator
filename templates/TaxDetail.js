@@ -1,7 +1,5 @@
 'use strict'
 
-var catalogTaxTypeCode = require('../catalogs/catalogTaxTypeCode.json')
-
 class TaxDetail {
   constructor () {
     this._warning = []
@@ -10,6 +8,15 @@ class TaxDetail {
     this._taxableAmountCurrencyId = null
     this._taxAmount = null
     this._taxAmountCurrencyId = null
+    this._baseUnitMeasure = null
+    this._baseUnitMeasureUnitCode = null
+    this._perUnitAmount = null
+    this._percent = null
+    this._tierRange = null
+    this._taxExemptionReasonCode = null
+    this._taxExemptionReasonCodeListAgencyName = null
+    this._taxExemptionReasonCodeListName = null
+    this._taxExemptionReasonCodeListURI = null
     this._code = null
     this._codeSchemeName = null
     this._codeSchemeAgencyName = null
@@ -31,7 +38,6 @@ class TaxDetail {
   }
 
   set taxableAmount (value) {
-    if (!/^[+]?[0-9]{1,12}\.[0-9]{1,2}$/.test(value)) throw new Error('2999')
     this._taxableAmount = value
   }
 
@@ -60,13 +66,89 @@ class TaxDetail {
     this._taxAmountCurrencyId = value
   }
 
+  get baseUnitMeasure () {
+    return this._baseUnitMeasure
+  }
+
+  set baseUnitMeasure (value) {
+    if (!/^[0-9]{1,5}$/.test(value) && !(Number(value) >= 0)) throw new Error('2892')
+    this._baseUnitMeasure = value
+  }
+
+  get baseUnitMeasureUnitCode () {
+    return this._baseUnitMeasureUnitCode
+  }
+
+  set baseUnitMeasureUnitCode (value) {
+    if (value !== 'NIU') this.warning.push('3236')
+    this._baseUnitMeasureUnitCode = value
+  }
+
+  get perUnitAmount () {
+    return this._perUnitAmount
+  }
+
+  set perUnitAmount (value) {
+    if (value && !/^[+]?[0-9]{1,3}\.[0-9]{1,5}$/.test(value) && !/^[+-0.]{1,}$/.test(value)) throw new Error('2892')
+    this._perUnitAmount = value
+  }
+
+  get percent () {
+    return this._percent
+  }
+
+  set percent (value) {
+    this._percent = value
+  }
+
+  get tierRange () {
+    return this._tierRange
+  }
+
+  set tierRange (value) {
+    this._tierRange = value
+  }
+
+  get taxExemptionReasonCode () {
+    return this._taxExemptionReasonCode
+  }
+
+  set taxExemptionReasonCode (value) {
+    this._taxExemptionReasonCode = value
+  }
+
+  get taxExemptionReasonCodeListAgencyName () {
+    return this._taxExemptionReasonCodeListAgencyName
+  }
+
+  set taxExemptionReasonCodeListAgencyName (value) {
+    if (value && value !== 'PE:SUNAT') this.warning.push('4251')
+    this._taxExemptionReasonCodeListAgencyName = value
+  }
+
+  get taxExemptionReasonCodeListName () {
+    return this._taxExemptionReasonCodeListName
+  }
+
+  set taxExemptionReasonCodeListName (value) {
+    if (value && value !== '4252') this.warning.push('4252')
+    this._taxExemptionReasonCodeListName = value
+  }
+
+  get taxExemptionReasonCodeListURI () {
+    return this._taxExemptionReasonCodeListURI
+  }
+
+  set taxExemptionReasonCodeListURI (value) {
+    if (value && value !== 'urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo07') this.warning.push('4253')
+    this._taxExemptionReasonCodeListURI = value
+  }
+
   get code () {
     return this._code
   }
 
   set code (value) {
-    if (!value) throw new Error('3059')
-    if (!catalogTaxTypeCode[value]) throw new Error('3007')
     this._code = value
   }
 
@@ -102,8 +184,6 @@ class TaxDetail {
   }
 
   set name (value) {
-    if (!value) throw new Error('2054')
-    if (catalogTaxTypeCode[this.code].name !== value) throw new Error('2964')
     this._name = value
   }
 
@@ -112,8 +192,6 @@ class TaxDetail {
   }
 
   set typeCode (value) {
-    if (!value) throw new Error('2052')
-    if (catalogTaxTypeCode[this.code].international !== value) throw new Error('2961')
     this._typeCode = value
   }
 }

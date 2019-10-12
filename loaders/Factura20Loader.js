@@ -3,10 +3,12 @@
 var moment = require('moment')
 
 var Invoice = require('../templates/Invoice')
-var SaleDetail = require('../templates/SaleDetail')
 var Document = require('../templates/Document')
+var SaleDetail = require('../templates/SaleDetail')
+var DetailAttribute = require('../templates/DetailAttribute')
 var TaxDetail = require('../templates/TaxDetail')
 var Charge = require('../templates/Charge')
+var Legend = require('../templates/Legend')
 
 var DomDocumentHelper = require('../helpers/DomDocumentHelper')
 
@@ -19,6 +21,10 @@ var listAutorizacionComprobanteContingencia = require('../catalogs/listAutorizac
 var listAutorizacionComprobanteFisico = require('../catalogs/listAutorizacionComprobanteFisico.json')
 var listComprobantePagoElectronico = require('../catalogs/listComprobantePagoElectronico.json')
 var parameterMaximunSendTerm = require('../catalogs/parameterMaximunSendTerm.json')
+var catalogIgvAffectationTypeCode = require('../catalogs/catalogIgvAffectationTypeCode.json')
+var catalogTaxTypeCode = require('../catalogs/catalogTaxTypeCode.json')
+var catalogIscCalculationSystemTypeCode = require('../catalogs/catalogIscCalculationSystemTypeCode.json')
+var catalogChargeCode = require('../catalogs/catalogChargeCode.json')
 
 class Factura20Loader extends Invoice {
   constructor (xml, fileInfo = null, domDocumentHelper = null) {
@@ -65,7 +71,7 @@ class Factura20Loader extends Invoice {
       if (this.ublVersion !== '2.1') throw new Error('2074')
       this.customization = domDocumentHelper.select(path.customization)
       if (this.customization !== '2.0') throw new Error('2072')
-      this.customization_schemeAgencyName = domDocumentHelper.select(path.customization_schemeAgencyName)
+      this.customizationSchemeAgencyName = domDocumentHelper.select(path.customizationSchemeAgencyName)
 
       this.id = domDocumentHelper.select(path.id)
       var matches = /^([A-Z0-9]{1,4})-([0-9]{1,8})$/.exec(this.id)
@@ -76,29 +82,29 @@ class Factura20Loader extends Invoice {
       var rucTipoSerie = this.fileInfo.rucEmisor + '-' + this.fileInfo.tipoComprobante + '-' + this.serie
       if (!/^[0-9]{1}/.test(this.serie) && (
         listComprobantePagoElectronico[(rucTipoSerie + '-' + this.correlativo)] &&
-                    listComprobantePagoElectronico[(rucTipoSerie + '-' + this.correlativo)].ind_estado_cpe === 1
+          listComprobantePagoElectronico[(rucTipoSerie + '-' + this.correlativo)].ind_estado_cpe === 1
       )) throw new Error('1033')
       if (/^[0-9]{1}/.test(this.serie) && (
         listComprobantePagoElectronico[(rucTipoSerie + '-' + this.correlativo)].ind_estado_cpe &&
-                    listComprobantePagoElectronico[(rucTipoSerie + '-' + this.correlativo)].ind_estado_cpe === 2
+          listComprobantePagoElectronico[(rucTipoSerie + '-' + this.correlativo)].ind_estado_cpe === 2
       )) throw new Error('1032')
       if (
         !/^[0-9]{1}/.test(this.serie) &&
-                (
-                  listComprobantePagoElectronico[(rucTipoSerie + '-' + this.correlativo)] && (
-                    listComprobantePagoElectronico[(rucTipoSerie + '-' + this.correlativo)].ind_estado_cpe === 0 ||
-                        listComprobantePagoElectronico[(rucTipoSerie + '-' + this.correlativo)].ind_estado_cpe === 2
-                  )
-                )
+        (
+          listComprobantePagoElectronico[(rucTipoSerie + '-' + this.correlativo)] && (
+            listComprobantePagoElectronico[(rucTipoSerie + '-' + this.correlativo)].ind_estado_cpe === 0 ||
+            listComprobantePagoElectronico[(rucTipoSerie + '-' + this.correlativo)].ind_estado_cpe === 2
+          )
+        )
       ) throw new Error('1032')
       if (/^[0-9]{1}/.test(this.serie)) {
         if (!(listAutorizacionComprobanteContingencia[rucTipoSerie] && (
           this.correlativo >= listAutorizacionComprobanteContingencia[rucTipoSerie].num_ini_cpe &&
-                        this.correlativo <= listAutorizacionComprobanteContingencia[rucTipoSerie].num_fin_cpe
+            this.correlativo <= listAutorizacionComprobanteContingencia[rucTipoSerie].num_fin_cpe
         ))) throw new Error('3207')
         if (!(listAutorizacionComprobanteFisico[rucTipoSerie] && (
           this.correlativo >= listAutorizacionComprobanteFisico[rucTipoSerie].num_ini_cpe &&
-                        this.correlativo <= listAutorizacionComprobanteFisico[rucTipoSerie].num_fin_cpe
+            this.correlativo <= listAutorizacionComprobanteFisico[rucTipoSerie].num_fin_cpe
         ))) throw new Error('3207')
       }
 
@@ -106,34 +112,36 @@ class Factura20Loader extends Invoice {
       if (!/^[0-9]{1}/.test(this.serie)) {
         if (
           moment().diff(moment(this.fechaEmision), 'days') > parameterMaximunSendTerm[this.fileInfo.tipoComprobante].day &&
-                    !domDocumentHelper.select(path.fechaVencimiento) &&
-                    moment().diff(moment(this.fechaEmision), 'days') >= 0
+          !domDocumentHelper.select(path.fechaVencimiento) &&
+          moment().diff(moment(this.fechaEmision), 'days') >= 0
         ) throw new Error('2108')
       }
       this.horaEmision = domDocumentHelper.select(path.horaEmision)
       this.tipoDoc = domDocumentHelper.select(path.tipoDoc)
       if (this.tipoDoc !== this.fileInfo.tipoComprobante && catalogDocumentTypeCode[this.tipoDoc]) throw new Error('1003')
       this.tipoOperacion = domDocumentHelper.select(path.tipoOperacion)
-      this.tipoDoc_listAgencyName = domDocumentHelper.select(path.tipoDoc_listAgencyName)
-      this.tipoDoc_listName = domDocumentHelper.select(path.tipoDoc_listName)
-      this.tipoDoc_listURI = domDocumentHelper.select(path.tipoDoc_listURI)
+      this.tipoOperacionName = domDocumentHelper.select(path.tipoOperacionName)
+      this.tipoOperacionListSchemeUri = domDocumentHelper.select(path.tipoOperacionListSchemeUri)
+      this.tipoDocListAgencyName = domDocumentHelper.select(path.tipoDocListAgencyName)
+      this.tipoDocListName = domDocumentHelper.select(path.tipoDocListName)
+      this.tipoDocListURI = domDocumentHelper.select(path.tipoDocListURI)
       this.tipoMoneda = domDocumentHelper.select(path.tipoMoneda)
-      this.tipoMoneda_listID = domDocumentHelper.select(path.tipoMoneda_listID)
-      this.tipoMoneda_listName = domDocumentHelper.select(path.tipoMoneda_listName)
-      this.tipoMoneda_listAgencyName = domDocumentHelper.select(path.tipoMoneda_listAgencyName)
+      this.tipoMonedaListID = domDocumentHelper.select(path.tipoMonedaListID)
+      this.tipoMonedaListName = domDocumentHelper.select(path.tipoMonedaListName)
+      this.tipoMonedaListAgencyName = domDocumentHelper.select(path.tipoMonedaListAgencyName)
+      this.compra = domDocumentHelper.select(path.compra)
       this.fechaVencimiento = domDocumentHelper.select(path.fechaVencimiento)
-
       this.signature.id = domDocumentHelper.select(path.signature.id)
-      this.signature.canonicalization_algorithm = domDocumentHelper.select(path.signature.canonicalization_algorithm)
-      this.signature.signature_algorithm = domDocumentHelper.select(path.signature.signature_algorithm)
+      this.signature.canonicalizationAlgorithm = domDocumentHelper.select(path.signature.canonicalizationAlgorithm)
+      this.signature.signatureAlgorithm = domDocumentHelper.select(path.signature.signatureAlgorithm)
       this.signature.reference_uri = domDocumentHelper.select(path.signature.reference_uri)
-      this.signature.transform_algorithm = domDocumentHelper.select(path.signature.transform_algorithm)
-      this.signature.digest_algorithm = domDocumentHelper.select(path.signature.digest_algorithm)
+      this.signature.transformAlgorithm = domDocumentHelper.select(path.signature.transformAlgorithm)
+      this.signature.digestAlgorithm = domDocumentHelper.select(path.signature.digestAlgorithm)
       this.signature.digestValue = domDocumentHelper.select(path.signature.digestValue)
       this.signature.signatureValue = domDocumentHelper.select(path.signature.signatureValue)
       this.signature.x509Certificate = domDocumentHelper.select(path.signature.x509Certificate)
       this.signature.signature = domDocumentHelper.select(path.signature.signature)
-      this.signature.signature_id = domDocumentHelper.select(path.signature.signature_id)
+      this.signature.signatureId = domDocumentHelper.select(path.signature.signatureId)
       this.signature.partyIdentificationId = domDocumentHelper.select(path.signature.partyIdentificationId)
       if (this.signature.partyIdentificationId !== this.fileInfo.rucEmisor) throw new Error('2078')
       this.signature.partyName = domDocumentHelper.select(path.signature.partyName)
@@ -143,12 +151,12 @@ class Factura20Loader extends Invoice {
       if (this.company.ruc !== this.fileInfo.rucEmisor) throw new Error('1034')
       if (
         this.tipoOperacion === '0201' &&
-                listPadronContribuyente[this.company.ruc].ind_padron !== '05'
+        listPadronContribuyente[this.company.ruc].ind_padron !== '05'
       ) throw new Error('3097')
-      this.company.ruc_schemeId = domDocumentHelper.select(path.company.ruc_schemeId)
-      this.company.ruc_schemeName = domDocumentHelper.select(path.company.ruc_schemeName)
-      this.company.ruc_schemeAgencyName = domDocumentHelper.select(path.company.ruc_schemeAgencyName)
-      this.company.ruc_schemeUri = domDocumentHelper.select(path.company.ruc_schemeUri)
+      this.company.rucSchemeId = domDocumentHelper.select(path.company.rucSchemeId)
+      this.company.rucSchemeName = domDocumentHelper.select(path.company.rucSchemeName)
+      this.company.rucSchemeAgencyName = domDocumentHelper.select(path.company.rucSchemeAgencyName)
+      this.company.rucSchemeUri = domDocumentHelper.select(path.company.rucSchemeUri)
       this.company.nombreComercial = domDocumentHelper.select(path.company.nombreComercial)
       this.company.razonSocial = domDocumentHelper.select(path.company.razonSocial)
 
@@ -156,44 +164,43 @@ class Factura20Loader extends Invoice {
       this.company.address.urbanizacion = domDocumentHelper.select(path.company.address.urbanizacion)
       this.company.address.provincia = domDocumentHelper.select(path.company.address.provincia)
       this.company.address.ubigueo = domDocumentHelper.select(path.company.address.ubigueo)
-      this.company.address.ubigueo_schemeAgencyName = domDocumentHelper.select(path.company.address.ubigueo_schemeAgencyName)
-      this.company.address.ubigueo_schemeName = domDocumentHelper.select(path.company.address.ubigueo_schemeName)
+      this.company.address.ubigueoSchemeAgencyName = domDocumentHelper.select(path.company.address.ubigueoSchemeAgencyName)
+      this.company.address.ubigueoSchemeName = domDocumentHelper.select(path.company.address.ubigueoSchemeName)
       this.company.address.departamento = domDocumentHelper.select(path.company.address.departamento)
       this.company.address.distrito = domDocumentHelper.select(path.company.address.distrito)
       this.company.address.codigoPais = domDocumentHelper.select(path.company.address.codigoPais)
-      this.company.address.codigoPais_listId = domDocumentHelper.select(path.company.address.codigoPais_listId)
-      this.company.address.codigoPais_listAgencyName = domDocumentHelper.select(path.company.address.codigoPais_listAgencyName)
-      this.company.address.codigoPais_listName = domDocumentHelper.select(path.company.address.codigoPais_listName)
+      this.company.address.codigoPaisListId = domDocumentHelper.select(path.company.address.codigoPaisListId)
+      this.company.address.codigoPaisListAgencyName = domDocumentHelper.select(path.company.address.codigoPaisListAgencyName)
+      this.company.address.codigoPaisListName = domDocumentHelper.select(path.company.address.codigoPaisListName)
 
       this.company.address.codLocal = domDocumentHelper.select(path.company.address.codLocal)
-      this.company.address.codLocal_listAgencyName = domDocumentHelper.select(path.company.address.codLocal_listAgencyName)
-      this.company.address.codLocal_listName = domDocumentHelper.select(path.company.address.codLocal_listName)
+      this.company.address.codLocalListAgencyName = domDocumentHelper.select(path.company.address.codLocalListAgencyName)
+      this.company.address.codLocalListName = domDocumentHelper.select(path.company.address.codLocalListName)
 
       this.client.numDoc = domDocumentHelper.select(path.client.numDoc)
       this.client.tipoDoc = domDocumentHelper.select(path.client.tipoDoc)
       if ((
         this.tipoOperacion === '0200' ||
-                    this.tipoOperacion === '0201' ||
-                    this.tipoOperacion === '0204' ||
-                    this.tipoOperacion === '0208'
+        this.tipoOperacion === '0201' ||
+        this.tipoOperacion === '0204' ||
+        this.tipoOperacion === '0208'
       ) && this.client.tipoDoc === '6') throw new Error('2800')
       if (
-
         this.tipoOperacion === '0202' ||
-                this.tipoOperacion === '0203' ||
-                this.tipoOperacion === '0205' ||
-                this.tipoOperacion === '0206' ||
-                this.tipoOperacion === '0207' ||
-                this.tipoOperacion === '0401'
+        this.tipoOperacion === '0203' ||
+        this.tipoOperacion === '0205' ||
+        this.tipoOperacion === '0206' ||
+        this.tipoOperacion === '0207' ||
+        this.tipoOperacion === '0401'
       ) throw new Error('2800')
-      // ICOMPLETO (ERROR : 2800)
+      // COMPLETO (ERROR : 2800)
       if (
         this.tipoOperacion === '0112 Venta Interna - Sustenta Gastos Deducibles Persona Natural' &&
-                this.client.tipoDoc !== '1' && this.client.tipoDoc !== '6'
+        this.client.tipoDoc !== '1' && this.client.tipoDoc !== '6'
       ) throw new Error('2800')
-      this.client.tipoDoc_schemeName = domDocumentHelper.select(path.client.tipoDoc_schemeName)
-      this.client.tipoDoc_schemeAgencyName = domDocumentHelper.select(path.client.tipoDoc_schemeAgencyName)
-      this.client.tipoDoc_schemeURI = domDocumentHelper.select(path.client.tipoDoc_schemeURI)
+      this.client.tipoDocSchemeName = domDocumentHelper.select(path.client.tipoDocSchemeName)
+      this.client.tipoDocSchemeAgencyName = domDocumentHelper.select(path.client.tipoDocSchemeAgencyName)
+      this.client.tipoDocSchemeURI = domDocumentHelper.select(path.client.tipoDocSchemeURI)
       this.client.rznSocial = domDocumentHelper.select(path.client.rznSocial)
       this.client.address.direccion = domDocumentHelper.select(path.client.address.direccion)
 
@@ -202,35 +209,39 @@ class Factura20Loader extends Invoice {
       var guias = {
         nroDoc: domDocumentHelper.select(path.guias.nroDoc),
         tipoDoc: domDocumentHelper.select(path.guias.tipoDoc),
-        tipoDoc_listAgencyName: domDocumentHelper.select(path.guias.tipoDoc_listAgencyName),
-        tipoDoc_listName: domDocumentHelper.select(path.guias.tipoDoc_listName),
-        tipoDoc_listURI: domDocumentHelper.select(path.guias.tipoDoc_listURI)
+        tipoDocListAgencyName: domDocumentHelper.select(path.guias.tipoDocListAgencyName),
+        tipoDocListName: domDocumentHelper.select(path.guias.tipoDocListName),
+        tipoDocListURI: domDocumentHelper.select(path.guias.tipoDocListURI)
       }
       for (let index = 0, document; index < guiasLength; index++) {
         document = new Document()
         if (guias.nroDoc[index]) {
           document.nroDoc = guias.nroDoc[index].textContent
           if (document.nroDoc &&
-                        !(
-                          /^[T][0-9]{3}-[0-9]{1,8}-[0-9]{4}-[0-9]{1,8}$/.test(document.nroDoc) ||
-                            /^[0-9]{4}-[0-9]{1,8}$/.test(document.nroDoc) ||
-                            /^[EG][0-9]{2}-[0-9]{1,8}$/.test(document.nroDoc) ||
-                            /^[G][0-9]{3}-[0-9]{1,8}$/.test(document.nroDoc)
-                        )
+            !(
+              /^[T][0-9]{3}-[0-9]{1,8}-[0-9]{4}-[0-9]{1,8}$/.test(document.nroDoc) ||
+              /^[0-9]{4}-[0-9]{1,8}$/.test(document.nroDoc) ||
+              /^[EG][0-9]{2}-[0-9]{1,8}$/.test(document.nroDoc) ||
+              /^[G][0-9]{3}-[0-9]{1,8}$/.test(document.nroDoc)
+            )
           ) document.warning.push('4006')
         }
         if (guias.tipoDoc[index]) {
           document.tipoDoc = guias.tipoDoc[index].textContent
           if (document.tipoDoc && !catalogDocumentTypeCode[document.tipoDoc] &&
-                        !(
-                          document.tipoDoc === '09' || document.tipoDoc === '31'
-                        )) document.warning.push('4005')
+            !(
+              document.tipoDoc === '09' || document.tipoDoc === '31'
+            )) document.warning.push('4005')
         }
-        if (guias.tipoDoc_listAgencyName[index]) { document.tipoDoc_listAgencyName = guias.tipoDoc_listAgencyName[index].textContent }
-        if (guias.tipoDoc_listName[index]) { document.tipoDoc_listName = guias.tipoDoc_listName[index].textContent }
-        if (guias.tipoDoc_listURI[index]) {
-          document.tipoDoc_listURI = guias.tipoDoc_listURI[index].textContent
-          if (document.tipoDoc_listURI && document.tipoDoc_listURI !== 'urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo01') document.warning.push('4253')
+        if (guias.tipoDocListAgencyName[index]) {
+          document.tipoDocListAgencyName = guias.tipoDocListAgencyName[index].textContent
+        }
+        if (guias.tipoDocListName[index]) {
+          document.tipoDocListName = guias.tipoDocListName[index].textContent
+        }
+        if (guias.tipoDocListURI[index]) {
+          document.tipoDocListURI = guias.tipoDocListURI[index].textContent
+          if (document.tipoDocListURI && document.tipoDocListURI !== 'urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo01') document.warning.push('4253')
         }
         if (guiasId[document.nroDoc]) throw new Error('2364')
         guiasId[document.nroDoc] = document
@@ -243,34 +254,38 @@ class Factura20Loader extends Invoice {
       var relDocs = {
         nroDoc: domDocumentHelper.select(path.relDocs.nroDoc),
         tipoDoc: domDocumentHelper.select(path.relDocs.tipoDoc),
-        tipoDoc_listAgencyName: domDocumentHelper.select(path.relDocs.tipoDoc_listAgencyName),
-        tipoDoc_listName: domDocumentHelper.select(path.relDocs.tipoDoc_listName),
-        tipoDoc_listURI: domDocumentHelper.select(path.relDocs.tipoDoc_listURI)
+        tipoDocListAgencyName: domDocumentHelper.select(path.relDocs.tipoDocListAgencyName),
+        tipoDocListName: domDocumentHelper.select(path.relDocs.tipoDocListName),
+        tipoDocListURI: domDocumentHelper.select(path.relDocs.tipoDocListURI)
       }
       for (let index = 0, document; index < relDocsLength; index++) {
         document = new Document()
         if (relDocs.nroDoc[index]) {
           document.nroDoc = relDocs.nroDoc[index].textContent
           if (document.nroDoc && catalogTaxRelatedDocumentCode[document.nroDoc] &&
-                        !/^[A-Za-z0-9]{1,30}$/.test(document.nroDoc)
+            !/^[A-Za-z0-9]{1,30}$/.test(document.nroDoc)
           ) document.warning.push('4010')
         }
         if (relDocs.tipoDoc[index]) {
           document.tipoDoc = relDocs.tipoDoc[index].textContent
           if (document.tipoDoc && !catalogTaxRelatedDocumentCode[document.tipoDoc] && !(
             document.tipoDoc === '04' ||
-                            document.tipoDoc === '05' ||
-                            document.tipoDoc === '06' ||
-                            document.tipoDoc === '07' ||
-                            document.tipoDoc === '99' ||
-                            document.tipoDoc === '01'
+              document.tipoDoc === '05' ||
+              document.tipoDoc === '06' ||
+              document.tipoDoc === '07' ||
+              document.tipoDoc === '99' ||
+              document.tipoDoc === '01'
           )) document.warning.push('4009')
         }
-        if (relDocs.tipoDoc_listAgencyName[index]) { document.tipoDoc_listAgencyName = relDocs.tipoDoc_listAgencyName[index].textContent }
-        if (relDocs.tipoDoc_listName[index]) { document.tipoDoc_listName = relDocs.tipoDoc_listName[index].textContent }
-        if (relDocs.tipoDoc_listURI[index]) {
-          document.tipoDoc_listURI = relDocs.tipoDoc_listURI[index].textContent
-          if (document.tipoDoc_listURI && document.tipoDoc_listURI !== 'urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo12') document.warning.push('4253')
+        if (relDocs.tipoDocListAgencyName[index]) {
+          document.tipoDocListAgencyName = relDocs.tipoDocListAgencyName[index].textContent
+        }
+        if (relDocs.tipoDocListName[index]) {
+          document.tipoDocListName = relDocs.tipoDocListName[index].textContent
+        }
+        if (relDocs.tipoDocListURI[index]) {
+          document.tipoDocListURI = relDocs.tipoDocListURI[index].textContent
+          if (document.tipoDocListURI && document.tipoDocListURI !== 'urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo12') document.warning.push('4253')
         }
         if (relDocsId[document.nroDoc]) throw new Error('2365')
         relDocsId[document.nroDoc] = document
@@ -278,40 +293,414 @@ class Factura20Loader extends Invoice {
         this.warning = this.warning.concat(document.warning)
       }
 
-      var detailsLength = domDocumentHelper.select(path.details['.']).length ? domDocumentHelper.select(path.details['.']).length : 0
+      var detailsLength = domDocumentHelper.select(path.details['.']) ? domDocumentHelper.select(path.details['.']).length : 0
       var detailsId = {}
       var detailsCodProducto = {}
       var details = {
         id: domDocumentHelper.select(path.details.id),
         unidad: domDocumentHelper.select(path.details.unidad),
-        unidad_unitCodeListId: domDocumentHelper.select(path.details.unidad_unitCodeListId),
-        unidad_unitCodeListAgencyName: domDocumentHelper.select(path.details.unidad_unitCodeListAgencyName),
+        unidadUnitCodeListId: domDocumentHelper.select(path.details.unidadUnitCodeListId),
+        unidadUnitCodeListAgencyName: domDocumentHelper.select(path.details.unidadUnitCodeListAgencyName),
         cantidad: domDocumentHelper.select(path.details.cantidad),
         codProducto: domDocumentHelper.select(path.details.codProducto),
         codProdSunat: domDocumentHelper.select(path.details.codProdSunat),
-        codProdSunat_listID: domDocumentHelper.select(path.details.codProdSunat_listID),
-        codProdSunat_listAgencyName: domDocumentHelper.select(path.details.codProdSunat_listAgencyName),
-        codProdSunat_listName: domDocumentHelper.select(path.details.codProdSunat_listName),
-        codProdGS1_schemeId: domDocumentHelper.select(path.details.codProdGS1_schemeId),
-        codProdGS1: domDocumentHelper.select(path.details.codProdGS1)
+        codProdSunatListId: domDocumentHelper.select(path.details.codProdSunatListId),
+        codProdSunatListAgencyName: domDocumentHelper.select(path.details.codProdSunatListAgencyName),
+        codProdSunatListName: domDocumentHelper.select(path.details.codProdSunatListName),
+        codProdGs1SchemeId: domDocumentHelper.select(path.details.codProdGs1SchemeId),
+        codProdGs1: domDocumentHelper.select(path.details.codProdGs1),
+        atributos: {},
+        descripcion: domDocumentHelper.select(path.details.descripcion),
+        mtoValorUnitario: domDocumentHelper.select(path.details.mtoValorUnitario),
+        mtoValorUnitarioCurrencyId: domDocumentHelper.select(path.details.mtoValorUnitarioCurrencyId),
+        mtoType: domDocumentHelper.select(path.details.mtoType),
+        mtoTypeListName: domDocumentHelper.select(path.details.mtoTypeListName),
+        mtoTypeListAgencyName: domDocumentHelper.select(path.details.mtoTypeListAgencyName),
+        mtoTypeListUri: domDocumentHelper.select(path.details.mtoTypeListUri),
+        mtoPrecioUnitario: domDocumentHelper.select(path.details.mtoPrecioUnitario),
+        mtoPrecioUnitarioCurrencyId: domDocumentHelper.select(path.details.mtoPrecioUnitarioCurrencyId),
+        mtoValorGratuito: domDocumentHelper.select(path.details.mtoValorGratuito),
+        mtoValorGratuitoCurrencyId: domDocumentHelper.select(path.details.mtoValorGratuitoCurrencyId),
+        totalTax: {
+          taxDetails: {}
+        },
+        mtoValorVenta: domDocumentHelper.select(path.details.mtoValorVenta),
+        mtoValorVentaCurrencyId: domDocumentHelper.select(path.details.mtoValorVentaCurrencyId),
+        cargos: {}
       }
       for (let index = 0; index < detailsLength; index++) {
         var saleDetail = new SaleDetail()
         saleDetail.id = details.id[index] ? details.id[index].textContent : null
         saleDetail.unidad = details.unidad[index] ? details.unidad[index].textContent : null
-        saleDetail.unidad_unitCodeListId = details.unidad_unitCodeListId[index] ? details.unidad_unitCodeListId[index].textContent : null
-        saleDetail.unidad_unitCodeListAgencyName = details.unidad_unitCodeListAgencyName[index] ? details.unidad_unitCodeListAgencyName[index].textContent : null
+        saleDetail.unidadUnitCodeListId = details.unidadUnitCodeListId[index] ? details.unidadUnitCodeListId[index].textContent : null
+        saleDetail.unidadUnitCodeListAgencyName = details.unidadUnitCodeListAgencyName[index] ? details.unidadUnitCodeListAgencyName[index].textContent : null
         saleDetail.cantidad = details.cantidad[index] ? details.cantidad[index].textContent : null
         saleDetail.codProducto = details.codProducto[index] ? details.codProducto[index].textContent : null
         saleDetail.codProdSunat = details.codProdSunat[index] ? details.codProdSunat[index].textContent : null
-        saleDetail.codProdSunat_listID = details.codProdSunat_listID[index] ? details.codProdSunat_listID[index].textContent : null
-        saleDetail.codProdSunat_listAgencyName = details.codProdSunat_listAgencyName[index] ? details.codProdSunat_listAgencyName[index].textContent : null
-        saleDetail.codProdSunat_listName = details.codProdSunat_listName[index] ? details.codProdSunat_listName[index].textContent : null
-        saleDetail.codProdGS1_schemeId = details.codProdGS1_schemeId[index] ? details.codProdGS1_schemeId[index].textContent : null
-        saleDetail.codProdGS1 = details.codProdGS1[index] ? details.codProdGS1[index].textContent : null
+        saleDetail.codProdSunatListId = details.codProdSunatListId[index] ? details.codProdSunatListId[index].textContent : null
+        saleDetail.codProdSunatListAgencyName = details.codProdSunatListAgencyName[index] ? details.codProdSunatListAgencyName[index].textContent : null
+        saleDetail.codProdSunatListName = details.codProdSunatListName[index] ? details.codProdSunatListName[index].textContent : null
+        saleDetail.codProdGS1SchemeId = details.codProdGs1SchemeId[index] ? details.codProdGs1SchemeId[index].textContent : null
+        saleDetail.codProdGs1 = details.codProdGs1[index] ? details.codProdGs1[index].textContent : null
 
-        if (listPadronContribuyente[this.company.ruc].ind_padron === 12 && !saleDetail.codProdSunat && !saleDetail.codProdGS1) saleDetail.warning.push('4331')
+        details.atributosLength = domDocumentHelper.select(path.details.atributos['.']) ? domDocumentHelper.select(path.details.atributos['.']).length : 0
+        details.atributosCode = {}
+        details.atributos = {
+          name: domDocumentHelper.select(`${path.details['.']}[${index + 1}]${path.details.atributos.name}`),
+          code: domDocumentHelper.select(`${path.details['.']}[${index + 1}]${path.details.atributos.code}`),
+          codeListName: domDocumentHelper.select(`${path.details['.']}[${index + 1}]${path.details.atributos.codeListName}`),
+          codeListAgencyName: domDocumentHelper.select(`${path.details['.']}[${index + 1}]${path.details.atributos.codeListAgencyName}`),
+          codeListURI: domDocumentHelper.select(`${path.details['.']}[${index + 1}]${path.details.atributos.codeListURI}`),
+          value: domDocumentHelper.select(`${path.details['.']}[${index + 1}]${path.details.atributos.value}`),
+          fecInicio: domDocumentHelper.select(`${path.details['.']}[${index + 1}]${path.details.atributos.fecInicio}`),
+          fecFin: domDocumentHelper.select(`${path.details['.']}[${index + 1}]${path.details.atributos.fecFin}`),
+          duracion: domDocumentHelper.select(`${path.details['.']}[${index + 1}]${path.details.atributos.duracion}`)
+        }
+        for (let index = 0; index < details.atributosLength; index++) {
+          var detailAttribute = new DetailAttribute()
+          detailAttribute.name = details.atributos.name[index] ? details.atributos.name[index].textContent : null
+          detailAttribute.code = details.atributos.code[index] ? details.atributos.code[index].textContent : null
+          detailAttribute.codeListName = details.atributos.codeListName[index] ? details.atributos.codeListName[index].textContent : null
+          detailAttribute.codeListAgencyName = details.atributos.codeListAgencyName[index] ? details.atributos.codeListAgencyName[index].textContent : null
+          detailAttribute.codeListURI = details.atributos.codeListURI[index] ? details.atributos.codeListURI[index].textContent : null
+          detailAttribute.value = details.atributos.value[index] ? details.atributos.value[index].textContent : null
+          if (detailAttribute.code === '7000' && !detailAttribute.value) throw new Error('3064') // PENDIENTE // De existir 'Código del concepto' igual a '7000' y no existe el tag.
+          detailAttribute.fecInicio = details.atributos.fecInicio[index] ? details.atributos.fecInicio[index].textContent : null
+          detailAttribute.fecFin = details.atributos.fecFin[index] ? details.atributos.fecFin[index].textContent : null
+          detailAttribute.duracion = details.atributos.duracion[index] ? details.atributos.duracion[index].textContent : null
 
+          saleDetail.warning = saleDetail.warning.concat(detailAttribute.warning)
+        }
+
+        saleDetail.descripcion = details.descripcion[index] ? details.descripcion[index].textContent : null
+        saleDetail.mtoValorUnitario = details.mtoValorUnitario[index] ? details.mtoValorUnitario[index].textContent : null
+        saleDetail.mtoValorUnitarioCurrencyId = details.mtoValorUnitarioCurrencyId[index] ? details.mtoValorUnitarioCurrencyId[index].textContent : null
+        if (saleDetail.mtoValorUnitarioCurrencyId && saleDetail.mtoValorUnitarioCurrencyId !== this.tipoMoneda) throw new Error('2071')
+        if (Number(details.mtoValorGratuito[index].length) > 0) throw new Error(2409)
+        saleDetail.mtoType = details.mtoType[index] ? details.mtoType[index].textContent : null
+        saleDetail.mtoTypeListName = details.mtoTypeListName[index] ? details.mtoTypeListName[index].textContent : null
+        saleDetail.mtoTypeListAgencyName = details.mtoTypeListAgencyName[index] ? details.mtoTypeListAgencyName[index].textContent : null
+        saleDetail.mtoTypeListUri = details.mtoTypeListUri[index] ? details.mtoTypeListUri[index].textContent : null
+        if (saleDetail.mtoType === '02') {
+          saleDetail.mtoPrecioUnitario = details.mtoPrecioUnitario[index] ? details.mtoPrecioUnitario[index].textContent : null
+          saleDetail.mtoPrecioUnitarioCurrencyId = details.mtoPrecioUnitarioCurrencyId[index] ? details.mtoPrecioUnitarioCurrencyId[index] : null
+          if (saleDetail.mtoPrecioUnitarioCurrencyId !== this.tipoMoneda) throw new Error('2071')
+        } else if (saleDetail.mtoType === '01') {
+          saleDetail.mtoValorGratuito = details.mtoValorGratuito[index] ? details.mtoValorGratuito[index].textContent : null
+          saleDetail.mtoValorGratuitoCurrencyId = details.mtoValorGratuitoCurrencyId[index] ? details.mtoValorGratuitoCurrencyId[index].textContent : null
+        }
+        saleDetail.mtoValorVenta = details.mtoValorVenta[index] ? details.mtoValorVenta[index].textContent : null
+
+        details.totalTaxLength = domDocumentHelper.select(`${path.details['.']}[${index + 1}]${path.details.totalTax['.']}`) ? domDocumentHelper.select(`${path.details['.']}[${index + 1}]${path.details.totalTax['.']}`).length : 0
+        if (Number(details.totalTaxLength) > 1) throw new Error('3026')
+        if (!Number(details.totalTaxLength)) throw new Error('3195')
+        details.totalTax.taxAmount = domDocumentHelper.select(`${path.details['.']}[${index + 1}]${path.details.totalTax.taxAmount}`)
+        details.totalTax.taxAmountCurrencyId = domDocumentHelper.select(`${path.details['.']}[${index + 1}]${path.details.totalTax.taxAmountCurrencyId}`)
+        saleDetail.totalTax.taxAmount = (details.totalTax.taxAmount && details.totalTax.taxAmount.length === 1) ? details.totalTax.taxAmount[0].textContent : null
+        saleDetail.totalTax.taxAmountCurrencyId = details.totalTax.taxAmountCurrencyId[index] ? details.totalTax.taxAmountCurrencyId[index].textContent : null
+
+        details.totalTax.taxDetailsLength = domDocumentHelper.select(`${path.details['.']}[${index + 1}]${path.details.totalTax.taxDetails['.']}`) ? domDocumentHelper.select(`${path.details['.']}[${index + 1}]${path.details.totalTax.taxDetails['.']}`).length : null
+        details.totalTax.ivap = false
+        details.totalTax.taxDetailsCode = {}
+        details.totalTax.taxDetailsCodeTaxableAmountAboveCero = {}
+        details.totalTax.taxDetails = {
+          taxableAmount: domDocumentHelper.select(`${path.details['.']}[${index + 1}]${path.details.totalTax.taxDetails.taxableAmount}`),
+          taxableAmountCurrencyId: domDocumentHelper.select(`${path.details['.']}[${index + 1}]${path.details.totalTax.taxDetails.taxableAmountCurrencyId}`),
+          taxAmount: domDocumentHelper.select(`${path.details['.']}[${index + 1}]${path.details.totalTax.taxDetails.taxAmount}`),
+          taxAmountCurrencyId: domDocumentHelper.select(`${path.details['.']}[${index + 1}]${path.details.totalTax.taxDetails.taxAmountCurrencyId}`),
+          baseUnitMeasure: domDocumentHelper.select(`${path.details['.']}[${index + 1}]${path.details.totalTax.taxDetails.baseUnitMeasure}`),
+          baseUnitMeasureUnitCode: domDocumentHelper.select(`${path.details['.']}[${index + 1}]${path.details.totalTax.taxDetails.baseUnitMeasureUnitCode}`),
+          perUnitAmount: domDocumentHelper.select(`${path.details['.']}[${index + 1}]${path.details.totalTax.taxDetails.perUnitAmount}`),
+          percent: domDocumentHelper.select(`${path.details['.']}[${index + 1}]${path.details.totalTax.taxDetails.percent}`),
+          tierRange: domDocumentHelper.select(`${path.details['.']}[${index + 1}]${path.details.totalTax.taxDetails.tierRange}`),
+          taxExemptionReasonCode: domDocumentHelper.select(`${path.details['.']}[${index + 1}]${path.details.totalTax.taxDetails.taxExemptionReasonCode}`),
+          taxExemptionReasonCodeListAgencyName: domDocumentHelper.select(`${path.details['.']}[${index + 1}]${path.details.totalTax.taxDetails.taxExemptionReasonCodeListAgencyName}`),
+          taxExemptionReasonCodeListName: domDocumentHelper.select(`${path.details['.']}[${index + 1}]${path.details.totalTax.taxDetails.taxExemptionReasonCodeListName}`),
+          taxExemptionReasonCodeListURI: domDocumentHelper.select(`${path.details['.']}[${index + 1}]${path.details.totalTax.taxDetails.taxExemptionReasonCodeListURI}`),
+          code: domDocumentHelper.select(`${path.details['.']}[${index + 1}]${path.details.totalTax.taxDetails.code}`),
+          codeSchemeName: domDocumentHelper.select(`${path.details['.']}[${index + 1}]${path.details.totalTax.taxDetails.codeSchemeName}`),
+          codeSchemeAgencyName: domDocumentHelper.select(`${path.details['.']}[${index + 1}]${path.details.totalTax.taxDetails.codeSchemeAgencyName}`),
+          codeSchemeUri: domDocumentHelper.select(`${path.details['.']}[${index + 1}]${path.details.totalTax.taxDetails.codeSchemeUri}`),
+          name: domDocumentHelper.select(`${path.details['.']}[${index + 1}]${path.details.totalTax.taxDetails.name}`),
+          typeCode: domDocumentHelper.select(`${path.details['.']}[${index + 1}]${path.details.totalTax.taxDetails.typeCode}`)
+        }
+        for (let index = 0; index < details.totalTax.taxDetailsLength; index++) {
+          var taxDetail = new TaxDetail()
+          taxDetail.taxableAmount = details.totalTax.taxDetails.taxableAmount[index] ? details.totalTax.taxDetails.taxableAmount[index].textContent : null
+          if (!/^[+]?[0-9]{1,12}\.[0-9]{1,2}$/.test(taxDetail.taxableAmount)) throw new Error('3031')
+          if (details.totalTax.taxDetailsCode['2000'] &&
+            Number(details.totalTax.taxDetailsCode['2000'].taxableAmount) > 0 &&
+            taxDetail.taxableAmount !== saleDetail.mtoValorVenta
+          ) taxDetail.warning.push('4294') // Pendiente
+          // Si existe en la misma línea un cac:TaxSubtotal con 'Código de tributo por línea' igual a '2000' cuyo 'Monto base' es mayor a cero (cbc:TaxableAmount > 0), el valor del tag es diferente de la suma del 'Valor de Venta por ítem' más el 'Monto del tributo de la línea del ISC', con una tolerancia + - 1
+          if (!details.totalTax.taxDetailsCodeTaxableAmountAboveCero['2000'] && Number(taxDetail.taxableAmount) !== Number(saleDetail.mtoValorVenta)) taxDetail.warning.push('4294')
+          taxDetail.taxableAmountCurrencyId = details.totalTax.taxDetails.taxableAmountCurrencyId[index] ? details.totalTax.taxDetails.taxableAmountCurrencyId[index].textContent : null
+          if (taxDetail.taxableAmountCurrencyId && taxDetail.taxableAmountCurrencyId !== this.tipoMoneda) throw new Error('2071')
+          taxDetail.taxAmount = details.totalTax.taxDetails.taxAmount[index] ? details.totalTax.taxDetails.taxAmount[index].textContent : null
+          if (!/^[+]?[0-9]{1,12}\.[0-9]{1,2}$/.test(taxDetail.taxAmount) && /^[+-0.]{1,}$/.test(taxDetail.taxAmount)) throw new Error('2033')
+          taxDetail.taxAmountCurrencyId = details.totalTax.taxDetails.taxAmountCurrencyId[index] ? details.totalTax.taxDetails.taxAmountCurrencyId[index].textContent : null
+          if (taxDetail.taxAmountCurrencyId && taxDetail.taxAmountCurrencyId !== this.tipoMoneda) throw new Error('2071')
+          taxDetail.baseUnitMeasure = details.totalTax.taxDetails.baseUnitMeasure[index] ? details.totalTax.taxDetails.baseUnitMeasure[index].textContent : null
+          if (taxDetail.baseUnitMeasure && taxDetail.baseUnitMeasure > 0 && taxDetail.baseUnitMeasure !== saleDetail.cantidad) throw new Error('3236')
+          taxDetail.baseUnitMeasureUnitCode = details.totalTax.taxDetails.baseUnitMeasureUnitCode[index] ? details.totalTax.taxDetails.baseUnitMeasureUnitCode[index].textContent : null
+          taxDetail.perUnitAmount = details.totalTax.taxDetails.perUnitAmount[index] ? details.totalTax.taxDetails.perUnitAmount[index].textContent : null
+          taxDetail.percent = details.totalTax.taxDetails.percent[index] ? details.totalTax.taxDetails.percent[index].textContent : null
+          if (taxDetail.percent && !/^[+]?[0-9]{1,3}\.[0-9]{1,5}$/.test(taxDetail.percent) && /^[+-0.]{1,}$/.test(taxDetail.percent)) throw new Error('3102')
+          taxDetail.tierRange = details.totalTax.taxDetails.tierRange[index] ? details.totalTax.taxDetails.tierRange[index].textContent : null
+          taxDetail.taxExemptionReasonCode = details.totalTax.taxDetails.taxExemptionReasonCode[index] ? details.totalTax.taxDetails.taxExemptionReasonCode[index].textContent : null
+          if ((this.tipoOperacion === '0200' ||
+          this.tipoOperacion === '0201' ||
+          this.tipoOperacion === '0202' ||
+          this.tipoOperacion === '0203' ||
+          this.tipoOperacion === '0204' ||
+          this.tipoOperacion === '0205' ||
+          this.tipoOperacion === '0206' ||
+          this.tipoOperacion === '0207' ||
+          this.tipoOperacion === '0208'
+          ) && taxDetail.taxExemptionReasonCode !== '40'
+          ) throw new Error('2642')
+          if (taxDetail.taxExemptionReasonCode === '17' && Number(taxDetail.taxableAmount) > 0) details.totalTax.ivap = true
+          if ((taxDetail.taxExemptionReasonCode !== '17' && Number(taxDetail.taxableAmount) > 0) && details.totalTax.ivap) throw new Error('2644')
+          taxDetail.taxExemptionReasonCodeListAgencyName = details.totalTax.taxDetails.taxExemptionReasonCodeListAgencyName[index] ? details.totalTax.taxDetails.taxExemptionReasonCodeListAgencyName[index].textContent : null
+          taxDetail.taxExemptionReasonCodeListName = details.totalTax.taxDetails.taxExemptionReasonCodeListName[index] ? details.totalTax.taxDetails.taxExemptionReasonCodeListName[index].textContent : null
+          taxDetail.taxExemptionReasonCodeListURI = details.totalTax.taxDetails.taxExemptionReasonCodeListURI[index] ? details.totalTax.taxDetails.taxExemptionReasonCodeListURI[index].textContent : null
+          taxDetail.code = details.totalTax.taxDetails.code[index] ? details.totalTax.taxDetails.code[index].textContent : null
+          if (!taxDetail.code) throw new Error('2037')
+          if (!catalogTaxTypeCode[taxDetail.code]) throw new Error('2036')
+          if (taxDetail.code !== '7152' && !taxDetail.percent) throw new Error('2992')
+          if (taxDetail.code === '2000' && Number(taxDetail.taxableAmount) > 0 &&
+          (
+            Number(taxDetail.taxAmount) !== Number((
+              (Number(taxDetail.percent) / 100) * Number(taxDetail.taxableAmount)
+            ).toFixed(2)) ||
+            !(
+              Number(taxDetail.taxAmount) <= Number(((Number(taxDetail.percent) / 100) * Number(taxDetail.taxableAmount)).toFixed(2)) + 1 &&
+              Number(taxDetail.taxAmount) >= Number(((Number(taxDetail.percent) / 100) * Number(taxDetail.taxableAmount)).toFixed(2)) - 1
+            )
+          )
+          ) throw new Error('3108')
+          if (taxDetail.code === '2000' && Number(taxDetail.taxableAmount) > 0 && /^[+-0.]{1,}$/.test(taxDetail.percent)) throw new Error('3104')
+          if (taxDetail.code === '2000' && Number(taxDetail.taxableAmount) > 0 && !taxDetail.tierRange) throw new Error('2373')
+          if (taxDetail.code !== '2000' && taxDetail.tierRange) throw new Error('3210')
+          if (taxDetail.code === '2000' && Number(taxDetail.taxableAmount) > 0 && !catalogIscCalculationSystemTypeCode[taxDetail.tierRange]) throw new Error('2041')
+          if (taxDetail.code === '9999' && Number(taxDetail.taxableAmount) > 0 &&
+          (
+            Number(taxDetail.taxAmount) !== Number(((Number(taxDetail.percent) / 100) * Number(taxDetail.taxableAmount)).toFixed(2)) ||
+            !(
+              Number(taxDetail.taxAmount) <= Number(((Number(taxDetail.percent) / 100) * Number(taxDetail.taxableAmount)).toFixed(2)) + 1 &&
+              Number(taxDetail.taxAmount) >= Number(((Number(taxDetail.percent) / 100) * Number(taxDetail.taxableAmount)).toFixed(2)) - 1
+            )
+          )
+          ) throw new Error('3109')
+          if (
+            (taxDetail.code === '9995' ||
+            taxDetail.co7e === '9997' ||
+            // Si el 'Código de tributo' es '9997', el valor del Tag UBL es diferente a la sumatoria de 'Valor de venta por ítem' (cbc:LineExtensionAmount) que correspondan a ítems de operaciones exoneradas con 'Código de tributo de línea' igual a '9997' y cuyo 'Monto base' es mayor a cero (cbc:TaxableAmount>0), menos los 'Montos de Descuentos globales' por anticipos exonerados (Código '05'), con una tolerancia + - 1
+            taxDetail.co6e === '9997' ||
+            // Si el 'Código de tributo' es '9998', el valor del Tag UBL es diferente a la sumatoria de 'Valor de venta por ítem' (cbc:LineExtensionAmount) que correspondan a ítems de operaciones inafectas con 'Código de tributo de línea' igual a '9998' y cuyo 'Monto base' es mayor a cero (cbc:TaxableAmount>0), menos los 'Montos de Descuentos globales' por anticipos inafectos (Código '06'), con una tolerancia + - 1
+            taxDetail.code === '9998') && !/^[+-0.]{1,}$/.test(taxDetail.taxAmount)
+          ) throw new Error('3110')
+          if (taxDetail.code === '9996' && Number(taxDetail.taxableAmount) > 0.06 &&
+          (
+            taxDetail.taxExemptionReasonCode === '11' ||
+            taxDetail.taxExemptionReasonCode === '12' ||
+            taxDetail.taxExemptionReasonCode === '13' ||
+            taxDetail.taxExemptionReasonCode === '14' ||
+            taxDetail.taxExemptionReasonCode === '15' ||
+            taxDetail.taxExemptionReasonCode === '16' ||
+            taxDetail.taxExemptionReasonCode === '17'
+          ) && /^[+-0.]{1,}$/.test(taxDetail.taxAmount)
+          ) throw new Error('3111')
+          if (taxDetail.code === '9996' && Number(taxDetail.taxableAmount) > 0 &&
+            (
+              taxDetail.taxExemptionReasonCode === '21' ||
+              taxDetail.taxExemptionReasonCode === '31' ||
+              taxDetail.taxExemptionReasonCode === '32' ||
+              taxDetail.taxExemptionReasonCode === '33' ||
+              taxDetail.taxExemptionReasonCode === '34' ||
+              taxDetail.taxExemptionReasonCode === '35' ||
+              taxDetail.taxExemptionReasonCode === '36' ||
+              taxDetail.taxExemptionReasonCode === '37' ||
+              taxDetail.taxExemptionReasonCode === '40'
+            ) && !/^[+-0.]{1,}$/.test(taxDetail.taxAmount)
+          ) throw new Error('3110')
+          if (
+            (taxDetail.code === '1000' ||
+            taxDetail.code === '1016') &&
+            Number(taxDetail.taxableAmount) > 0.06 &&
+            /^[+-0.]{1,}$/.test(taxDetail.taxAmount)
+          ) throw new Error('3111')
+          if ((taxDetail.code !== '2000' || taxDetail.code !== '9999') &&
+            Number(taxDetail.taxableAmount) > 0 && !taxDetail.taxExemptionReasonCode
+          ) throw new Error('2371')
+          if ((taxDetail.code === '2000' || taxDetail.code === '9999') && taxDetail.taxExemptionReasonCode) throw new Error('3050')
+          if ((taxDetail.code !== '2000' || taxDetail.code !== '9999') && Number(taxDetail.taxAmount) > 0 && !catalogIgvAffectationTypeCode[taxDetail.taxExemptionReasonCode]) throw new Error('2040')
+          if (
+            (taxDetail.taxExemptionReasonCode === '10' ||
+            taxDetail.taxExemptionReasonCode === '11' ||
+            taxDetail.taxExemptionReasonCode === '12' ||
+            taxDetail.taxExemptionReasonCode === '13' ||
+            taxDetail.taxExemptionReasonCode === '14' ||
+            taxDetail.taxExemptionReasonCode === '15' ||
+            taxDetail.taxExemptionReasonCode === '16' ||
+            taxDetail.taxExemptionReasonCode === '17'
+            ) &&
+            (
+              Number(taxDetail.taxAmount) !== Number((
+                (Number(taxDetail.percent) / 100) * Number(taxDetail.taxableAmount)
+              ).toFixed(2)) ||
+              !(
+                Number(taxDetail.taxAmount) <= Number(((Number(taxDetail.percent) / 100) * Number(taxDetail.taxableAmount)).toFixed(2)) + 1 &&
+                Number(taxDetail.taxAmount) >= Number(((Number(taxDetail.percent) / 100) * Number(taxDetail.taxableAmount)).toFixed(2)) - 1
+              )
+            )
+          ) throw new Error('3103')
+          if (taxDetail.code === '9996' && Number(taxDetail.taxableAmount) > 0 &&
+            (taxDetail.taxExemptionReasonCode === '11' ||
+            taxDetail.taxExemptionReasonCode === '12' ||
+            taxDetail.taxExemptionReasonCode === '13' ||
+            taxDetail.taxExemptionReasonCode === '14' ||
+            taxDetail.taxExemptionReasonCode === '15' ||
+            taxDetail.taxExemptionReasonCode === '16' ||
+            taxDetail.taxExemptionReasonCode === '17') &&
+            /^[+-0.]{1,}$/.test(taxDetail.percent)
+          ) throw new Error('2993')
+          if ((
+            taxDetail.code === '1000' ||
+            taxDetail.code === '1016'
+          ) && taxDetail.taxableAmount > 0 &&
+          /^[+-0.]{1,}$/.test(taxDetail.percent)
+          ) throw new Error('2993')
+          if (taxDetail.code === '7152' && Number(taxDetail.baseUnitMeasure) > 0 &&
+            Number(Number(taxDetail.taxAmount).toFixed(2)) !== Number((Number(taxDetail.perUnitAmount) * Number(taxDetail.baseUnitMeasure)).toFixed(2))
+          ) throw new Error('4318')
+          if (taxDetail.code === '7152' && !taxDetail.baseUnitMeasure) throw new Error('3237')
+          if (taxDetail.code === '7152' && Number(taxDetail.baseUnitMeasure) > 0 && /^[+-0.]{1,}$/.test(taxDetail.perUnitAmount)) throw new Error('3238')
+          if (taxDetail.code === '7152' && Number(taxDetail.baseUnitMeasure) > 0 &&
+            taxDetail.tipoMoneda === 'PEN'
+            // && ICBPER // PENDIENTE
+          ) this.warning.push('4237')
+          taxDetail.codeSchemeName = details.totalTax.taxDetails.codeSchemeName[index] ? details.totalTax.taxDetails.codeSchemeName[index].textContent : null
+          taxDetail.codeSchemeAgencyName = details.totalTax.taxDetails.codeSchemeAgencyName[index] ? details.totalTax.taxDetails.codeSchemeAgencyName[index].textContent : null
+          taxDetail.codeSchemeUri = details.totalTax.taxDetails.codeSchemeUri[index] ? details.totalTax.taxDetails.codeSchemeUri[index].textContent : null
+          taxDetail.name = details.totalTax.taxDetails.name[index] ? details.totalTax.taxDetails.name[index].textContent : null
+          if (!taxDetail.name) throw new Error('2996')
+          if (catalogTaxTypeCode[taxDetail.code].name !== taxDetail.name) throw new Error('3051')
+          taxDetail.typeCode = details.totalTax.taxDetails.typeCode[index] ? details.totalTax.taxDetails.typeCode[index].textContent : null
+          if (catalogTaxTypeCode[taxDetail.code].international !== taxDetail.typeCode) throw new Error('2377')
+
+          if (details.totalTax.taxDetailsCode[taxDetail.code]) throw new Error('3067')
+          details.totalTax.taxDetailsCode[taxDetail.code] = taxDetail
+          if (Number(taxDetail.taxableAmount) > 0) details.totalTax.taxDetailsCodeTaxableAmountAboveCero[taxDetail.code] = taxDetail
+        }
+        if (!(
+          (details.totalTax.taxDetailsCode['1000'] && Number(details.totalTax.taxDetailsCode['1000'].taxableAmount) > 0) ||
+          (details.totalTax.taxDetailsCode['1016'] && Number(details.totalTax.taxDetailsCode['1016'].taxableAmount) > 0) ||
+          (details.totalTax.taxDetailsCode['9996'] && Number(details.totalTax.taxDetailsCode['9996'].taxableAmount) > 0) ||
+          (details.totalTax.taxDetailsCode['9997'] && Number(details.totalTax.taxDetailsCode['9997'].taxabl7Amount) > 0) ||
+          // Si el 'Código de tributo' es '9997', el valor del Tag UBL es diferente a la sumatoria de 'Valor de venta por ítem' (cbc:LineExtensionAmount) que correspondan a ítems de operaciones exoneradas con 'Código de tributo de línea' igual a '9997' y cuyo 'Monto base' es mayor a cero (cbc:TaxableAmount>0), menos los 'Montos de Descuentos globales' por anticipos exonerados (Código '05'), con una tolerancia + - 1
+          (details.totalTax.taxDetailsCode['9997'] && Number(details.totalTax.taxDetailsCode['9997'].taxabl6Amount) > 0) ||
+          // Si el 'Código de tributo' es '9998', el valor del Tag UBL es diferente a la sumatoria de 'Valor de venta por ítem' (cbc:LineExtensionAmount) que correspondan a ítems de operaciones inafectas con 'Código de tributo de línea' igual a '9998' y cuyo 'Monto base' es mayor a cero (cbc:TaxableAmount>0), menos los 'Montos de Descuentos globales' por anticipos inafectos (Código '06'), con una tolerancia + - 1
+          (details.totalTax.taxDetailsCode['9998'] && Number(details.totalTax.taxDetailsCode['9998'].taxableAmount) > 0)
+        )) throw new Error('3105')
+        if (Object.keys(details.totalTax.taxDetailsCodeTaxableAmountAboveCero).length > 0 &&
+        (
+          (
+            Object.keys(details.totalTax.taxDetailsCodeTaxableAmountAboveCero).length === 2 &&
+            !(
+              (details.totalTax.taxDetailsCodeTaxableAmountAboveCero['1000'] && details.totalTax.taxDetailsCodeTaxableAmountAboveCero['2000']) ||
+              (details.totalTax.taxDetailsCodeTaxableAmountAboveCero['1016'] && details.totalTax.taxDetailsCodeTaxableAmountAboveCero['9999']) ||
+              (details.totalTax.taxDetailsCodeTaxableAmountAboveCero['9995'] && details.totalTax.taxDetailsCodeTaxableAmountAboveCero['9999']) ||
+              (details.totalTax.taxDetailsCodeTaxableAmountAboveCero['9996'] && details.totalTax.taxDetailsCodeTaxableAmountAboveCero['2000']) ||
+              (details.totalTax.taxDetailsCodeTaxableAmountAboveCero['9997'] && details.totalTax.taxDetailsCodeTaxableAmountAbove7ero['2000']) ||
+              // Si el 'Código de tributo' es '9997', el valor del Tag UBL es diferente a la sumatoria de 'Valor de venta por ítem' (cbc:LineExtensionAmount) que correspondan a ítems de operaciones exoneradas con 'Código de tributo de línea' igual a '9997' y cuyo 'Monto base' es mayor a cero (cbc:TaxableAmount>0), menos los 'Montos de Descuentos globales' por anticipos exonerados (Código '05'), con una tolerancia + - 1
+              (details.totalTax.taxDetailsCodeTaxableAmountAboveCero['9997'] && details.totalTax.taxDetailsCodeTaxableAmountAbove6ero['2000']) ||
+              // Si el 'Código de tributo' es '9998', el valor del Tag UBL es diferente a la sumatoria de 'Valor de venta por ítem' (cbc:LineExtensionAmount) que correspondan a ítems de operaciones inafectas con 'Código de tributo de línea' igual a '9998' y cuyo 'Monto base' es mayor a cero (cbc:TaxableAmount>0), menos los 'Montos de Descuentos globales' por anticipos inafectos (Código '06'), con una tolerancia + - 1
+              (details.totalTax.taxDetailsCodeTaxableAmountAboveCero['9998'] && details.totalTax.taxDetailsCodeTaxableAmountAboveCero['2000'])
+            )
+          ) ||
+          (
+            Object.keys(details.totalTax.taxDetailsCodeTaxableAmountAboveCero).length === 3 &&
+            !(
+              (details.totalTax.taxDetailsCodeTaxableAmountAboveCero['1000'] && details.totalTax.taxDetailsCodeTaxableAmountAboveCero['2000'] && details.totalTax.taxDetailsCodeTaxableAmountAboveCero['9999']) ||
+              (details.totalTax.taxDetailsCodeTaxableAmountAboveCero['9996'] && details.totalTax.taxDetailsCodeTaxableAmountAboveCero['2000'] && details.totalTax.taxDetailsCodeTaxableAmountAboveCero['9999']) ||
+              (details.totalTax.taxDetailsCodeTaxableAmountAboveCero['9997'] && details.totalTax.taxDetailsCodeTaxableAmountAboveCero['2000'] && details.totalTax.taxDetailsCodeTaxableAmountAbove7ero['9999']) ||
+              // Si el 'Código de tributo' es '9997', el valor del Tag UBL es diferente a la sumatoria de 'Valor de venta por ítem' (cbc:LineExtensionAmount) que correspondan a ítems de operaciones exoneradas con 'Código de tributo de línea' igual a '9997' y cuyo 'Monto base' es mayor a cero (cbc:TaxableAmount>0), menos los 'Montos de Descuentos globales' por anticipos exonerados (Código '05'), con una tolerancia + - 1
+              (details.totalTax.taxDetailsCodeTaxableAmountAboveCero['9997'] && details.totalTax.taxDetailsCodeTaxableAmountAboveCero['2000'] && details.totalTax.taxDetailsCodeTaxableAmountAbove6ero['9999']) ||
+              // Si el 'Código de tributo' es '9998', el valor del Tag UBL es diferente a la sumatoria de 'Valor de venta por ítem' (cbc:LineExtensionAmount) que correspondan a ítems de operaciones inafectas con 'Código de tributo de línea' igual a '9998' y cuyo 'Monto base' es mayor a cero (cbc:TaxableAmount>0), menos los 'Montos de Descuentos globales' por anticipos inafectos (Código '06'), con una tolerancia + - 1
+              (details.totalTax.taxDetailsCodeTaxableAmountAboveCero['9998'] && details.totalTax.taxDetailsCodeTaxableAmountAboveCero['2000'] && details.totalTax.taxDetailsCodeTaxableAmountAboveCero['9999'])
+            )
+          ) ||
+          Object.keys(details.totalTax.taxDetailsCodeTaxableAmountAboveCero).length > 3
+        )
+        ) throw new Error('3223')
+
+        if (details.totalTax.taxDetailsCodeTaxableAmountAboveCero['9996']) this.warning.push('4288') // PENDIENTE
+        if (!details.totalTax.taxDetailsCodeTaxableAmountAboveCero['9996']) this.warning.push('4288') // PENDIENTE
+        saleDetail.mtoValorVentaCurrencyId = details.mtoValorVentaCurrencyId[index] ? details.mtoValorVentaCurrencyId[index].textContent : null
+        if (saleDetail.mtoValorVentaCurrencyId && saleDetail.mtoValorVentaCurrencyId !== this.tipoMoneda) throw new Error('2071')
+
+        details.cargosLength = domDocumentHelper.select(path.details.cargos['.']) ? domDocumentHelper.select(path.details.cargos['.']).length : 0
+        details.cargosCode = {}
+        details.cargos = {
+          indicator: domDocumentHelper.select(`${path.details['.']}[${index + 1}]${path.details.cargos.indicator}`),
+          codTipo: domDocumentHelper.select(`${path.details['.']}[${index + 1}]${path.details.cargos.codTipo}`),
+          codTipoListAgencyName: domDocumentHelper.select(`${path.details['.']}[${index + 1}]${path.details.cargos.codTipoListAgencyName}`),
+          codTipoListName: domDocumentHelper.select(`${path.details['.']}[${index + 1}]${path.details.cargos.codTipoListName}`),
+          codTipoListUri: domDocumentHelper.select(`${path.details['.']}[${index + 1}]${path.details.cargos.codTipoListUri}`),
+          factor: domDocumentHelper.select(`${path.details['.']}[${index + 1}]${path.details.cargos.factor}`),
+          monto: domDocumentHelper.select(`${path.details['.']}[${index + 1}]${path.details.cargos.monto}`),
+          montoCurrencyId: domDocumentHelper.select(`${path.details['.']}[${index + 1}]${path.details.cargos.montoCurrencyId}`),
+          montoBase: domDocumentHelper.select(`${path.details['.']}[${index + 1}]${path.details.cargos.montoBase}`),
+          montoBaseCurrencyId: domDocumentHelper.select(`${path.details['.']}[${index + 1}]${path.details.cargos.montoBaseCurrencyId}`)
+        }
+        for (let index = 0; index < details.cargosLength; index++) {
+          var charge = new Charge()
+          charge.codTipo = details.cargos.codTipo[index] ? details.cargos.codTipo[index] : null
+          if (!charge.codTipo) throw new Error('3073')
+          if (!catalogChargeCode[charge.codTipo]) throw new Error('2954')
+          if (
+            !(
+              charge.codTipo === '00' ||
+              charge.codTipo === '01' ||
+              charge.codTipo === '47' ||
+              charge.codTipo === '48'
+            )
+          )charge.warning.push('4268')
+          charge.indicator = details.cargos.indicator[index] ? details.cargos.indicator[index].textContent : null
+          if (String(charge.indicator) !== 'true' && (charge.codTipo === '47' || charge.codTipo === '48')) throw new Error('3114')
+          if (String(charge.indicator) !== 'false' && (charge.codTipo === '00' || charge.codTipo === '01')) throw new Error('3114')
+          charge.codTipoListAgencyName = details.cargos.codTipoListAgencyName[index] ? details.cargos.codTipoListAgencyName[index].textContent : null
+          charge.codTipoListName = details.cargos.codTipoListName[index] ? details.cargos.codTipoListName[index].textContent : null
+          charge.codTipoListUri = details.cargos.codTipoListUri[index] ? details.cargos.codTipoListUri[index].textContent : null
+          charge.factor = details.cargos.factor[index] ? details.cargos.factor[index].textContent : null
+          if (charge.factor &&
+            (!/^[+]?[0-9]{1,3}\.[0-9]{1,5}$/.test(charge.factor) || !/^[+-0.]{1,}$/.test(charge.factor))
+          ) throw new Error('3052')
+          charge.montoBase = details.cargos.montoBase[index] ? details.cargos.montoBase[index].textContent : null
+          if (!/^[+]?[0-9]{1,12}\.[0-9]{1,2}$/.test(charge.montoBase) ||
+            /^[+-0.]{1,}$/.test(charge.montoBase)) throw new Error('3053')
+          charge.montoBaseCurrencyId = details.cargos.montoBaseCurrencyId[index] ? details.cargos.montoBaseCurrencyId[index].textContent : null
+          if (charge.montoBaseCurrencyId && charge.montoBaseCurrencyId !== this.tipoMoneda) throw new Error('2071')
+          charge.monto = details.cargos.monto[index] ? details.cargos.monto[index].textContent : null
+          if (
+            !/^[+]?[0-9]{1,12}\.[0-9]{1,2}$/.test(charge.monto) || !/^[+-0.]{1,}$/.test(charge.monto)
+          ) throw new Error('2955')
+          if (charge.codTipo &&
+            (charge.factor && !(Number(charge.factor) > 0)) &&
+            !(
+              Number(charge.monto) === (Number(charge.montoBase) * Number(charge.factor)) ||
+              (
+                Number(charge.monto) <= (Number((Number(charge.montoBase) * Number(charge.factor)).toFixed(2)) + 1) &&
+                Number(charge.monto) >= (Number((Number(charge.montoBase) * Number(charge.factor)).toFixed(2)) - 1)
+              )
+            )
+          ) charge.warning.push('4322')
+          charge.montoCurrencyId = details.cargos.montoCurrencyId[index] ? details.cargos.montoCurrencyId[index].textContent : null
+          if (charge.montoCurrencyId && charge.montoCurrencyId !== this.tipoMoneda) throw new Error('2071')
+        }
+
+        if (listPadronContribuyente[this.company.ruc].ind_padron === 12 && !saleDetail.codProdSunat && !saleDetail.codProdGs1) saleDetail.warning.push('4331')
         if (detailsId[saleDetail.id]) throw new Error('2752')
         detailsId[saleDetail.id] = saleDetail
         detailsCodProducto[saleDetail.codProdSunat] = saleDetail.codProdSunat
@@ -320,7 +709,13 @@ class Factura20Loader extends Invoice {
       }
       if (this.tipoOperacion === '0112' && !(detailsCodProducto['84121901'] || detailsCodProducto['80131501'])) throw new Error('3181')
 
+      var totalTaxLength = domDocumentHelper.select(path.totalTax['.']) ? domDocumentHelper.select(path.totalTax['.']).length : 0
+      if (!Number(totalTaxLength)) throw new Error('2956')
+      if (Number(totalTaxLength) > 1) throw new Error('3024')
       this.totalTax.taxAmount = domDocumentHelper.select(path.totalTax.taxAmount)
+      if (this.totalTax.taxAmount &&
+        (!/^[+]?[0-9]{1,12}\.[0-9]{1,2}$/.test(this.totalTax.taxAmount) || /^[+-0.]{1,}$/.test(this.totalTax.taxAmount))
+      ) throw new Error('3020')
       this.totalImpuestos = this.totalTax.taxAmount
       this.totalTax.taxAmountCurrencyId = domDocumentHelper.select(path.totalTax.taxAmountCurrencyId)
 
@@ -339,24 +734,109 @@ class Factura20Loader extends Invoice {
         typeCode: domDocumentHelper.select(path.totalTax.taxDetails.typeCode)
       }
       for (let index = 0; index < taxDetailsLength; index++) {
-        var taxDetail = new TaxDetail()
+        taxDetail = new TaxDetail()
         taxDetail.code = taxDetails.code[index] ? taxDetails.code[index].textContent : null
+        if (!taxDetail.code) throw new Error('3059')
+        if (!catalogTaxTypeCode[taxDetail.code]) throw new Error('3007')
+        if ((this.tipoOperacion === '0200' ||
+          this.tipoOperacion === '0201' ||
+          this.tipoOperacion === '0202' ||
+          this.tipoOperacion === '0203' ||
+          this.tipoOperacion === '0204' ||
+          this.tipoOperacion === '0205' ||
+          this.tipoOperacion === '0206' ||
+          this.tipoOperacion === '0207' ||
+          this.tipoOperacion === '0208') &&
+          (taxDetailsCode === '1000' ||
+            taxDetailsCode === '1016')) taxDetail.warning.push('3107')
+        if ((this.tipoOperacion === '0200' ||
+            this.tipoOperacion === '0201' ||
+            this.tipoOperacion === '0202' ||
+            this.tipoOperacion === '0203' ||
+            this.tipoOperacion === '0204' ||
+            this.tipoOperacion === '0205' ||
+            this.tipoOperacion === '0206' ||
+            this.tipoOperacion === '0207' ||
+            this.tipoOperacion === '0208') &&
+          (taxDetailsCode === '2000' ||
+            taxDetailsCode === '9999')) taxDetail.warning.push('3107')
         if (taxDetail.code !== '7152' && !taxDetails.taxableAmount[index]) throw new Error('3003')
         taxDetail.taxableAmount = taxDetails.taxableAmount[index] ? taxDetails.taxableAmount[index].textContent : null
-
+        if (!/^[+]?[0-9]{1,12}\.[0-9]{1,2}$/.test(taxDetail.taxableAmount)) throw new Error('2999')
+        if (taxDetail.code === '1000' && taxDetail.taxableAmount) taxDetail.warning.push('4299') // PENDIENTE
+        // Si 'Código de tributo' es '1000' y  el Tag UBL existe, el valor del Tag UBL es diferente a la sumatoria de 'Valor de venta por item' (cbc:LineExtensionAmount) que correspondan a ítems de operaciones gravadas con el IGV con 'Código de tributo por línea' igual a '1000' y cuyo 'Monto base' es mayor a cero (cbc:TaxableAmount > 0), menos los 'Monto de descuento global' que afectan la base imponible ('Código de motivo de descuento' igual a '02' y '04') más 'Montos de cargo global' que afectan la base imponible ('Código de motivo de cargo' igual a  '49'), con una tolerancia + - 1
+        if (taxDetail.code === '1016' && taxDetail.taxableAmount) taxDetail.warning.push('4300') // PENDIENTE
+        // Si 'Código de tributo' es '1016' y  el Tag UBL existe, el valor del Tag UBL es diferente a la sumatoria de 'Valor de venta por item' (cbc:LineExtensionAmount) que correspondan a ítems de operaciones gravadas con el IVAP con 'Código de tributo por línea' igual a '1016' y cuyo 'Monto base' es mayor a cero (cbc:TaxableAmount > 0), menos los 'Monto de descuento global' que afectan la base imponible ('Código de motivo de descuento' igual a '02' y '04'), más los 'Monto de cargo global' que afectan la base ('Código de motivo de cargo' igual a '49'), con una tolerancia + - 1
+        if (taxDetail.code === '2000' && taxDetail.taxableAmount > 0) throw new Error('2650')
+        if (taxDetail.code === '2000' && taxDetail.taxableAmount) taxDetail.warning.push('4303') // PENDIENTE
+        // Si 'Código de tributo' es '2000', si el Tag UBL existe y el valor del Tag UBL es diferente a la sumatoria de los 'Monto base' (cbc:TaxableAmount) de los ítems con 'Código de tributo por línea' igual a '2000' (con una tolerancia + - 1)
+        if (taxDetail.code === '9995') throw new Error('4295') // PENDIENTE
+        // Si el 'Código de tributo' es '9995', el valor del Tag UBL es diferente a la sumatoria de 'Valor de venta por ítem' (cbc:LineExtensionAmount) que correspondan a ítems de operaciones de exportación con 'Código de tributo de línea' igual a '9995' y cuyo 'Monto base' es mayor a cero (cbc:TaxableAmount > 0), con una tolerancia + - 1
+        if (taxDetail.code === '9996') taxDetail.warning.push('4298') // PENDIENTE
+        // Si 'Código de tributo' es '9996', el valor del Tag UBL es diferente a la sumatoria de 'Valor de venta por item' (cbc:LineExtensionAmount) que correspondan a ítems de operaciones gratuitas con 'Código de tributo por línea' igual a '9996' y cuyo 'Monto base' es mayor a cero (cbc:TaxableAmount > 0), con una tolerancia + - 1
+        if (taxDetail.code === '9996') taxDetail.warning.push('2641') // PENDIENTE
+        // Si 'Código de tributo' es '9996' (Gratuita) y existe una línea con 'Valor referencial unitario por ítem en operaciones gratuitas (no onerosas)' ('Código de precio' igual a '02') con monto mayor a cero, el valor del Tag UBL es igual a 0 (cero)
+        if (taxDetail.code === '9996') taxDetail.warning.push('2416') // PENDIENTE
+        // Si 'Código de tributo' es '9996' (Gratuita) y 'Código de leyenda' es '1002', el valor del Tag UBL es igual a 0 (cero)
+        if (taxDetail.code === '9997') throw new Error('4297') // PENDIENTE
+        // Si el 'Código de tributo' es '9997', el valor del Tag UBL es diferente a la sumatoria de 'Valor de venta por ítem' (cbc:LineExtensionAmount) que correspondan a ítems de operaciones exoneradas con 'Código de tributo de línea' igual a '9997' y cuyo 'Monto base' es mayor a cero (cbc:TaxableAmount>0), menos los 'Montos de Descuentos globales' por anticipos exonerados (Código '05'), con una tolerancia + - 1
+        if (taxDetail.code === '9998') throw new Error('4296') // PENDIENTE
+        // Si el 'Código de tributo' es '9998', el valor del Tag UBL es diferente a la sumatoria de 'Valor de venta por ítem' (cbc:LineExtensionAmount) que correspondan a ítems de operaciones inafectas con 'Código de tributo de línea' igual a '9998' y cuyo 'Monto base' es mayor a cero (cbc:TaxableAmount>0), menos los 'Montos de Descuentos globales' por anticipos inafectos (Código '06'), con una tolerancia + - 1
+        if (taxDetail.code === '9997' && /^[+-0.]{1,}$/.test(taxDetail.taxableAmount)) taxDetail.warning.push('4022') // PENDIENTE
+        // Si 'Código de tributo' igual a '9997' (Exonerada)  y existe 'Código de leyenda' igual a '2001', el valor del Tag UBL es igual a 0 (cero)
+        if (taxDetail.code === '9997' && /^[+-0.]{1,}$/.test(taxDetail.taxableAmount)) taxDetail.warning.push('4023') // PENDIENTE
+        // Si 'Código de tributo' igual a '9997' (Exonerada) y existe 'Código de leyenda' igual a '2002', el valor del Tag UBL es igual a 0 (cero)
+        if (taxDetail.code === '9997' && /^[+-0.]{1,}$/.test(taxDetail.taxableAmount)) taxDetail.warning.push('4024') // PENDIENTE
+        // Si 'Código de tributo' igual a '9997' (Exonerada) y existe 'Código de leyenda' igual a '2003', el valor del Tag UBL es igual a 0 (cero)
+        if (taxDetail.code === '9997' && /^[+-0.]{1,}$/.test(taxDetail.taxableAmount)) taxDetail.warning.push('4244') // PENDIENTE
+        // Si 'Código de tributo' igual a '9997' (Exonerada) y 'Código de leyenda' es '2008', el valor del Tab UBL es igual a 0 (cero)
+        if (taxDetail.code === '9999' && taxDetail.taxableAmount) taxDetail.warning.push('4304') // PENDIENTE
+        // Si existe el Tag y el 'Código de tributo' es '9999', el valor del Tag UBL es diferente a la sumatoria de los 'Montos base' (cbc:TaxableAmount) de los ítems con 'Código de tributo por línea' igual a '9999'
         taxDetail.taxableAmountCurrencyId = taxDetails.taxableAmountCurrencyId[index] ? taxDetails.taxableAmountCurrencyId[index].textContent : null
         if (taxDetail.taxableAmountCurrencyId && taxDetail.taxableAmountCurrencyId !== this.tipoMoneda) throw new Error('2071')
         taxDetail.taxAmount = taxDetails.taxAmount[index] ? taxDetails.taxAmount[index].textContent : null
+        if (taxDetail.code === '1000') taxDetail.warning.push('4290') // PENDIENTE
+        // Si  'Código de tributo' es '1000', el valor del Tag Ubl es diferente al resultado de multiplicar la sumatoria de los 'Monto base' (cbc:TaxableAmount) de los ítems con 'Código de tributo por línea' igual a '1000', menos 'Monto de descuentos' globales que afectan la base (Código '02' y '04'), más los 'Montos de cargos' globales que afectan la base (Código 49) por la tasa vigente al IGV a la fecha de emisión, con una tolerancia + - 1
+        if (taxDetail.code === '1016') taxDetail.warning.push('4302') // PENDIENTE
+        // Si  'Código de tributo' es '1016', el valor del Tag UBL es diferente al resultado de multiplicar la sumatoria de los 'Monto base' (cbc:TaxableAmount) de los ítems con 'Código de tributo por línea' igual a '1016', menos los 'Monto de descuentos' globales que afectan la base ('Código de motivo de descuento' igual a '02' y '04'), más los 'Monto de cargos' globales que afectan la base ('Código de motivo de cargo' igual a '49') por la tasa vigente del IVAP, con una tolerancia + - 1
+        if (taxDetail.code === '2000') taxDetail.warning.push('4305') // PENDIENTE
+        // Si  'Código de tributo' es '2000', el valor del Tag Ubl es diferente de la sumatoria de los 'Monto de tributo de la línea' (cbc:TaxAmount) de los ítems con 'Código de tributo por línea' igual a '2000', (con una tolerancia + - 1)
+        if (taxDetail.code === '7152') taxDetail.warning.push('4321') // PENDIENTE
+        // Si  'Código de tributo' es '7152', el valor del Tag Ubl es diferente de la sumatoria de los 'Monto del tributo de la línea'  (cbc:TaxAmount) de los ítems con 'Código de tributo por línea' igual a '7152'
+        if (taxDetail.code === '7152' && moment(this.fechaEmision) < moment('2019-08-01') && Number(taxDetail.taxAmount) > 0) throw new Error('2949')
+        if (taxDetail.taxAmount && !/^[+-0.]{1,}$/.test(taxDetail.taxAmount) &&
+          (taxDetail.code === '9995' ||
+            taxDetail.code === '9997' ||
+            taxDetail.code === '9998')) throw new Error('3000')
+        if (taxDetail.code === '9996') throw new Error('4311') // PENDIENTE
+        // Si  'Código de tributo' es '9996', el valor del Tag UBL es diferente de la sumatoria de 'Monto de IGV' (cbc:TaxAmount) que correspondan a ítems de operaciones gratuitas con 'Código de tributo por línea' igual a '9996' y cuyo 'Monto base' es mayor a cero (cbc:TaxableAmount>0), con una tolerancia + - 1
+        if (taxDetail.code === '9999') taxDetail.warning.push('4306') // PENDIENTE
+        // Si  'Código de tributo' es '9999', el valor del Tag Ubl es diferente de la sumatoria de los 'Monto del tributo de la línea' (cbc:TaxAmount) de los ítems con 'Código de tributo por línea' igual a '9999', con una tolerancia + - 1
+        if (taxDetail.code === '2000') taxDetail.warning.push('4020') // PENDIENTE
+        // Si 'Código de tributo' es '2000' (ISC), y existe al menos un ítem con 'Código de tributo por línea' igual a '2000' y 'Monto ISC por línea' (cbc:TaxAmount) mayor a cero, el valor del Tag UBL es igual a 0 (cero)
         taxDetail.taxAmountCurrencyId = taxDetails.taxAmountCurrencyId[index] ? taxDetails.taxAmountCurrencyId[index].textContent : null
-
+        if (taxDetail.taxAmountCurrencyId && taxDetail.taxAmountCurrencyId !== this.tipoMoneda) throw new Error('2071')
         taxDetail.codeSchemeName = taxDetails.codeSchemeName[index] ? taxDetails.codeSchemeName[index].textContent : null
         taxDetail.codeSchemeAgencyName = taxDetails.codeSchemeAgencyName[index] ? taxDetails.codeSchemeAgencyName[index].textContent : null
         taxDetail.codeSchemeUri = taxDetails.codeSchemeUri[index] ? taxDetails.codeSchemeUri[index].textContent : null
         taxDetail.name = taxDetails.name[index] ? taxDetails.name[index].textContent : null
+        if (!taxDetail.name) throw new Error('2054')
+        if (catalogTaxTypeCode[taxDetail.code].name !== taxDetail.name) throw new Error('2964')
         taxDetail.typeCode = taxDetails.typeCode[index] ? taxDetails.typeCode[index].textContent : null
+        if (!taxDetail.typeCode) throw new Error('2052')
+        if (catalogTaxTypeCode[taxDetail.code].international !== taxDetail.typeCode) throw new Error('2961')
 
         if (taxDetailsCode[taxDetail.code]) throw new Error('3068')
         taxDetailsCode[taxDetail.code] = taxDetail.taxAmount
+        // if() // PENDIENTE
+        // Si 'Tipo de operación' es de exportación '0200' o '0201' o '0202' o '0203' o '0204' o '0205' o '0206' o '0207' o '0208' y existe un ID '9997' o '9998' a nivel global
+        if (taxDetail.code === '9996' && Number(taxDetail.taxableAmount) > 0) {
+          var objectKeysDetails = Object.keys(detailsId)
+          for (let index = 0; index < objectKeysDetails.length; index++) {
+            if (Number(detailsId[objectKeysDetails[index]].mtoValorUnitario) > 0) throw new Error('2640')
+          }
+        }
+
         this.totalTax.taxDetails.push(taxDetail)
         this.warning = this.warning.concat(taxDetail.warning)
       }
@@ -371,8 +851,10 @@ class Factura20Loader extends Invoice {
         ).toFixed(2))
       if (!(
         Number(totalTaxDetailsSum) === Number(Number(this.totalTax.taxAmount).toFixed(2)) ||
-        Number(totalTaxDetailsSum) === Number((Number(this.totalTax.taxAmount) - 1).toFixed(2)) ||
-        Number(totalTaxDetailsSum) === Number((Number(this.totalTax.taxAmount) + 1).toFixed(2))
+        (
+          Number(totalTaxDetailsSum) >= Number((Number(this.totalTax.taxAmount)).toFixed(2)) + 1 &&
+          Number(totalTaxDetailsSum) <= Number((Number(this.totalTax.taxAmount)).toFixed(2)) - 1
+        )
       )) this.totalTax.warning.push('4301')
 
       var cargosLength = domDocumentHelper.select(path.cargos['.']).length ? domDocumentHelper.select(path.cargos['.']).length : 0
@@ -390,20 +872,60 @@ class Factura20Loader extends Invoice {
           montoBaseCurrencyId: domDocumentHelper.select(path.cargos.montoBaseCurrencyId)
         }
         for (let index = 0; index < cargosLength; index++) {
-          var charge = new Charge()
+          charge = new Charge()
           if ((cargos.indicator[index]) && !(cargos.codTipo[index])) throw new Error('3072')
           charge.codTipo = cargos.codTipo[index] ? cargos.codTipo[index].textContent : null
+          if (!catalogChargeCode[charge.codTipo]) throw new Error('3071')
           charge.indicator = cargos.indicator[index] ? cargos.indicator[index].textContent : null
+          if (
+            (
+              charge.codTipo === '45' ||
+              charge.codTipo === '46' ||
+              charge.codTipo === '49' ||
+              charge.codTipo === '50' ||
+              charge.codTipo === '51' ||
+              charge.codTipo === '52' ||
+              charge.codTipo === '53'
+            ) && String(charge.indicator) !== 'true'
+          ) throw new Error('3114')
+          if (
+            (
+              charge.codTipo === '02' ||
+              charge.codTipo === '03' ||
+              charge.codTipo === '04' ||
+              charge.codTipo === '05' ||
+              charge.codTipo === '06'
+            ) && String(charge.indicator) !== 'false'
+          ) throw new Error('3114')
+          if (
+            charge.codTipo === '00' ||
+            charge.codTipo === '01' ||
+            charge.codTipo === '47' ||
+            charge.codTipo === '48'
+          ) charge.warning.push('4291')
           charge.codTipoListAgencyName = cargos.codTipoListAgencyName[index] ? cargos.codTipoListAgencyName[index].textContent : null
           charge.codTipoListName = cargos.codTipoListName[index] ? cargos.codTipoListName[index].textContent : null
           charge.codTipoListUri = cargos.codTipoListUri[index] ? cargos.codTipoListUri[index].textContent : null
           charge.factor = cargos.factor[index] ? cargos.factor[index].textContent : null
+          if (charge.factor &&
+            (!/^[+]?[0-9]{1,3}\.[0-9]{1,5}$/.test(charge.factor) || !/^[+-0.]{1,}$/.test(charge.factor))
+          ) throw new Error('3025')
           charge.montoBase = cargos.montoBase[index] ? cargos.montoBase[index].textContent : null
+          if (!/^[+]?[0-9]{1,12}\.[0-9]{1,2}$/.test(charge.montoBase) ||
+            /^[+-0.]{1,}$/.test(charge.montoBase)) throw new Error('3016')
           charge.montoBaseCurrencyId = cargos.montoBaseCurrencyId[index] ? cargos.montoBaseCurrencyId[index].textContent : null
-          if (charge.montoBaseCurrencyId !== this.tipoMoneda) throw new Error('2071')
+          if (charge.montoBaseCurrencyId && charge.montoBaseCurrencyId !== this.tipoMoneda) throw new Error('2071')
           charge.monto = cargos.monto[index] ? cargos.monto[index].textContent : null
+          if (
+            !/^[+]?[0-9]{1,12}\.[0-9]{1,2}$/.test(charge.monto) || !/^[+-0.]{1,}$/.test(charge.monto)
+          ) throw new Error('2968')
+          if (charge.codTipo && (charge.factor && !(Number(charge.factor) > 0)) &&
+            !(Number(charge.monto) === (Number(charge.montoBase) * Number(charge.factor)) || (
+              Number(charge.monto) <= (Number((Number(charge.montoBase) * Number(charge.factor)).toFixed(2)) + 1) &&
+              Number(charge.monto) >= (Number((Number(charge.montoBase) * Number(charge.factor)).toFixed(2)) - 1)))
+          ) charge.warning.push('4322')
           charge.montoCurrencyId = cargos.montoCurrencyId[index] ? cargos.montoCurrencyId[index].textContent : null
-          if (charge.montoCurrencyId !== this.tipoMoneda) throw new Error('2071')
+          if (charge.montoCurrencyId && charge.montoCurrencyId !== this.tipoMoneda) throw new Error('2071')
 
           this.cargos.push(charge)
           this.warning = this.warning.concat(charge.warning)
@@ -412,16 +934,65 @@ class Factura20Loader extends Invoice {
 
       if (domDocumentHelper.select(path.mtoDescuentos)) {
         this.mtoDescuentos = domDocumentHelper.select(path.mtoDescuentos)
+        if (this.mtoDescuentos) this.warning.push('4307') // PENDIENTE
+        // El valor del tag es diferente a la sumatoria de los 'Montos de descuentos' de línea que no afectan la base (con 'Código de motivo de descuento' igual a '01') y los 'Montos de descuentos' globales que no afectan la base (con 'Código de motivo de descuento' igual a'03'), con una tolerancia de + - 1
         this.mtoDescuentosCurrencyId = domDocumentHelper.select(path.mtoDescuentosCurrencyId)
+        if (this.mtoDescuentosCurrencyId && this.mtoDescuentosCurrencyId !== this.tipoMoneda) throw new Error('2071')
       }
       if (domDocumentHelper.select(path.sumOtrosCargos)) {
         this.sumOtrosCargos = domDocumentHelper.select(path.sumOtrosCargos)
+        if (this.sumOtrosCargos) this.warning.push('4308') // PENDIENTE
+        // El valor del tag es diferente a la sumatoria de los 'Montos de cargos' de línea que no afectan la base (con 'Código de motivo de cargo' igual a '48') y los 'Montos de cargos' globales que no afectan la base (con 'Código de motivo de cargo' igual a '45, '46' y '50'), con una tolerancia de + - 1
         this.sumOtrosCargosCurrencyId = domDocumentHelper.select(path.sumOtrosCargosCurrencyId)
+        if (this.sumOtrosCargosCurrencyId && this.sumOtrosCargosCurrencyId !== this.tipoMoneda) throw new Error('2071')
       }
       this.mtoImpVenta = domDocumentHelper.select(path.mtoImpVenta)
+      if (this.mtoImpVenta) this.warning.push('4312') // PENDIENTE
+      // Si el valor del tag difiere de la sumatoria del 'Total precio de venta' más 'Sumatoria otros cargos (que no afectan la base imponible del IGV)' menos 'Sumatoria otros descuentos (que no afectan la base imponible del IGV)' menos 'Total anticipos' de corresponder y más 'Monto de redondeo del importe total',  con una tolerancia + - 1.
       this.mtoImpVentaCurrencyId = domDocumentHelper.select(path.mtoImpVentaCurrencyId)
+      if (this.mtoImpVentaCurrencyId && this.mtoImpVentaCurrencyId !== this.tipoMoneda) this.warning.push('2071')
       this.valorVenta = domDocumentHelper.select(path.valorVenta)
+      if (this.valorVenta) this.warning.push('4309') // PENDIENTE
+      // El valor del tag es diferente de la sumatoria del 'Valor de venta por ítem' (cbc:LineExtensionAmount) de los ítems con 'Código de tributo por línea' igual a  '1000', '1016', '9995', '9997' y '9998'  y cuyo 'Monto base' es mayor a cero (cbc:TaxableAmount > 0), menos 'Montos de descuentos globales' que afectan la base ('Código de motivo de descuento' igual a '02') más 'Montos de cargos globales' que afectan la base ('Código de motivo de cargo' igual a '49'), con una tolerancia de + - 1
       this.valorVentaCurrencyId = domDocumentHelper.select(path.valorVentaCurrencyId)
+      if (this.valorVentaCurrencyId && this.valorVentaCurrencyId !== this.tipoMoneda) throw new Error('2071')
+      this.precioVenta = domDocumentHelper.select(path.precioVenta)
+      if (!this.precioVenta) this.warning.push('4317')
+      if (this.precioVenta) this.warning.push('4310') // PENDIENTE
+      // "Si existe el Tag UBL, y existe 'Total Importe IGV' con monto mayor a cero, y el valor es diferente de la sumatoria de 'Total valor de venta' más 'Sumatoria ISC' más 'Sumatoria Otros Tributos' más 'Sumatoria ICBPER' más el resultado de:
+      // Multiplicar la sumatoria de los 'Monto base' de las líneas (cbc:TaxableAmount) con 'Código de tributo por línea' igual a '1000', menos 'Monto de descuentos' globales que afectan la base (Código '02'), más los 'Montos de cargos' globales que afectan la base (Código '49') por la tasa vigente del IGV a la fecha de emisión, con una tolerancia + - 1"
+      if (this.precioVenta) this.warning.push('4310') // PENDIENTE
+      // "Si existe el Tag UBL, y existe 'Total Importe IVAP' con monto mayor a cero, y el valor es diferente de la sumatoria de 'Total valor de venta' más 'Sumatoria Otros Tributos' más 'Sumatoria ICBPER' más el resultado de:
+      // Multiplicar la sumatoria de los 'Monto base' de las líneas (cbc:TaxableAmount) con 'Código de tributo por línea' igual a '1016', menos 'Monto de descuentos' globales que afectan la base (Código '02'), más los 'Montos de cargos' globales que afectan la base (Código '49') por la tasa vigente del IVAP a la fecha de emisión, con una tolerancia + - 1"
+      if (this.precioVenta) this.warning.push('4310') // PENDIENTE
+      // Si existe el Tag UBL, y no existe 'Total Importe IGV' con monto mayor a cero, y no existe 'Total Importe IVAP' con monto mayor a cero, y el valor es diferente de la sumatoria de 'Total valor de venta' más 'Sumatoria ISC' más 'Sumatoria Otros Tributos' más 'Sumatoria ICBPER'
+      this.precioVentaCurrencyId = domDocumentHelper.select(path.precioVentaCurrencyId)
+      if (this.precioVentaCurrencyId && this.precioVentaCurrencyId !== this.tipoMoneda) throw new Error('2071')
+      this.mtoRndImpVenta = domDocumentHelper.select(path.mtoRndImpVenta)
+      if (this.mtoRndImpVenta && Number(Number(this.mtoRndImpVenta).toFixed(0)) > 1) this.warning.push('4314')
+      this.mtoRndImpVentaCurrencyId = domDocumentHelper.select(path.mtoRndImpVentaCurrencyId)
+      if (this.mtoRndImpVentaCurrencyId && this.mtoRndImpVentaCurrencyId !== this.tipoMoneda) throw new Error('2071')
+
+      var legendsLength = domDocumentHelper.select(path.legends['.']) ? domDocumentHelper.select(path.legends['.']).length : 0
+      var legendsCode = {}
+      var legends = {
+        code: domDocumentHelper.select(path.legends.code),
+        value: domDocumentHelper.select(path.legends.value)
+      }
+      for (let index = 0; index < legendsLength; index++) {
+        var legend = new Legend()
+        legend.code = legends.code[index] ? legends.code[index].textContent : null
+        legend.value = legends.value[index] ? legends.value[index].textContent : null
+        if (legendsCode[legend.code]) throw new Error('3014')
+      }
+      if (!legendsCode['2005']) this.warning.push('4266') // PENDIENTE
+      // Si existe Dirección del lugar en el que se entrega el bien (tag Dirección completa y detallada) y no existe código de leyenda igual a '2005'
+      if (this.tipoOperacion === '1001' && !legendsCode['2006']) this.warning.push('4265')
+      if (this.tipoOperacion === '1002' && !legendsCode['2006']) this.warning.push('4265')
+      if (this.tipoOperacion === '1003' && !legendsCode['2006']) this.warning.push('4265')
+      if (this.tipoOperacion === '1004' && !legendsCode['2006']) this.warning.push('4265')
+      if (!legendsCode['2007']) this.warning.push('4264') // PENDIENTE
+      // Si existe una línea con código de 'Afectación al IGV o IVAP' con valor '17' (IVAP) cuyo 'Mont base' es mayor a cero (cbc:TaxableAmount > 0), y no existe código de leyenda igual a '2007'
 
       this.warning = this.warning.concat(this.company.warning, this.company.address.warning, this.client.warning, this.client.address.warning, this.totalTax.warning)
       resolve(this.warning)

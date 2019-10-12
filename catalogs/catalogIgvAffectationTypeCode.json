@@ -1,0 +1,137 @@
+{
+  "10": {
+    "code": "10",
+    "description": "Gravado - Operación Onerosa",
+    "tributeCode": [
+      "1000"
+    ]
+  },
+  "11": {
+    "code": "11",
+    "description": "Gravado – Retiro por premio",
+    "tributeCode": [
+      "9996"
+    ]
+  },
+  "12": {
+    "code": "12",
+    "description": "Gravado – Retiro por donación",
+    "tributeCode": [
+      "9996"
+    ]
+  },
+  "13": {
+    "code": "13",
+    "description": "Gravado – Retiro",
+    "tributeCode": [
+      "9996"
+    ]
+  },
+  "14": {
+    "code": "14",
+    "description": "Gravado – Retiro por publicidad",
+    "tributeCode": [
+      "9996"
+    ]
+  },
+  "15": {
+    "code": "15",
+    "description": "Gravado – Bonificaciones",
+    "tributeCode": [
+      "9996"
+    ]
+  },
+  "16": {
+    "code": "16",
+    "description": "Gravado – Retiro por entrega a trabajadores",
+    "tributeCode": [
+      "9996"
+    ]
+  },
+  "17": {
+    "code": "17",
+    "description": "Gravado - IVAP",
+    "tributeCode": [
+      "1016",
+      "9996"
+    ]
+  },
+  "20": {
+    "code": "20",
+    "description": "Exonerado - Operación Onerosa",
+    "tributeCode": [
+      "9997"
+    ]
+  },
+  "21": {
+    "code": "21",
+    "description": "Exonerado - Transferencia gratuita",
+    "tributeCode": [
+      "9996"
+    ]
+  },
+  "30": {
+    "code": "30",
+    "description": "Inafecto - Operación Onerosa",
+    "tributeCode": [
+      "9998"
+    ]
+  },
+  "31": {
+    "code": "31",
+    "description": "Inafecto – Retiro por Bonificación",
+    "tributeCode": [
+      "9996"
+    ]
+  },
+  "32": {
+    "code": "32",
+    "description": "Inafecto – Retiro",
+    "tributeCode": [
+      "9996"
+    ]
+  },
+  "33": {
+    "code": "33",
+    "description": "Inafecto – Retiro por Muestras Médicas",
+    "tributeCode": [
+      "9996"
+    ]
+  },
+  "34": {
+    "code": "34",
+    "description": "Inafecto - Retiro por Convenio Colectivo",
+    "tributeCode": [
+      "9996"
+    ]
+  },
+  "35": {
+    "code": "35",
+    "description": "Inafecto – Retiro por premio",
+    "tributeCode": [
+      "9996"
+    ]
+  },
+  "36": {
+    "code": "36",
+    "description": "Inafecto - Retiro por publicidad",
+    "tributeCode": [
+      "9996"
+    ]
+  },
+  "37": {
+    "code": "37",
+    "description": "Inafecto - Transferencia gratuita",
+    "tributeCode": [
+      "9996"
+    ]
+  },
+  "40": {
+    "code": "40",
+    "description": "Exportación de Bienes o Servicios",
+    "tributeCode": [
+      "9995",
+      "9996"
+    ]
+  }
+}

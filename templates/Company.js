@@ -36,7 +36,7 @@ class Company {
 
   set ruc (value) {
     if (!value) throw new Error('3089')
-    if (listContribuyente[value].ind_estado !== '00') throw new Error('2010')
+    if (!listContribuyente[value] || listContribuyente[value].ind_estado !== '00') throw new Error('2010')
     if (listContribuyente[value].ind_condicion === '12') throw new Error('2011')
     this._ruc = value
   }
@@ -47,7 +47,7 @@ class Company {
 
   set rucSchemeId (value) {
     if (!value) throw new Error('1008')
-    if (value !== 6) throw new Error('1007')
+    if (Number(value) !== 6) throw new Error('1007')
     this._rucSchemeId = value
   }
 

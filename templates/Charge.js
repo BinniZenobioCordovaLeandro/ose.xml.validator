@@ -1,7 +1,5 @@
 'use strict'
 
-var catalogChargeCode = require('../catalogs/catalogChargeCode.json')
-
 class Charge {
   constructor (params) {
     this._warning = []
@@ -31,26 +29,6 @@ class Charge {
   }
 
   set indicator (value) {
-    if (
-      (
-        this.codTipo === '45' ||
-        this.codTipo === '46' ||
-        this.codTipo === '49' ||
-        this.codTipo === '50' ||
-        this.codTipo === '51' ||
-        this.codTipo === '52' ||
-        this.codTipo === '53'
-      ) && String(value) !== 'true'
-    ) throw new Error('3114')
-    if (
-      (
-        this.codTipo === '02' ||
-        this.codTipo === '03' ||
-        this.codTipo === '04' ||
-        this.codTipo === '05' ||
-        this.codTipo === '06'
-      ) && String(value) !== 'false'
-    ) throw new Error('3114')
     this._indicator = value
   }
 
@@ -59,13 +37,6 @@ class Charge {
   }
 
   set codTipo (value) {
-    if (
-      value === '00' ||
-      value === '01' ||
-      value === '47' ||
-      value === '48'
-    ) this.warning.push('4291')
-    if (!catalogChargeCode[value]) throw new Error('3071')
     this._codTipo = value
   }
 
@@ -101,9 +72,6 @@ class Charge {
   }
 
   set factor (value) {
-    if (value &&
-      (!/^[+]?[0-9]{1,3}\.[0-9]{1,5}$/.test(value) || /^[+-0.]{1,}$/.test(value))
-    ) throw new Error('3025')
     this._factor = value
   }
 
@@ -112,17 +80,6 @@ class Charge {
   }
 
   set monto (value) {
-    if (
-      !/^[+]?[0-9]{1,12}\.[0-9]{1,2}$/.test(value) || /^[+-0.]{1,}$/.test(value)
-    ) throw new Error('2968')
-    if (this.codTipo &&
-      (this.factor && !(Number(this.factor) > 0)) &&
-      !(
-        Number(value) === (Number(this.montoBase) * Number(this.factor)) ||
-        Number(value) === ((Number(this.montoBase) * Number(this.factor)) + 1) ||
-        Number(value) === ((Number(this.montoBase) * Number(this.factor)) - 1)
-      )
-    ) this.warning.push('4322')
     this._monto = value
   }
 
@@ -139,8 +96,6 @@ class Charge {
   }
 
   set montoBase (value) {
-    if (!/^[+]?[0-9]{1,12}\.[0-9]{1,2}$/.test(value) ||
-    /^[+-0.]{1,}$/.test(value)) throw new Error('3016')
     this._montoBase = value
   }
 

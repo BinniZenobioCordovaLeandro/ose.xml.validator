@@ -3,6 +3,7 @@
 var moment = require('moment')
 
 const catalogCoinTypeCode = require('../catalogs/catalogCoinTypeCode.json')
+const catalogOperationTypeCode = require('../catalogs/catalogOperationTypeCode.json')
 
 var Company = require('./Company')
 var Client = require('./Client')
@@ -10,6 +11,7 @@ var Document = require('./Document')
 var SaleDetail = require('./SaleDetail')
 var Signature = require('./Signature')
 var TotalTax = require('./TotalTax')
+var Legend = require('./Legend')
 
 class BaseSale {
   constructor () {
@@ -23,6 +25,9 @@ class BaseSale {
 
     this._tipoDoc = null
     this._tipoOperacion = null
+    this._tipoOperacionName = null
+    this._tipoOperacionListSchemeUri = null
+
     this._tipoDocListAgencyName = null
     this._tipoDocListName = null
     this._tipoDocListURI = null
@@ -65,7 +70,7 @@ class BaseSale {
 
     this._details = [new SaleDetail()]
 
-    this._legends = null
+    this._legends = [new Legend()]
 
     this._guias = [new Document()]
     this._relDocs = [new Document()]
@@ -135,7 +140,27 @@ class BaseSale {
   }
 
   set tipoOperacion (value) {
+    if (!value) throw new Error('3205')
+    if (!catalogOperationTypeCode[value]) throw new Error('3206')
     this._tipoOperacion = value
+  }
+
+  get tipoOperacionName () {
+    return this._tipoOperacionName
+  }
+
+  set tipoOperacionName (value) {
+    if (value && value !== 'Tipo de Operacion') this.warning.push('4260')
+    this._tipoOperacionName = value
+  }
+
+  get tipoOperacionListSchemeUri () {
+    return this._tipoOperacionListSchemeUri
+  }
+
+  set tipoOperacionListSchemeUri (value) {
+    if (value && value !== 'urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo51') throw new Error('4261')
+    this._tipoOperacionListSchemeUri = value
   }
 
   get tipoDocListAgencyName () {
@@ -154,10 +179,8 @@ class BaseSale {
   }
 
   set tipoDocListName (value) {
-    if (value) {
-      if (value !== 'Tipo de Documento') this.warning.push('4252')
-      this._tipoDocListName = value
-    }
+    if (value && value !== 'Tipo de Documento') this.warning.push('4252')
+    this._tipoDocListName = value
   }
 
   get tipoDocListURI () {
@@ -292,6 +315,8 @@ class BaseSale {
   }
 
   set sumOtrosCargos (value) {
+    if (!/^[+]?[0-9]{1,12}\.[0-9]{1,2}$/.test(value) ||
+      !/^[+-0.]{1,}$/.test(value)) throw new Error('2064')
     this._sumOtrosCargos = value
   }
 
@@ -325,9 +350,6 @@ class BaseSale {
   }
 
   set totalImpuestos (value) {
-    if (value &&
-      (!/^[+]?[0-9]{1,12}\.[0-9]{1,2}$/.test(value) || /^[+-0.]{1,}$/.test(value))
-    ) throw new Error('3020')
     this._totalImpuestos = value
   }
 
@@ -336,6 +358,8 @@ class BaseSale {
   }
 
   set mtoImpVenta (value) {
+    if (!/^[+]?[0-9]{1,12}\.[0-9]{1,2}$/.test(value) &&
+      !/^[+-0.]{1,}$/.test(value)) throw new Error('2062')
     this._mtoImpVenta = value
   }
 
@@ -369,6 +393,15 @@ class BaseSale {
 
   set relDocs (value) {
     this._relDocs = value
+  }
+
+  get compra () {
+    return this._compra
+  }
+
+  set compra (value) {
+    if (value && !/^[\w]{1,20}$/.test(value)) this.warning.push('4233')
+    this._compra = value
   }
 }
 

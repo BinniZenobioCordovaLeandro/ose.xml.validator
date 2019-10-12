@@ -90,7 +90,7 @@ class Client {
 
   set rznSocial (value) {
     if (!value) throw new Error('2021')
-    if (/^[A-Za-z0-9]{3,1500}$/.test(value)) throw new Error('2022')
+    if (!/^[A-Za-z0-9]{3,1500}$/.test(value)) throw new Error('2022')
 
     this._rznSocial = value
   }

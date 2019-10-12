@@ -28,10 +28,10 @@ console.log(chalk.white('xmlInfo'), {
 console.log(chalk.white('- now, i will create a Loader class to '), chalk.yellow(`${catalogDocumentTypeCode[documentType]} ${ublVersion}`))
 
 var fileInfo = {
-  rucEmisor: '20600695771',
+  rucEmisor: '20303115405',
   tipoComprobante: '01',
-  serieComprobante: 'FFF1',
-  correlativoComprobante: '2'
+  serieComprobante: 'F001',
+  correlativoComprobante: '0493399'
 }
 
 var loader = new LoaderController(documentType, ublVersion, xml, fileInfo, domDocumentHelper)
