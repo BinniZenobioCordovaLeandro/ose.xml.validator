@@ -3,6 +3,9 @@
 var BaseSale = require('./BaseSale')
 var Charge = require('./Charge')
 var Detraction = require('./Detraction')
+var SalePerception = require('./SalePerception')
+var Prepayment = require('./Prepayment')
+var Shipment = require('./Shipment')
 
 class Invoice extends BaseSale {
   constructor () {
@@ -17,9 +20,10 @@ class Invoice extends BaseSale {
     this._cargos = [new Charge()]
     this._mtoCargos = null
     this._totalAnticipos = null
-    this._perception = null
+    this._totalAnticiposCurrencyId = null
+    this._perception = new SalePerception()
     this._guiaEmbebida = null
-    this._anticipos = null
+    this._anticipos = [new Prepayment()]
     this._detraccion = new Detraction()
     this._seller = null
     this._valorVenta = null
@@ -28,6 +32,7 @@ class Invoice extends BaseSale {
     this._precioVentaCurrencyId = null
     this._mtoRndImpVenta = null
     this._mtoRndImpVentaCurrencyId = null
+    this._envio = new Shipment()
   }
 
   get tipoOperacion () {
@@ -110,6 +115,14 @@ class Invoice extends BaseSale {
 
   set totalAnticipos (value) {
     this._totalAnticipos = value
+  }
+
+  get totalAnticiposCurrencyId () {
+    return this._totalAnticiposCurrencyId
+  }
+
+  set totalAnticiposCurrencyId (value) {
+    this._totalAnticiposCurrencyId = value
   }
 
   get perception () {
@@ -204,6 +217,14 @@ class Invoice extends BaseSale {
 
   set mtoRndImpVentaCurrencyId (value) {
     this._mtoRndImpVentaCurrencyId = value
+  }
+
+  get envio () {
+    return this._envio
+  }
+
+  set envio (value) {
+    this._envio = value
   }
 }
 

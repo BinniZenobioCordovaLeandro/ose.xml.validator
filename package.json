@@ -7,8 +7,9 @@
     "test": "tests"
   },
   "scripts": {
-    "index": "standard --fix && node index.js",
-    "test": "standard && node tests/test.js"
+    "build" : "standard --fix",
+    "start": "node index.js",
+    "test": "node tests/"
   },
   "repository": {
     "type": "git",

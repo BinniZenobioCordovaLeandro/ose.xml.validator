@@ -33,4 +33,4 @@ Hey there, `Buy me a coffee` to thank.
 ---
 Me stoped here :
 11.10.19
-/Invoice/cac:AllowanceCharge/cbc:ChargeIndicator (Indicador de cargo)
+/Invoice/cac:InvoiceLine/cac:Item/cac:AdditionalItemProperty/cbc:Name (Nombre del concepto)

@@ -1,4 +1,5 @@
 'use strict'
+var startTimeProccess = new Date()
 
 const ReturnCode = require('./catalogs/ReturnCode.json')
 const catalogDocumentTypeCode = require('./catalogs/catalogDocumentTypeCode.json')
@@ -49,6 +50,9 @@ loader.load().then((result) => {
   } else {
     console.log(chalk.blue(':) ', 'All was loaded good. '), '\n')
   }
+
+  var endTimeProccess = new Date() - startTimeProccess
+  console.info('Execution time: %dms', endTimeProccess, '\n')
 }).catch((err) => {
   console.error(chalk.red(':( ', 'I found an exception. '))
   console.error(chalk.red(err.name), chalk.red(':'), chalk.red(err.message))

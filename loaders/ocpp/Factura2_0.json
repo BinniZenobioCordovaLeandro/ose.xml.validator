@@ -16,7 +16,7 @@
   "tipoMonedaListID": "string(/xmlns:Invoice/cbc:DocumentCurrencyCode/@listID)",
   "tipoMonedaListName": "string(/xmlns:Invoice/cbc:DocumentCurrencyCode/@listName)",
   "tipoMonedaListAgencyName": "string(/xmlns:Invoice/cbc:DocumentCurrencyCode/@listAgencyName)",
-  "compra" : "string(/xmlns:Invoice/cac:OrderReference/cbc:ID)",
+  "compra": "string(/xmlns:Invoice/cac:OrderReference/cbc:ID)",
   "fechaVencimiento": "string(/xmlns:Invoice/cbc:DueDate)",
   "signature": {
     "id": "string(/xmlns:Invoice/ext:UBLExtensions/ext:UBLExtension/ext:ExtensionContent/ds:Signature/@Id)",
@@ -96,7 +96,15 @@
     "tipoDoc": "/xmlns:Invoice/cac:AdditionalDocumentReference/cbc:DocumentTypeCode",
     "tipoDocListAgencyName": "/xmlns:Invoice/cac:AdditionalDocumentReference/cbc:DocumentTypeCode/@listAgencyName",
     "tipoDocListName": "/xmlns:Invoice/cac:AdditionalDocumentReference/cbc:DocumentTypeCode/@listName",
-    "tipoDocListURI": "/xmlns:Invoice/cac:AdditionalDocumentReference/cbc:DocumentTypeCode/@listURI"
+    "tipoDocListURI": "/xmlns:Invoice/cac:AdditionalDocumentReference/cbc:DocumentTypeCode/@listURI",
+    "payIdentifier": "/xmlns:Invoice/cac:AdditionalDocumentReference/cbc:DocumentStatusCode",
+    "payIdentifierListName": "/xmlns:Invoice/cac:AdditionalDocumentReference/cbc:DocumentStatusCode/@listName",
+    "payIdentifierListAgencyName": "/xmlns:Invoice/cac:AdditionalDocumentReference/cbc:DocumentStatusCode/@listAgencyName",
+    "docEmisor": "/xmlns:Invoice/cac:AdditionalDocumentReference/cac:IssuerParty/cac:PartyIdentification/cbc:ID",
+    "docEmisorSchemeName": "/xmlns:Invoice/cac:AdditionalDocumentReference/cac:IssuerParty/cac:PartyIdentification/cbc:ID/@schemeName",
+    "docEmisorSchemeAgencyName": "/xmlns:Invoice/cac:AdditionalDocumentReference/cac:IssuerParty/cac:PartyIdentification/cbc:ID/@schemeAgencyName",
+    "docEmisorSchemeURI": "/xmlns:Invoice/cac:AdditionalDocumentReference/cac:IssuerParty/cac:PartyIdentification/cbc:ID/@schemeURI",
+    "tipoDocEmisor": "/xmlns:Invoice/cac:AdditionalDocumentReference/cac:IssuerParty/cac:PartyIdentification/cbc:ID/@schemeID"
   },
   "details": {
     ".": "/xmlns:Invoice/cac:InvoiceLine",
@@ -121,6 +129,7 @@
       "codeListURI": "/cac:Item/cac:AdditionalItemProperty/cbc:NameCode/@listURI",
       "value": "/cac:Item/cac:AdditionalItemProperty/cbc:Value",
       "fecInicio": "/cac:Item/cac:AdditionalItemProperty/cac:UsabilityPeriod/cbc:StartDate",
+      "horInicio": "/cac:Item/cac:AdditionalItemProperty/cac:UsabilityPeriod/cbc:StartTime",
       "fecFin": "/cac:Item/cac:AdditionalItemProperty/cac:UsabilityPeriod/cbc:EndDate",
       "duracion": "/cac:Item/cac:AdditionalItemProperty/cac:UsabilityPeriod/cbc:DurationMeasure"
     },
@@ -225,5 +234,79 @@
     ".": "/xmlns:Invoice/cbc:Note",
     "code": "/xmlns:Invoice/cbc:Note/@languageLocaleID",
     "value": "/xmlns:Invoice/cbc:Note"
+  },
+  "perception": {
+    "indicator": "string(/xmlns:Invoice/cac:PaymentTerms/cbc:ID)",
+    "mtoTotal": "string(/xmlns:Invoice/cac:PaymentTerms/cbc:Amount)",
+    "mtoTotalCurrencyID": "string(/xmlns:Invoice/cac:PaymentTerms/cbc:Amount/@currencyID)"
+  },
+  "detraccion": {
+    "indicator": "string(/xmlns:Invoice/cac:PaymentMeans/cbc:ID)",
+    "ctaBanco": "string(/xmlns:Invoice/cac:PaymentMeans/cac:PayeeFinancialAccount/cbc:ID)",
+    "codMedioPago": "string(/xmlns:Invoice/cac:PaymentMeans/cbc:PaymentMeansCode)",
+    "codMedioPagoListName": "string(/xmlns:Invoice/cac:PaymentMeans/cbc:PaymentMeansCode/@listName)",
+    "codMedioPagoListAgencyName": "string(/xmlns:Invoice/cac:PaymentMeans/cbc:PaymentMeansCode/@listAgencyName)",
+    "codMedioPagoListUri": "string(/xmlns:Invoice/cac:PaymentMeans/cbc:PaymentMeansCode/@listURI)",
+    "codBienDetraccion": "string(/xmlns:Invoice/cac:PaymentTerms/cbc:PaymentMeansID)",
+    "codBienDetraccionSchemeName": "string(/xmlns:Invoice/cac:PaymentTerms/cbc:PaymentMeansID/@schemeName)",
+    "codBienDetraccionSchemeAgencyName": "string(/xmlns:Invoice/cac:PaymentTerms/cbc:PaymentMeansID/@schemeAgencyName)",
+    "codBienDetraccionSchemeUri": "string(/xmlns:Invoice/cac:PaymentTerms/cbc:PaymentMeansID/@schemeURI)",
+    "mount": "string(/xmlns:Invoice/cac:PaymentTerms/cbc:Amount)",
+    "mountCurrencyId": "string(/xmlns:Invoice/cac:PaymentTerms/cbc:Amount/@currencyID)",
+    "percent": "string(/xmlns:Invoice/cac:PaymentTerms/cbc:PaymentPercent)"
+  },
+  "anticipos": {
+    ".": "/xmlns:Invoice/cac:PrepaidPayment",
+    "id": "/xmlns:Invoice/cac:PrepaidPayment/cbc:ID",
+    "idSchemeName": "/xmlns:Invoice/cac:PrepaidPayment/cbc:ID/@schemeName",
+    "idSchemeAgencyName": "/xmlns:Invoice/cac:PrepaidPayment/cbc:ID/@schemeAgencyName",
+    "total": "/xmlns:Invoice/cac:PrepaidPayment/cbc:PaidAmount",
+    "totalCurrencyId": "/xmlns:Invoice/cac:PrepaidPayment/cbc:PaidAmount/@currencyID",
+    "payDate": "/xmlns:Invoice/cac:PrepaidPayment/cbc:PaidDate"
+  },
+  "totalAnticipos": "string(/xmlns:Invoice/cac:LegalMonetaryTotal/cbc:PrepaidAmount)",
+  "totalAnticiposCurrencyId": "string(/xmlns:Invoice/cac:LegalMonetaryTotal/cbc:PrepaidAmount/@currencyID)",
+  "envio": {
+    "id": "string(/xmlns:Invoice/cac:Delivery/cac:Shipment/cbc:ID)",
+    "idSchemeName": "string(/xmlns:Invoice/cac:Delivery/cac:Shipment/cbc:ID/@schemeName)",
+    "idSchemeAgencyName": "string(/xmlns:Invoice/cac:Delivery/cac:Shipment/cbc:ID/@schemeAgencyName)",
+    "idSchemeUri": "string(/xmlns:Invoice/cac:Delivery/cac:Shipment/cbc:ID/@schemeURI)",
+    "modTraslado": "string(/xmlns:Invoice/cac:Delivery/cac:Shipment/cac:ShipmentStage/cbc:TransportModeCode)",
+    "modTrasladoListName": "string(/xmlns:Invoice/cac:Delivery/cac:Shipment/cac:ShipmentStage/cbc:TransportModeCode/@listName)",
+    "modTrasladoListAgencyName": "string(/xmlns:Invoice/cac:Delivery/cac:Shipment/cac:ShipmentStage/cbc:TransportModeCode/@listAgencyName)",
+    "modTrasladoListUri": "string(/xmlns:Invoice/cac:Delivery/cac:Shipment/cac:ShipmentStage/cbc:TransportModeCode/@listURI)",
+    "llegada": {
+      "ubigueo": "string(/xmlns:Invoice/cac:Delivery/cac:Shipment/cac:Delivery/cac:DeliveryAddress/cbc:ID)",
+      "ubigueoSchemeAgencyName": "string(/xmlns:Invoice/cac:Delivery/cac:Shipment/cac:Delivery/cac:DeliveryAddress/cbc:ID/@schemeAgencyName)",
+      "ubigueoSchemeName": "string(/xmlns:Invoice/cac:Delivery/cac:Shipment/cac:Delivery/cac:DeliveryAddress/cbc:ID/@schemeName)",
+      "direccion": "string(/xmlns:Invoice/cac:Delivery/cac:Shipment/cac:Delivery/cac:DeliveryAddress/cac:AddressLine/cbc:Line)"
+    },
+    "partida": {
+      "ubigueo": "string(/xmlns:Invoice/cac:Delivery/cac:Shipment/cac:OriginAddress/cbc:ID)",
+      "ubigueoSchemeAgencyName": "string(/xmlns:Invoice/cac:Delivery/cac:Shipment/cac:OriginAddress/cbc:ID/@schemeAgencyName)",
+      "ubigueoSchemeName": "string(/xmlns:Invoice/cac:Delivery/cac:Shipment/cac:OriginAddress/cbc:ID/@schemeName)",
+      "direccion": "string(/xmlns:Invoice/cac:Delivery/cac:Shipment/cac:OriginAddress/cac:AddressLine/cbc:Line)"
+    },
+    "transportista": {
+      "placa": "string(/xmlns:Invoice/cac:Delivery/cac:Shipment/cac:ShipmentStage/cac:TransportMeans/cac:RoadTransport/cbc:LicensePlateID)",
+      "choferDoc": "string(/xmlns:Invoice/cac:Delivery/cac:Shipment/cac:ShipmentStage/cac:DriverPerson/cbc:ID)",
+      "choferDocSchemeName": "string(/xmlns:Invoice/cac:Delivery/cac:Shipment/cac:ShipmentStage/cac:DriverPerson/cbc:ID/@schemeName)",
+      "choferDocSchemeAgencyName": "string(/xmlns:Invoice/cac:Delivery/cac:Shipment/cac:ShipmentStage/cac:DriverPerson/cbc:ID/@schemeAgencyName)",
+      "choferDocSchemeURI": "string(/xmlns:Invoice/cac:Delivery/cac:Shipment/cac:ShipmentStage/cac:DriverPerson/cbc:ID/@schemeURI)",
+      "choferTipoDoc": "string(/xmlns:Invoice/cac:Delivery/cac:Shipment/cac:ShipmentStage/cac:DriverPerson/cbc:ID/@schemeID)",
+      "numDoc": "string(/xmlns:Invoice/cac:Delivery/cac:Shipment/cac:ShipmentStage/cac:CarrierParty/cac:PartyIdentification/cbc:ID)",
+      "numDocSchemeName": "string(/xmlns:Invoice/cac:Delivery/cac:Shipment/cac:ShipmentStage/cac:CarrierParty/cac:PartyIdentification/cbc:ID/@schemeName)",
+      "numDocSchemeAgencyName": "string(/xmlns:Invoice/cac:Delivery/cac:Shipment/cac:ShipmentStage/cac:CarrierParty/cac:PartyIdentification/cbc:ID/@schemeAgencyName)",
+      "numDocSchemeUri": "string(/xmlns:Invoice/cac:Delivery/cac:Shipment/cac:ShipmentStage/cac:CarrierParty/cac:PartyIdentification/cbc:ID/@schemeURI)",
+      "tipoDoc": "string(/xmlns:Invoice/cac:Delivery/cac:Shipment/cac:ShipmentStage/cac:CarrierParty/cac:PartyIdentification/cbc:ID/@schemeID)",
+      "rznSocial": "string(/xmlns:Invoice/cac:Delivery/cac:Shipment/cac:ShipmentStage/cac:CarrierParty/cacPartyLegalEntity/cbc:RegistrationName)",
+      "regMtc": "string(/xmlns:Invoice/cac:Delivery/cac:Shipment/cac:ShipmentStage/cac:CarrierParty/cacPartyLegalEntity/cbc:CompanyID)",
+      "numConstancia": "string(/xmlns:Invoice/cac:Delivery/cac:Shipment/cac:ShipmentStage/cac:TransportMeans/cbc:RegistrationNationalityID)"
+    },
+    "numContenedor": "string(/xmlns:Invoice/cac:Delivery/cac:Shipment/cac:TransportHandlingUnit/cac:TransportEquipment/cbc:ID)",
+    "pesoTotal": "string(/xmlns:Invoice/cac:Delivery/cac:Shipment/cbc:GrossWeightMeasure)",
+    "undPesoTotal": "string(/xmlns:Invoice/cac:Delivery/cac:Shipment/cbc:GrossWeightMeasure/@unitCode)",
+    "fecTraslado": "string(/xmlns:Invoice/cac:Delivery/cac:Shipment/cac:ShipmentStage/cac:TransitPeriod/cbc:StartDate)",
+    "subContract": "string(/xmlns:Invoice/cac:Delivery/cac:Shipment/cac:Delivery/cac:DeliveryParty/cbc:MarkAttentionIndicator)"
   }
 }

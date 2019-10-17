@@ -1,0 +1,165 @@
+{
+  "001": {
+    "code": "001",
+    "description": "Azúcar y melaza de caña",
+    "rate": "10"
+  },
+  "002": {
+    "code": "002",
+    "description": "Arroz",
+    "rate": ""
+  },
+  "003": {
+    "code": "003",
+    "description": "Alcohol etílico",
+    "rate": "10"
+  },
+  "004": {
+    "code": "004",
+    "description": "Recursos hidrobiológicos",
+    "rate": "4"
+  },
+  "005": {
+    "code": "005",
+    "description": "Maíz amarillo duro",
+    "rate": "4"
+  },
+  "007": {
+    "code": "007",
+    "description": "Caña de azúcar",
+    "rate": "10"
+  },
+  "008": {
+    "code": "008",
+    "description": "Madera",
+    "rate": "4"
+  },
+  "009": {
+    "code": "009",
+    "description": "Arena y piedra.",
+    "rate": "10"
+  },
+  "010": {
+    "code": "010",
+    "description": "Residuos, subproductos, desechos, recortes y desperdicios",
+    "rate": "15"
+  },
+  "011": {
+    "code": "011",
+    "description": "Bienes gravados con el IGV, o renuncia a la exoneración"
+  },
+  "012": {
+    "code": "012",
+    "description": "Intermediación laboral y tercerización",
+    "rate": "10"
+  },
+  "013": {
+    "code": "013",
+    "description": "Animales vivos"
+  },
+  "014": {
+    "code": "014",
+    "description": "Carnes y despojos comestibles"
+  },
+  "015": {
+    "code": "015",
+    "description": "Abonos, cueros y pieles de origen animal"
+  },
+  "016": {
+    "code": "016",
+    "description": "Aceite de pescado"
+  },
+  "017": {
+    "code": "017",
+    "description": "Harina, polvo y “pellets” de pescado, crustáceos, moluscos y demás invertebrados acuáticos"
+  },
+  "019": {
+    "code": "019",
+    "description": "Arrendamiento de bienes muebles",
+    "rate": "10"
+  },
+  "020": {
+    "code": "020",
+    "description": "Mantenimiento y reparación de bienes muebles",
+    "rate": "10"
+  },
+  "021": {
+    "code": "021",
+    "description": "Movimiento de carga",
+    "rate": "10"
+  },
+  "022": {
+    "code": "022",
+    "description": "Otros servicios empresariales",
+    "rate": "10"
+  },
+  "023": {
+    "code": "023",
+    "description": "Leche",
+    "rate": "4"
+  },
+  "024": {
+    "code": "024",
+    "description": "Comisión mercantil",
+    "rate": "10"
+  },
+  "025": {
+    "code": "025",
+    "description": "Fabricación de bienes por encargo",
+    "rate": "10"
+  },
+  "026": {
+    "code": "026",
+    "description": "Servicio de transporte de personas",
+    "rate": "10"
+  },
+  "027": {
+    "code": "027",
+    "description": "Servicio de transporte de carga",
+    "rate": "4"
+  },
+  "028": {
+    "code": "028",
+    "description": "Transporte de pasajeros"
+  },
+  "030": {
+    "code": "030",
+    "description": "Contratos de construcción",
+    "rate": "4"
+  },
+  "031": {
+    "code": "031",
+    "description": "Oro gravado con el IGV",
+    "rate": "10"
+  },
+  "034": {
+    "code": "034",
+    "description": "Minerales metálicos no auríferos",
+    "rate": "10"
+  },
+  "035": {
+    "code": "035",
+    "description": "Bienes exonerados del IGV",
+    "rate": "1.5"
+  },
+  "036": {
+    "code": "036",
+    "description": "Oro y demás minerales metálicos exonerados del IGV",
+    "rate": "1.5"
+  },
+  "037": {
+    "code": "037",
+    "description": "Demás servicios gravados con el IGV",
+    "rate": "10"
+  },
+  "039": {
+    "code": "039",
+    "description": "Minerales no metálicos",
+    "rate": "10"
+  },
+  "040": {
+    "code": "040",
+    "description": "Bien inmueble gravado con IGV",
+    "rate": "4"
+  }
+}

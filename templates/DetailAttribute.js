@@ -13,6 +13,7 @@ class DetailAttribute {
     this._name = null
     this._value = null
     this._fecInicio = null
+    this._horInicio = null
     this._fecFin = null
     this._duracion = null
   }
@@ -30,7 +31,7 @@ class DetailAttribute {
   }
 
   set code (value) {
-    if (catalogTaxConceptIdentificationCode[value]) console.warn('DetailAttribute', `${value} not exist into the catalog catalogTaxConceptIdentificationCode`)
+    if (!catalogTaxConceptIdentificationCode[value]) console.warn('DetailAttribute', `${value} not exist into the catalog catalogTaxConceptIdentificationCode`)
     this._code = value
   }
 
@@ -84,6 +85,14 @@ class DetailAttribute {
 
   set fecInicio (value) {
     this._fecInicio = value
+  }
+
+  get horInicio () {
+    return this._horInicio
+  }
+
+  set horInicio (value) {
+    this._horInicio = value
   }
 
   get fecFin () {
