@@ -188,6 +188,8 @@ class SaleDetail {
 
   set mtoValorUnitario (value) {
     if (!value) throw new Error('2068')
+    if (!/^[0-9]{12}[,][0-9]{10}$/.test(value) &&
+     /[-+0.]{1,}$/.test(value)) throw new Error('2369')
     this._mtoValorUnitario = value
   }
 }

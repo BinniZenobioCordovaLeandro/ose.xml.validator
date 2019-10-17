@@ -40,7 +40,7 @@
     <cbc:UBLVersionID>2.1</cbc:UBLVersionID>
     <cbc:CustomizationID>2.0</cbc:CustomizationID>
     <cbc:ID>FFF1-2</cbc:ID>
-    <cbc:IssueDate>2019-09-25</cbc:IssueDate>
+    <cbc:IssueDate>2019-09-30</cbc:IssueDate>
     <cbc:IssueTime>14:37:53</cbc:IssueTime>
     <cbc:InvoiceTypeCode listID="0101" listAgencyName="PE:SUNAT" listName="Tipo de Documento" listURI="urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo01" name="Tipo de Operacion" listSchemeURI="urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo51">01</cbc:InvoiceTypeCode>
     <cbc:Note languageLocaleID="1000">SEISCIENTOS CON 00/100 SOLES</cbc:Note>
