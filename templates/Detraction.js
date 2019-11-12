@@ -5,8 +5,8 @@ var catalogPayMethod = require('../catalogs/catalogPayMethod.json')
 class Detraction {
   constructor () {
     this._warning = []
-
     this._indicator = null
+    this._authorization = null
     this._percent = null
     this._mount = null
     this._mountCurrencyId = null
@@ -36,6 +36,14 @@ class Detraction {
 
   set indicator (value) {
     this._indicator = value
+  }
+
+  get authorization () {
+    return this._authorization
+  }
+
+  set authorization (value) {
+    this._authorization = value
   }
 
   get percent () {
@@ -148,6 +156,27 @@ class Detraction {
 
   set valueRef (value) {
     this._valueRef = value
+  }
+
+  toJSON () {
+    return {
+      warning: this.warning,
+      indicator: this.indicator,
+      authorization: this.authorization,
+      percent: this.percent,
+      mount: this.mount,
+      mountCurrencyId: this.mountCurrencyId,
+      ctaBanco: this.ctaBanco,
+      codMedioPago: this.codMedioPago,
+      codMedioPagoListName: this.codMedioPagoListName,
+      codMedioPagoListAgencyName: this.codMedioPagoListAgencyName,
+      codMedioPagoListUri: this.codMedioPagoListUri,
+      codBienDetraccion: this.codBienDetraccion,
+      codBienDetraccionSchemeName: this.codBienDetraccionSchemeName,
+      codBienDetraccionSchemeAgencyName: this.codBienDetraccionSchemeAgencyName,
+      codBienDetraccionSchemeUri: this.codBienDetraccionSchemeUri,
+      valueRef: this.valueRef
+    }
   }
 }
 

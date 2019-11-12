@@ -1,0 +1,17 @@
+{
+    "01": {
+        "code": "01",
+        "description": "Percepción Venta Interna",
+        "percentage": "2"
+    },
+    "02": {
+        "code": "02",
+        "description": "Percepción a la adquisición de combustible",
+        "percentage": "1"
+    },
+    "03": {
+        "code": "03",
+        "description": "Percepción realizada al agente de percepción con tasa especial",
+        "percentage": "0.5"
+    }
+}

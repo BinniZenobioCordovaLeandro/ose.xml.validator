@@ -3,7 +3,6 @@
 class TaxDetail {
   constructor () {
     this._warning = []
-
     this._taxableAmount = null
     this._taxableAmountCurrencyId = null
     this._taxAmount = null
@@ -89,7 +88,7 @@ class TaxDetail {
   }
 
   set perUnitAmount (value) {
-    if (value && !/^[+]?[0-9]{1,3}\.[0-9]{1,5}$/.test(value) && !/^[+-0.]{1,}$/.test(value)) throw new Error('2892')
+    if (value && !/^[+]?[0-9]{1,3}\.[0-9]{1,5}$/.test(value) && Number(value) !== 0) throw new Error('2892')
     this._perUnitAmount = value
   }
 
@@ -193,6 +192,31 @@ class TaxDetail {
 
   set typeCode (value) {
     this._typeCode = value
+  }
+
+  toJSON () {
+    return {
+      warning: this.warning,
+      taxableAmount: this.taxableAmount,
+      taxableAmountCurrencyId: this.taxableAmountCurrencyId,
+      taxAmount: this.taxAmount,
+      taxAmountCurrencyId: this.taxAmountCurrencyId,
+      baseUnitMeasure: this.baseUnitMeasure,
+      baseUnitMeasureUnitCode: this.baseUnitMeasureUnitCode,
+      perUnitAmount: this.perUnitAmount,
+      percent: this.percent,
+      tierRange: this.tierRange,
+      taxExemptionReasonCode: this.taxExemptionReasonCode,
+      taxExemptionReasonCodeListAgencyName: this.taxExemptionReasonCodeListAgencyName,
+      taxExemptionReasonCodeListName: this.taxExemptionReasonCodeListName,
+      taxExemptionReasonCodeListURI: this.taxExemptionReasonCodeListURI,
+      code: this.code,
+      codeSchemeName: this.codeSchemeName,
+      codeSchemeAgencyName: this.codeSchemeAgencyName,
+      codeSchemeUri: this.codeSchemeUri,
+      name: this.name,
+      typeCode: this.typeCode
+    }
   }
 }
 

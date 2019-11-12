@@ -3,7 +3,6 @@
 class Prepayment {
   constructor () {
     this._warning = []
-
     this._id = null
     this._idSchemeName = null
     this._idSchemeAgencyName = null
@@ -86,6 +85,20 @@ class Prepayment {
 
   set payDate (value) {
     this._payDate = value
+  }
+
+  toJSON () {
+    return {
+      warning: this.warning,
+      id: this.id,
+      idSchemeName: this.idSchemeName,
+      idSchemeAgencyName: this.idSchemeAgencyName,
+      tipoDocRel: this.tipoDocRel,
+      nroDocRel: this.nroDocRel,
+      total: this.total,
+      totalCurrencyId: this.totalCurrencyId,
+      payDate: this.payDate
+    }
   }
 }
 

@@ -3,11 +3,10 @@
 class Direction {
   constructor () {
     this._warning = []
-
+    this._id = null
     this._ubigueo = null
     this._ubigueoSchemeAgencyName = null
     this._ubigueoSchemeName = null
-
     this._direccion = null
   }
 
@@ -17,6 +16,14 @@ class Direction {
 
   set warning (value) {
     this._warning = value
+  }
+
+  get id () {
+    return this._id
+  }
+
+  set id (value) {
+    this._id = value
   }
 
   get ubigueo () {
@@ -51,6 +58,17 @@ class Direction {
 
   set direccion (value) {
     this._direccion = value
+  }
+
+  toJSON () {
+    return {
+      warning: this.warning,
+      id: this.id,
+      ubigueo: this.ubigueo,
+      ubigueoSchemeAgencyName: this.ubigueoSchemeAgencyName,
+      ubigueoSchemeName: this.ubigueoSchemeName,
+      direccion: this.direccion
+    }
   }
 }
 

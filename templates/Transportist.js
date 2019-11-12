@@ -5,7 +5,6 @@ var catalogIdentityDocumentTypeCode = require('../catalogs/catalogIdentityDocume
 class Transportist {
   constructor () {
     this._warning = []
-
     this._tipoDoc = null
     this._numDoc = null
     this._numDocSchemeName = null
@@ -156,6 +155,26 @@ class Transportist {
 
   set numConstancia (value) {
     this._numConstancia = value
+  }
+
+  toJSON () {
+    return {
+      warning: this.warning,
+      tipoDoc: this.tipoDoc,
+      numDoc: this.numDoc,
+      numDocSchemeName: this.numDocSchemeName,
+      numDocSchemeAgencyName: this.numDocSchemeAgencyName,
+      numDocSchemeUri: this.numDocSchemeUri,
+      rznSocial: this.rznSocial,
+      placa: this.placa,
+      choferTipoDoc: this.choferTipoDoc,
+      choferDoc: this.choferDoc,
+      choferDocSchemeName: this.choferDocSchemeName,
+      choferDocSchemeAgencyName: this.choferDocSchemeAgencyName,
+      choferDocSchemeURI: this.choferDocSchemeURI,
+      regMtc: this.regMtc,
+      numConstancia: this.numConstancia
+    }
   }
 }
 

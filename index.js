@@ -1,60 +1,55 @@
 'use strict'
-var startTimeProccess = new Date()
 
-const ReturnCode = require('./catalogs/ReturnCode.json')
-const catalogDocumentTypeCode = require('./catalogs/catalogDocumentTypeCode.json')
-
-var DomDocumentHelper = require('./helpers/DomDocumentHelper')
-var LoaderController = require('./LoaderController')
-
-const chalk = require('chalk')
-const path = require('path')
 const fs = require('fs')
+const path = require('path')
+const iconv = require('iconv-lite')
+const chalk = require('chalk')
+const argv = require('yargs').argv
+const moment = require('moment')
 
-console.log(chalk.cyan('\n', '- Hi!, i\'m ose.xml.validator, and well be, i running now.'))
+const Validator = require('./Validator')
 
-var xmlpath = path.resolve('./xmls/EJEMPLO XML FACTURA 2 EXONERADA.xml')
-var xml = fs.readFileSync(xmlpath, 'utf8')
+if (!argv.xmlpath) throw new Error('I need an xml Path to execute all script logic')
 
-var domDocumentHelper = new DomDocumentHelper(xml)
-domDocumentHelper.mappingNameSpaces()
+var startTime = moment()
 
-var ublVersion = domDocumentHelper.select('string(//xmlns:Invoice/cbc:UBLVersionID)')
-var documentType = domDocumentHelper.select('string(//xmlns:Invoice/cbc:InvoiceTypeCode)')
-console.log(chalk.white('xmlInfo'), {
-  ublVersion: ublVersion,
-  documentType: catalogDocumentTypeCode[documentType]
-})
-
-console.log(chalk.white('- now, i will create a Loader class to '), chalk.yellow(`${catalogDocumentTypeCode[documentType]} ${ublVersion}`))
-
-var fileInfo = {
-  rucEmisor: '20303115405',
-  tipoComprobante: '01',
-  serieComprobante: 'F001',
-  correlativoComprobante: '0493399'
-}
-
-var loader = new LoaderController(documentType, ublVersion, xml, fileInfo, domDocumentHelper)
-console.log('The loader will be loading')
-loader.load().then((result) => {
-  if (result.length) {
-    var warnings = {}
-    result.forEach(warning => {
-      warnings[warning] = ReturnCode[warning]
-    })
-    console.log(chalk.yellow(':/ ', 'All was loaded, but well... found warnings.'))
-    console.log(chalk.yellow('warnings'))
-    console.dir(warnings)
-    console.log('\n')
+const xmlpath = path.resolve(argv.xmlpath)
+fs.readFile(xmlpath, (err, data) => {
+  if (err) throw err
+  var encoding = /encoding="([\w-]{1,})"/mg.exec(data.toString('utf8'))[1]
+  const xmlString = iconv.decode(data, encoding)
+  const fileInfo = {}
+  if (/([0-9]{11})-([0-9]{2})-([0-9a-zA-Z]{4})-([0-9]{1,8})\.([a-zA-Z]{3})$/.test(argv.xmlpath)) {
+    const match = /([0-9]{11})-([0-9]{2})-([0-9a-zA-Z]{4})-([0-9]{1,8})\.([a-zA-Z]{3})$/.exec(argv.xmlpath)
+    fileInfo.rucEmisor = match[1]
+    fileInfo.tipoComprobante = match[2]
+    fileInfo.serieComprobante = match[3]
+    fileInfo.correlativoComprobante = match[4]
+  } else if (argv.fileinfo) {
+    if (/([0-9]{11})-([0-9]{2})-([0-9a-zA-Z]{4})-([0-9]{1,8})/.test(argv.fileinfo)) {
+      const match = /([0-9]{11})-([0-9]{2})-([0-9a-zA-Z]{4})-([0-9]{1,8})$/.exec(argv.fileinfo)
+      fileInfo.rucEmisor = match[1]
+      fileInfo.tipoComprobante = match[2]
+      fileInfo.serieComprobante = match[3]
+      fileInfo.correlativoComprobante = match[4]
+    } else {
+      console.error(chalk.bgRed('The fileinfo argument value structure need be ([0-9]{11})-([0-9]{2})-([0-9a-zA-Z]{4})-([0-9]{1,8})$'))
+      throw new Error('The fileinfo argument value structure need be ([0-9]{11})-([0-9]{2})-([0-9a-zA-Z]{4})-([0-9]{1,8})$')
+    }
   } else {
-    console.log(chalk.blue(':) ', 'All was loaded good. '), '\n')
+    console.error(chalk.bgRed('The xml file name structure need be ([0-9]{11})-([0-9]{2})-([0-9a-zA-Z]{4})-([0-9]{1,8}).([a-zA-Z]{3})$'))
+    throw new Error('The xml file name structure need be ([0-9]{11})-([0-9]{2})-([0-9a-zA-Z]{4})-([0-9]{1,8}).([a-zA-Z]{3})$')
   }
+  new Validator(xmlString, fileInfo).validate().then((result) => {
+    const milliseconds = moment().diff(startTime, 'milliseconds')
+    console.log(chalk.white(`The xml ${fileInfo.rucEmisor}-${fileInfo.tipoComprobante}-${fileInfo.serieComprobante}-${fileInfo.correlativoComprobante}, validated results :`))
+    if (result) console.warn(chalk.yellow('xml warnings'), result)
+    if (Number(milliseconds) < 300) console.log(chalk.bgGreen(':D'), chalk.green(`processed on ${milliseconds} milliseconds`))
+    if (Number(milliseconds) >= 300 && Number(milliseconds) < 500) console.log(chalk.bgYellow(':/'), chalk.yellow(`processed on ${milliseconds} milliseconds`))
+    if (Number(milliseconds) >= 500) console.log(chalk.bgRed(':('), chalk.red(`processed on ${milliseconds} milliseconds`))
 
-  var endTimeProccess = new Date() - startTimeProccess
-  console.info('Execution time: %dms', endTimeProccess, '\n')
-}).catch((err) => {
-  console.error(chalk.red(':( ', 'I found an exception. '))
-  console.error(chalk.red(err.name), chalk.red(':'), chalk.red(err.message))
-  console.error(chalk.red('Detail'), chalk.red(':'), chalk.red(`${ReturnCode[err.message]}`), '\n')
+    console.log()
+  }).catch((err) => {
+    throw err
+  })
 })

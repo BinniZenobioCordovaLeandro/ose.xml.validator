@@ -3,7 +3,6 @@
 class SalePerception {
   constructor () {
     this._warning = []
-
     this._indicator = null
     this._codReg = null
     this._porcentaje = null
@@ -75,6 +74,19 @@ class SalePerception {
 
   set mtoTotalCurrencyID (value) {
     this._mtoTotalCurrencyID = value
+  }
+
+  toJSON () {
+    return {
+      warning: this.warning,
+      indicator: this.indicator,
+      codReg: this.codReg,
+      porcentaje: this.porcentaje,
+      mtoBase: this.mtoBase,
+      mto: this.mto,
+      mtoTotal: this.mtoTotal,
+      mtoTotalCurrencyID: this.mtoTotalCurrencyID
+    }
   }
 }
 

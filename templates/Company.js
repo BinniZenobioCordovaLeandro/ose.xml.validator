@@ -1,5 +1,6 @@
 'use strict'
 var Address = require('./Address')
+var Agent = require('./Agent')
 
 var listContribuyente = require('../catalogs/listContribuyente.json')
 
@@ -20,6 +21,8 @@ class Company {
     this._address = new Address()
     this._email = null
     this._telephone = null
+
+    this._agent = new Agent()
   }
 
   get warning () {
@@ -115,6 +118,31 @@ class Company {
 
   set address (value) {
     this._address = value
+  }
+
+  get agent () {
+    return this._agent
+  }
+
+  set agent (value) {
+    this._agent = value
+  }
+
+  toJSON () {
+    return {
+      warning: this.warning,
+      ruc: this.ruc,
+      rucSchemeId: this.rucSchemeId,
+      rucSchemeName: this.rucSchemeName,
+      rucSchemeAgencyName: this.rucSchemeAgencyName,
+      rucSchemeUri: this.rucSchemeUri,
+      razonSocial: this.razonSocial,
+      nombreComercial: this.nombreComercial,
+      address: this.address.toJSON(),
+      email: this.email,
+      telephone: this.telephone,
+      agent: this.agent.toJSON()
+    }
   }
 }
 

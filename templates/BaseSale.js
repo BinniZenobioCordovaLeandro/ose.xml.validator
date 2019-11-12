@@ -93,6 +93,7 @@ class BaseSale {
   set ublVersion (value) {
     if (!value) throw new Error('2075')
     if (!/^([1-9.]){3}$/.test(value)) throw new Error('2074')
+    if (value !== '2.1') throw new Error('2074')
     this._ublVersion = value
   }
 
@@ -103,6 +104,7 @@ class BaseSale {
   set customization (value) {
     if (!value) throw new Error('2073')
     if (!/^([0-9.]){3}$/.test(value)) throw new Error('2072')
+    if (value !== '2.0') throw new Error('2072')
     this._customization = value
   }
 
@@ -135,6 +137,33 @@ class BaseSale {
     this._tipoDoc = value
   }
 
+  get tipoDocListAgencyName () {
+    return this._tipoDocListAgencyName
+  }
+
+  set tipoDocListAgencyName (value) {
+    if (value && !/^PE:SUNAT$/.test(value)) this.warning.push('4251')
+    this._tipoDocListAgencyName = value
+  }
+
+  get tipoDocListName () {
+    return this._tipoDocListName
+  }
+
+  set tipoDocListName (value) {
+    if (value && value !== 'Tipo de Documento') this.warning.push('4252')
+    this._tipoDocListName = value
+  }
+
+  get tipoDocListURI () {
+    return this._tipoDocListURI
+  }
+
+  set tipoDocListURI (value) {
+    if (value && value !== 'urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo01') this.warning.push('4253')
+    this._tipoDocListURI = value
+  }
+
   get tipoOperacion () {
     return this._tipoOperacion
   }
@@ -161,37 +190,6 @@ class BaseSale {
   set tipoOperacionListSchemeUri (value) {
     if (value && value !== 'urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo51') throw new Error('4261')
     this._tipoOperacionListSchemeUri = value
-  }
-
-  get tipoDocListAgencyName () {
-    return this._tipoDocListAgencyName
-  }
-
-  set tipoDocListAgencyName (value) {
-    if (value) {
-      if (!/^PE:SUNAT$/.test(value)) this.warning.push('4251')
-      this._tipoDocListAgencyName = value
-    }
-  }
-
-  get tipoDocListName () {
-    return this._tipoDocListName
-  }
-
-  set tipoDocListName (value) {
-    if (value && value !== 'Tipo de Documento') this.warning.push('4252')
-    this._tipoDocListName = value
-  }
-
-  get tipoDocListURI () {
-    return this._tipoDocListURI
-  }
-
-  set tipoDocListURI (value) {
-    if (value) {
-      if (value !== 'urn:pe:gob:sunat:cpe:see:gem:catalogos:catalogo01') this.warning.push('4253')
-      this._tipoDocListURI = value
-    }
   }
 
   get serie () {
@@ -316,7 +314,7 @@ class BaseSale {
 
   set sumOtrosCargos (value) {
     if (!/^[+]?[0-9]{1,12}\.[0-9]{1,2}$/.test(value) ||
-      !/^[+-0.]{1,}$/.test(value)) throw new Error('2064')
+      Number(value) !== 0) throw new Error('2064')
     this._sumOtrosCargos = value
   }
 
@@ -333,7 +331,7 @@ class BaseSale {
   }
 
   set mtoBaseIsc (value) {
-    if (!/^[+]?[0-9]{1,12}\.[0-9]{1,2}$/.test(value) || /^[+-0.]{1,}$/.test(value)) throw new Error('2999')
+    if (!/^[+]?[0-9]{1,12}\.[0-9]{1,2}$/.test(value) || Number(value) !== 0) throw new Error('2999')
     this._mtoBaseIsc = value
   }
 
@@ -359,7 +357,7 @@ class BaseSale {
 
   set mtoImpVenta (value) {
     if (!/^[+]?[0-9]{1,12}\.[0-9]{1,2}$/.test(value) &&
-      !/^[+-0.]{1,}$/.test(value)) throw new Error('2062')
+      Number(value) !== 0) throw new Error('2062')
     this._mtoImpVenta = value
   }
 
@@ -377,6 +375,14 @@ class BaseSale {
 
   set details (value) {
     this._details = value
+  }
+
+  get legends () {
+    return this._legends
+  }
+
+  set legends (value) {
+    this._legends = value
   }
 
   get guias () {

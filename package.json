@@ -7,8 +7,8 @@
     "test": "tests"
   },
   "scripts": {
-    "build" : "standard --fix",
-    "start": "node index.js",
+    "build": "standard --fix",
+    "start": "node index.js --xmlpath=.\\xmls\\20303115405-01-F001-0631570.xml",
     "test": "node tests/"
   },
   "repository": {
@@ -39,10 +39,12 @@
   "dependencies": {
     "chalk": "^2.4.2",
     "global": "^4.4.0",
+    "iconv-lite": "^0.5.0",
     "moment": "^2.24.0",
     "path": "^0.12.7",
     "xmldom": "^0.1.27",
-    "xpath": "0.0.27"
+    "xpath": "0.0.27",
+    "yargs": "^14.2.0"
   },
   "devDependencies": {
     "standard": "^14.3.1"

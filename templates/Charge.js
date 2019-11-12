@@ -1,9 +1,8 @@
 'use strict'
 
 class Charge {
-  constructor (params) {
+  constructor () {
     this._warning = []
-
     this._indicator = null
     this._codTipo = null
     this._codTipoListAgencyName = null
@@ -105,6 +104,22 @@ class Charge {
 
   set montoBaseCurrencyId (value) {
     this._montoBaseCurrencyId = value
+  }
+
+  toJSON () {
+    return {
+      warning: this.warning,
+      indicator: this.indicator,
+      codTipo: this.codTipo,
+      codTipoListAgencyName: this.codTipoListAgencyName,
+      codTipoListName: this.codTipoListName,
+      codTipoListUri: this.codTipoListUri,
+      factor: this.factor,
+      monto: this.monto,
+      montoCurrencyId: this.montoCurrencyId,
+      montoBase: this.montoBase,
+      montoBaseCurrencyId: this.montoBaseCurrencyId
+    }
   }
 }
 

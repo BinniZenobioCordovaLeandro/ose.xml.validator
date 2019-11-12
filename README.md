@@ -32,5 +32,5 @@ Hey there, `Buy me a coffee` to thank.
 
 ---
 Me stoped here :
-11.10.19
-/Invoice/cac:InvoiceLine/cac:Item/cac:AdditionalItemProperty/cbc:Name (Nombre del concepto)
+13.06 23.10.19
+/Invoice/cac:AccountingSupplierParty/cac:Party/cac:AgentParty/cac:PartyIdentification/cbc:ID

@@ -5,17 +5,19 @@ var catalogTaxConceptIdentificationCode = require('../catalogs/catalogTaxConcept
 class DetailAttribute {
   constructor () {
     this._warning = []
-
     this._code = null
     this._codeListName = null
     this._codeListAgencyName = null
     this._codeListURI = null
     this._name = null
     this._value = null
+    this._quantity = null
+    this._quantityUnitCode = null
     this._fecInicio = null
     this._horInicio = null
     this._fecFin = null
     this._duracion = null
+    this._duracionUnitCode = null
   }
 
   get warning () {
@@ -79,6 +81,23 @@ class DetailAttribute {
     this._value = value
   }
 
+  get quantity () {
+    return this._quantity
+  }
+
+  set quantity (value) {
+    this._quantity = value
+  }
+
+  get quantityUnitCode () {
+    return this._quantityUnitCode
+  }
+
+  set quantityUnitCode (value) {
+    if (value && value !== 'TNE') throw new Error('3115')
+    this._quantityUnitCode = value
+  }
+
   get fecInicio () {
     return this._fecInicio
   }
@@ -108,7 +127,36 @@ class DetailAttribute {
   }
 
   set duracion (value) {
+    if (value && !/[0-9]{1,4}/.test(value)) this.warning.push('4281')
     this._duracion = value
+  }
+
+  get duracionUnitCode () {
+    return this._duracionUnitCode
+  }
+
+  set duracionUnitCode (value) {
+    if (value && value !== 'DAY') this.warning.push('4313')
+    this._duracionUnitCode = value
+  }
+
+  toJSON () {
+    return {
+      warning: this.warning,
+      code: this.code,
+      codeListName: this.codeListName,
+      codeListAgencyName: this.codeListAgencyName,
+      codeListURI: this.codeListURI,
+      name: this.name,
+      value: this.value,
+      quantity: this.quantity,
+      quantityUnitCode: this.quantityUnitCode,
+      fecInicio: this.fecInicio,
+      horInicio: this.horInicio,
+      fecFin: this.fecFin,
+      duracion: this.duracion,
+      duracionUnitCode: this.duracionUnitCode
+    }
   }
 }
 

@@ -25,6 +25,13 @@ class Legend {
     if (!/^[\w $-/:-?{-~!"^_`[\]]{1,200}$/.test(value)) throw new Error('3006')
     this._value = value
   }
+
+  toJSON () {
+    return {
+      code: this.code,
+      value: this.value
+    }
+  }
 }
 
 module.exports = Legend

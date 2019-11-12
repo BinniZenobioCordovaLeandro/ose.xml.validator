@@ -204,6 +204,27 @@ class Address {
     if (value && value !== 'Establecimientos anexos') this.warning.push('4252')
     this._codLocalListName = value
   }
+
+  toJSON () {
+    return {
+      warning: this.warning,
+      ubigueo: this.ubigueo,
+      ubigueoSchemeAgencyName: this.ubigueoSchemeAgencyName,
+      ubigueoSchemeName: this.ubigueoSchemeName,
+      codigoPais: this.codigoPais,
+      codigoPaisListId: this.codigoPaisListId,
+      codigoPaisListAgencyName: this.codigoPaisListAgencyName,
+      codigoPaisListName: this.codigoPaisListName,
+      departamento: this.departamento,
+      provincia: this.provincia,
+      distrito: this.distrito,
+      urbanizacion: this.urbanizacion,
+      direccion: this.direccion,
+      codLocal: this.codLocal,
+      codLocalListAgencyName: this.codLocalListAgencyName,
+      codLocalListName: this.codLocalListName
+    }
+  }
 }
 
 module.exports = Address

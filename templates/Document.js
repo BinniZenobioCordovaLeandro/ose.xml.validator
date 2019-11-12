@@ -3,7 +3,6 @@
 class Document {
   constructor () {
     this._warning = []
-
     this._nroDoc = null
     this._tipoDoc = null
     this._tipoDocListAgencyName = null
@@ -139,6 +138,25 @@ class Document {
   set tipoDocEmisor (value) {
     if (!value || value !== '6') throw new Error('2520')
     this._tipoDocEmisor = value
+  }
+
+  toJSON () {
+    return {
+      warning: this.warning,
+      nroDoc: this.nroDoc,
+      tipoDoc: this.tipoDoc,
+      tipoDocListAgencyName: this.tipoDocListAgencyName,
+      tipoDocListName: this.tipoDocListName,
+      tipoDocListURI: this.tipoDocListURI,
+      payIdentifier: this.payIdentifier,
+      payIdentifierListName: this.payIdentifierListName,
+      payIdentifierListAgencyName: this.payIdentifierListAgencyName,
+      docEmisor: this.docEmisor,
+      docEmisorSchemeName: this.docEmisorSchemeName,
+      docEmisorSchemeAgencyName: this.docEmisorSchemeAgencyName,
+      docEmisorSchemeURI: this.docEmisorSchemeURI,
+      tipoDocEmisor: this.tipoDocEmisor
+    }
   }
 }
 

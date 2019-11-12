@@ -5,7 +5,6 @@ var TaxDetail = require('./TaxDetail')
 class TotalTax {
   constructor () {
     this._warning = []
-
     this._taxAmount = null
     this._taxAmountCurrencyid = null
     this._taxDetails = [new TaxDetail()]
@@ -41,6 +40,19 @@ class TotalTax {
 
   set taxDetails (value) {
     this._taxDetails = value
+  }
+
+  toJSON () {
+    var json = {
+      warning: this.warning,
+      taxAmount: this.taxAmount,
+      taxAmountCurrencyid: this.taxAmountCurrencyid,
+      taxDetails: []
+    }
+    for (let index = 0; index < this.taxDetails.length; index++) {
+      json.taxDetails.push(this.taxDetails[index].toJSON())
+    }
+    return json
   }
 }
 

@@ -24,7 +24,7 @@ class Signature {
 
   set id (value) {
     if (!value) throw new Error('2085')
-    if (!/^[A-Za-z0-9]{1,3000}$/.test(value)) throw new Error('2084')
+    if (!/^[\wÀ-ÿ #$-/:-?{-~!"^_`+=]{1,3000}$/.test(value)) throw new Error('2084')
     this._id = value
   }
 
@@ -34,7 +34,7 @@ class Signature {
 
   set canonicalizationAlgorithm (value) {
     if (!value) throw new Error('2087')
-    if (!/^[A-Za-z0-9:/.#-]{1,3000}$/.test(value)) throw new Error('2086')
+    if (!/^[\wÀ-ÿ #$-/:-?{-~!"^_`+=]{1,3000}$/.test(value)) throw new Error('2086')
     this._canonicalizationAlgorithm = value
   }
 
@@ -44,7 +44,7 @@ class Signature {
 
   set signatureAlgorithm (value) {
     if (!value) throw new Error('2089')
-    if (!/^[A-Za-z0-9:/.#-]{1,3000}$/.test(value)) throw new Error('2088')
+    if (!/^[\wÀ-ÿ #$-/:-?{-~!"^_`+=]{1,3000}$/.test(value)) throw new Error('2088')
     this._signatureAlgorithm = value
   }
 
@@ -53,8 +53,8 @@ class Signature {
   }
 
   set referenceUri (value) {
-    if (value.length <= 0) throw new Error('2090')
     if (!value) throw new Error('2091')
+    if (value.length <= 0 || value === '') throw new Error('2090')
     this._referenceUri = value
   }
 
@@ -64,7 +64,7 @@ class Signature {
 
   set transformAlgorithm (value) {
     if (!value) throw new Error('2093')
-    if (!/^[A-Za-z0-9:/.#-]{1,3000}$/.test(value)) throw new Error('2092')
+    if (!/^[\wÀ-ÿ #$-/:-?{-~!"^_`+=]{1,3000}$/.test(value)) throw new Error('2092')
     this._transformAlgorithm = value
   }
 
@@ -74,7 +74,7 @@ class Signature {
 
   set digestAlgorithm (value) {
     if (!value) throw new Error('2095')
-    if (!/^[A-Za-z0-9:/.#-]{1,3000}$/.test(value)) throw new Error('2094')
+    if (!/^[\wÀ-ÿ #$-/:-?{-~!"^_`+=]{1,3000}$/.test(value)) throw new Error('2094')
     this._digestAlgorithm = value
   }
 
@@ -93,7 +93,7 @@ class Signature {
 
   set signatureValue (value) {
     if (!value) throw new Error('2099')
-    if (!/^[A-Za-z0-9+=/]{2,}$/.test(value)) throw new Error('2098')
+    if (!/^[\wÀ-ÿ #$-/:-?{-~!"^_`+=]{2,}$/.test(value)) throw new Error('2098')
     this._signatureValue = value
   }
 
@@ -103,7 +103,7 @@ class Signature {
 
   set x509Certificate (value) {
     if (!value) throw new Error('2101')
-    if (!/^[A-Za-z0-9+=\n/ ]{2,}$/.test(value)) throw new Error('2100')
+    if (!/^[\wÀ-ÿ #$-/:-?{-~!"^_`+=]{2,}$/.test(value)) throw new Error('2100')
     this._x509Certificate = value
   }
 
@@ -121,7 +121,7 @@ class Signature {
 
   set signatureId (value) {
     if (!value) throw new Error('2076')
-    if (!/^[A-Za-z0-9]{1,3000}$/.test(value)) throw new Error('2077')
+    if (!/^[\wÀ-ÿ #$-/:-?{-~!"^_`+=]{1,3000}$/.test(value)) throw new Error('2077')
     this._signatureId = value
   }
 
@@ -130,7 +130,7 @@ class Signature {
   }
 
   set partyIdentificationId (value) {
-    if (!value) throw new Error('2076')
+    if (!value) throw new Error('2079')
     this._partyIdentificationId = value
   }
 
@@ -140,7 +140,7 @@ class Signature {
 
   set partyName (value) {
     if (!value) throw new Error('2081')
-    if (!/^[A-Za-z0-9. ]{1,3000}$/.test(value)) throw new Error('2080')
+    if (!/^[\wÀ-ÿ #$-/:-?{-~!"^_`+=]{1,3000}$/.test(value)) throw new Error('2080')
     this._partyName = value
   }
 
@@ -150,8 +150,27 @@ class Signature {
 
   set externalReferenceUri (value) {
     if (!value) throw new Error('2083')
-    if (!/^[A-Za-z0-9]{1,3000}$/.test(value)) throw new Error('2082')
+    if (!/^[\wÀ-ÿ #$-/:-?{-~!"^_`+=]{1,3000}$/.test(value)) throw new Error('2082')
     this._externalReferenceUri = value
+  }
+
+  toJSON () {
+    return {
+      id: this.id,
+      canonicalizationAlgorithm: this.canonicalizationAlgorithm,
+      signatureAlgorithm: this.signatureAlgorithm,
+      referenceUri: this.referenceUri,
+      transformAlgorithm: this.transformAlgorithm,
+      digestAlgorithm: this.digestAlgorithm,
+      digestValue: this.digestValue,
+      signatureValue: this.signatureValue,
+      x509Certificate: this.x509Certificate,
+      signature: this.signature,
+      signatureId: this.signatureId,
+      partyIdentificationId: this.partyIdentificationId,
+      partyName: this.partyName,
+      externalReferenceUri: this.externalReferenceUri
+    }
   }
 }
 

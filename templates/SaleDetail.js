@@ -2,6 +2,9 @@
 
 var DetailAttribute = require('./DetailAttribute')
 var TotalTax = require('./TotalTax')
+var Shipment = require('./Shipment')
+var Vehicle = require('./Vehicle')
+var Charge = require('./Charge')
 
 const catalogCommercialMeasureUnitTypeCode = require('../catalogs/catalogCommercialMeasureUnitTypeCode.json')
 const catalogSunatProductCode = require('../catalogs/catalogSunatProductCode.json')
@@ -10,7 +13,6 @@ const catalogUnitSalePriceTypeCode = require('../catalogs/catalogUnitSalePriceTy
 class SaleDetail {
   constructor () {
     this._warning = []
-
     this._id = null
     this._unidad = null
     this._unidadUnitCodeListId = null
@@ -26,7 +28,7 @@ class SaleDetail {
     this._descripcion = null
     this._mtoValorUnitario = null
     this._mtoValorUnitarioCurrencyId = null
-    this._cargos = null
+    this._cargos = [new Charge()]
     this._descuentos = null
     this._descuento = null
     this._mtoBaseIgv = null
@@ -49,12 +51,10 @@ class SaleDetail {
     this._mtoPrecioUnitarioCurrencyId = null
     this._mtoValorVenta = null
     this._mtoValorVentaCurrencyId = null
-    this._mtoValorGratuito = null
-    this._mtoValorGratuitoCurrencyId = null
-
     this._totalTax = new TotalTax()
-
     this._atributos = [new DetailAttribute()]
+    this._envio = new Shipment()
+    this._vehiculo = new Vehicle()
   }
 
   get warning () {
@@ -190,7 +190,7 @@ class SaleDetail {
 
   set descripcion (value) {
     if (!value) throw new Error('2026')
-    if (!/^[\w $-/:-?{-~!"^_`[\]\f\n\p\r\t]{1,500}$/.test(value)) throw new Error('2027')
+    if (!/^[\w\W]{1,500}$/.test(value)) throw new Error('2027')
     this._descripcion = value
   }
 
@@ -254,9 +254,11 @@ class SaleDetail {
 
   set mtoPrecioUnitario (value) {
     if (!value) throw new Error('2028')
-    if (!/^[+]?[0-9]{1,12}\.[0-9]{1,10}$/.test(value) || /^[+-0.]{1,}$/.test(value)) throw new Error('2367')
-    // throw new Error(4287) // PENDIENTE
-    // Si no existe en la misma línea un cac:TaxSubtotal con 'Código de tributo por línea' igual a '9996' cuyo 'Monto base' es mayor a cero (cbc:TaxableAmount > 0), y el valor del Tag UBL es diferente al resultado de dividir: la sumatoria del 'Valor de venta por ítem' más el 'Monto total de tributos del ítem' menos los 'Monto de descuentos' que no afectan la base imponible del ítem ('Código de motivo de descuento' igual a '01') más los 'Monto de cargos' que no afectan la base imponible del ítem ('Código de motivo de cargo' igual a '48'), entre la 'Cantidad de unidades por ítem' (con una tolerancia + -1)
+    if (!/^[+]?[0-9]{1,12}\.[0-9]{1,10}$/.test(value) && Number(value) !== 0) throw new Error('2367')
+    // throw new Error('3234') // PENDIENTE
+    // Si existe en la misma línea un cac:TaxSubtotal con 'Código de tributo por línea' igual a '9996' cuyo 'Monto base'
+    // es mayor a cero (cbc:TaxableAmount > 0) (Operaciones gratuitas), y 'Código de precio' es diferente de '02' (Valor referencial
+    //  en operaciones no onerosa).
     this._mtoPrecioUnitario = value
   }
 
@@ -273,7 +275,7 @@ class SaleDetail {
   }
 
   set mtoValorVenta (value) {
-    if (!/^[+]?[0-9]{1,12}\.[0-9]{1,2}$/.test(value) && !/^[+-0.]{1,}$/.test(value)) throw new Error('2370')
+    if (!/^[+]?[0-9]{1,12}\.[0-9]{1,2}$/.test(value) && Number(value) !== 0) throw new Error('2370')
     this._mtoValorVenta = value
   }
 
@@ -285,33 +287,87 @@ class SaleDetail {
     this._mtoValorVentaCurrencyId = value
   }
 
-  get mtoValorGratuito () {
-    return this._mtoValorGratuito
-  }
-
-  set mtoValorGratuito (value) {
-    if (!/^[+]?[0-9]{1,12}\.[0-9]{1,10}$/.test(value) || /^[+-0.]{1,}$/.test(value)) throw new Error('2367')
-    // throw new Error('3224') // PENDIENTE
-    // Si no existe en la misma línea un cac:TaxSubtotal con 'Código de tributo por línea' igual a '9996' cuyo 'Monto base' es mayor a cero (cbc:TaxableAmount > 0) (Operaciones gratuitas), y 'Código de precio' es '02' (Valor referencial en operaciones no onerosa), el Tag UBL es mayor a 0 (cero).
-    // throw new Error('3234') // PENDIENTE
-    // Si existe en la misma línea un cac:TaxSubtotal con 'Código de tributo por línea' igual a '9996' cuyo 'Monto base' es mayor a cero (cbc:TaxableAmount > 0) (Operaciones gratuitas), y 'Código de precio' es diferente de '02' (Valor referencial en operaciones no onerosa).
-    this._mtoValorGratuito = value
-  }
-
-  get mtoValorGratuitoCurrencyId () {
-    return this._mtoValorGratuitoCurrencyId
-  }
-
-  set mtoValorGratuitoCurrencyId (value) {
-    this._mtoValorGratuitoCurrencyId = value
-  }
-
   get totalTax () {
     return this._totalTax
   }
 
   set totalTax (value) {
     this._totalTax = value
+  }
+
+  get atributos () {
+    return this._atributos
+  }
+
+  set atributos (value) {
+    this._atributos = value
+  }
+
+  get envio () {
+    return this._envio
+  }
+
+  set envio (value) {
+    this._envio = value
+  }
+
+  get vehiculo () {
+    return this._vehiculo
+  }
+
+  set vehiculo (value) {
+    this._vehiculo = value
+  }
+
+  toJSON () {
+    var json = {
+      warning: this.warning,
+      id: this.id,
+      unidad: this.unidad,
+      unidadUnitCodeListId: this.unidadUnitCodeListId,
+      unidadUnitCodeListAgencyName: this.unidadUnitCodeListAgencyName,
+      cantidad: this.cantidad,
+      codProducto: this.codProducto,
+      codProdSunat: this.codProdSunat,
+      codProdSunatListID: this.codProdSunatListID,
+      codProdSunatListAgencyName: this.codProdSunatListAgencyName,
+      codProdSunatListName: this.codProdSunatListName,
+      codProdGS1: this.codProdGS1,
+      codProdGs1SchemeId: this.codProdGs1SchemeId,
+      descripcion: this.descripcion,
+      mtoValorUnitario: this.mtoValorUnitario,
+      mtoValorUnitarioCurrencyId: this.mtoValorUnitarioCurrencyId,
+      cargos: [],
+      descuentos: this.descuentos,
+      descuento: this.descuento,
+      mtoBaseIgv: this.mtoBaseIgv,
+      porcentajeIgv: this.porcentajeIgv,
+      igv: this.igv,
+      tipAfeIgv: this.tipAfeIgv,
+      mtoBaseIsc: this.mtoBaseIsc,
+      porcentajeIsc: this.porcentajeIsc,
+      isc: this.isc,
+      tipSisIsc: this.tipSisIsc,
+      mtoBaseOth: this.mtoBaseOth,
+      porcentajeOth: this.porcentajeOth,
+      otroTributo: this.otroTributo,
+      totalImpuestos: this.totalImpuestos,
+      mtoType: this.mtoType,
+      mtoTypeListName: this.mtoTypeListName,
+      mtoTypeListAgencyName: this.mtoTypeListAgencyName,
+      mtoTypeListUri: this.mtoTypeListUri,
+      mtoPrecioUnitario: this.mtoPrecioUnitario,
+      mtoPrecioUnitarioCurrencyId: this.mtoPrecioUnitarioCurrencyId,
+      mtoValorVenta: this.mtoValorVenta,
+      mtoValorVentaCurrencyId: this.mtoValorVentaCurrencyId,
+      totalTax: this.totalTax.toJSON(),
+      atributos: [],
+      envio: this.envio.toJSON(),
+      vehiculo: this.vehiculo.toJSON()
+    }
+    for (let index = 0; index < this.atributos.length; index++) json.atributos.push(this.atributos[index].toJSON())
+    for (let index = 0; index < this.cargos.length; index++) json.cargos.push(this.cargos[index].toJSON())
+    return json
   }
 }
 

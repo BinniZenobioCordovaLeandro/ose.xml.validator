@@ -2,6 +2,7 @@
 
 var Direction = require('./Direction')
 var Transportist = require('./Transportist')
+var Term = require('./Term')
 
 var catalogTransportModalityCode = require('../catalogs/catalogTransportModalityCode.json')
 var catalogTransportReasonCode = require('../catalogs/catalogTransportReasonCode.json')
@@ -10,7 +11,6 @@ var catalogCommercialMeasureUnitTypeCode = require('../catalogs/catalogCommercia
 class Shipment {
   constructor () {
     this._warning = []
-
     this._id = null
     this._idSchemeName = null
     this._idSchemeAgencyName = null
@@ -32,6 +32,7 @@ class Shipment {
     this._transportista = new Transportist()
     this._llegada = new Direction()
     this._partida = new Direction()
+    this._terms = [new Term()]
   }
 
   get warning () {
@@ -78,6 +79,14 @@ class Shipment {
     this._idSchemeUri = value
   }
 
+  get desTraslado () {
+    return this._desTraslado
+  }
+
+  set desTraslado (value) {
+    this._desTraslado = value
+  }
+
   get pesoTotal () {
     return this._pesoTotal
   }
@@ -93,7 +102,7 @@ class Shipment {
 
   set undPesoTotal (value) {
     if (value && value !== 'KGM') this.warning.push('4154')
-    if (!catalogCommercialMeasureUnitTypeCode[value]) this.warning.push('4154')
+    if (value && !catalogCommercialMeasureUnitTypeCode[value]) this.warning.push('4154')
     this._undPesoTotal = value
   }
 
@@ -180,6 +189,46 @@ class Shipment {
 
   set partida (value) {
     this._partida = value
+  }
+
+  get terms () {
+    return this._terms
+  }
+
+  set terms (value) {
+    this._terms = value
+  }
+
+  toJSON () {
+    var json = {
+      warning: this.warning,
+      id: this.id,
+      idSchemeName: this.idSchemeName,
+      idSchemeAgencyName: this.idSchemeAgencyName,
+      idSchemeUri: this.idSchemeUri,
+      codTraslado: this.codTraslado,
+      desTraslado: this.desTraslado,
+      indTransbordo: this.indTransbordo,
+      pesoTotal: this.pesoTotal,
+      undPesoTotal: this.undPesoTotal,
+      numBultos: this.numBultos,
+      modTraslado: this.modTraslado,
+      modTrasladoListName: this.modTrasladoListName,
+      modTrasladoListAgencyName: this.modTrasladoListAgencyName,
+      modTrasladoListUri: this.modTrasladoListUri,
+      fecTraslado: this.fecTraslado,
+      subContract: this.subContract,
+      numContenedor: this.numContenedor,
+      codPuerto: this.codPuerto,
+      transportista: this.transportista.toJSON(),
+      llegada: this.llegada.toJSON(),
+      partida: this.partida.toJSON(),
+      terms: []
+    }
+    for (let index = 0; index < this.terms.length; index++) {
+      json.terms.push(this.terms[index].toJSON())
+    }
+    return json
   }
 }
 

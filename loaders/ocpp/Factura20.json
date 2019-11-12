@@ -6,12 +6,12 @@
   "fechaEmision": "string(/xmlns:Invoice/cbc:IssueDate)",
   "horaEmision": "string(/xmlns:Invoice/cbc:IssueTime)",
   "tipoDoc": "string(/xmlns:Invoice/cbc:InvoiceTypeCode)",
-  "tipoOperacion": "string(/xmlns:Invoice/cbc:InvoiceTypeCode/@listID)",
-  "tipoOperacionName": "string(/xmlns:Invoice/cbc:InvoiceTypeCode/@name)",
-  "tipoOperacionListSchemeUri": "string(/xmlns:Invoice/cbc:InvoiceTypeCode/@listSchemeURI)",
   "tipoDocListAgencyName": "string(/xmlns:Invoice/cbc:InvoiceTypeCode/@listAgencyName)",
   "tipoDocListName": "string(/xmlns:Invoice/cbc:InvoiceTypeCode/@listName)",
   "tipoDocListURI": "string(/xmlns:Invoice/cbc:InvoiceTypeCode/@listURI)",
+  "tipoOperacion": "string(/xmlns:Invoice/cbc:InvoiceTypeCode/@listID)",
+  "tipoOperacionName": "string(/xmlns:Invoice/cbc:InvoiceTypeCode/@name)",
+  "tipoOperacionListSchemeUri": "string(/xmlns:Invoice/cbc:InvoiceTypeCode/@listSchemeURI)",
   "tipoMoneda": "string(/xmlns:Invoice/cbc:DocumentCurrencyCode)",
   "tipoMonedaListID": "string(/xmlns:Invoice/cbc:DocumentCurrencyCode/@listID)",
   "tipoMonedaListName": "string(/xmlns:Invoice/cbc:DocumentCurrencyCode/@listName)",
@@ -58,6 +58,13 @@
       "codLocal": "string(/xmlns:Invoice/cac:AccountingSupplierParty/cac:Party/cac:PartyLegalEntity/cac:RegistrationAddress/cbc:AddressTypeCode)",
       "codLocalListAgencyName": "string(/xmlns:Invoice/cac:AccountingSupplierParty/cac:Party/cac:PartyLegalEntity/cac:RegistrationAddress/cbc:AddressTypeCode/@listAgencyName)",
       "codLocalListName": "string(/xmlns:Invoice/cac:AccountingSupplierParty/cac:Party/cac:PartyLegalEntity/cac:RegistrationAddress/cbc:AddressTypeCode/@listName)"
+    },
+    "agent": {
+      "ruc": "string(/xmlns:Invoice/cac:AccountingSupplierParty/cac:Party/cac:AgentParty/cac:PartyIdentification/cbc:ID)",
+      "rucSchemeId": "string(/xmlns:Invoice/cac:AccountingSupplierParty/cac:Party/cac:AgentParty/cac:PartyIdentification/cbc:ID/@schemeID)",
+      "rucSchemeName": "string(/xmlns:Invoice/cac:AccountingSupplierParty/cac:Party/cac:AgentParty/cac:PartyIdentification/cbc:ID/@schemeName)",
+      "rucSchemeAgencyName": "string(/xmlns:Invoice/cac:AccountingSupplierParty/cac:Party/cac:AgentParty/cac:PartyIdentification/cbc:ID/@schemeAgencyName)",
+      "rucSchemeUri": "string(/xmlns:Invoice/cac:AccountingSupplierParty/cac:Party/cac:AgentParty/cac:PartyIdentification/cbc:ID/@schemeURI)"
     }
   },
   "client": {
@@ -82,6 +89,18 @@
       "addressListName": "string(/xmlns:Invoice/cac:AccountingCustomerParty/cac:Party/cac:PartyLegalEntity/cac:RegistrationAddress/cac:Country/cbc:IdentificationCode/@listName)"
     }
   },
+  "mtoDescuentos": "string(/xmlns:Invoice/cac:LegalMonetaryTotal/cbc:AllowanceTotalAmount)",
+  "mtoDescuentosCurrencyId": "string(/xmlns:Invoice/cac:LegalMonetaryTotal/cbc:AllowanceTotalAmount/@currencyID)",
+  "sumOtrosCargos": "string(/xmlns:Invoice/cac:LegalMonetaryTotal/cbc:ChargeTotalAmount)",
+  "sumOtrosCargosCurrencyId": "string(/xmlns:Invoice/cac:LegalMonetaryTotal/cbc:ChargeTotalAmount/@currencyID)",
+  "mtoImpVenta": "string(/xmlns:Invoice/cac:LegalMonetaryTotal/cbc:PayableAmount)",
+  "mtoImpVentaCurrencyId": "string(/xmlns:Invoice/cac:LegalMonetaryTotal/cbc:PayableAmount/@currencyID)",
+  "valorVenta": "string(/xmlns:Invoice/cac:LegalMonetaryTotal/cbc:LineExtensionAmount)",
+  "valorVentaCurrencyId": "string(/xmlns:Invoice/cac:LegalMonetaryTotal/cbc:LineExtensionAmount/@currencyID)",
+  "precioVenta": "string(/xmlns:Invoice/cac:LegalMonetaryTotal/cbc:TaxInclusiveAmount)",
+  "precioVentaCurrencyId": "string(/xmlns:Invoice/cac:LegalMonetaryTotal/cbc:TaxInclusiveAmount/@currencyID)",  
+  "mtoRndImpVenta": "string(/xmlns:Invoice/cac:LegalMonetaryTotal/cbc:PayableRoundingAmount)",
+  "mtoRndImpVentaCurrencyId": "string(/xmlns:Invoice/cac:LegalMonetaryTotal/cbc:PayableRoundingAmount/@currencyID)",
   "guias": {
     ".": "/xmlns:Invoice/cac:DespatchDocumentReference",
     "nroDoc": "/xmlns:Invoice/cac:DespatchDocumentReference/cbc:ID",
@@ -106,6 +125,11 @@
     "docEmisorSchemeURI": "/xmlns:Invoice/cac:AdditionalDocumentReference/cac:IssuerParty/cac:PartyIdentification/cbc:ID/@schemeURI",
     "tipoDocEmisor": "/xmlns:Invoice/cac:AdditionalDocumentReference/cac:IssuerParty/cac:PartyIdentification/cbc:ID/@schemeID"
   },
+  "legends": {
+    ".": "/xmlns:Invoice/cbc:Note",
+    "code": "/xmlns:Invoice/cbc:Note/@languageLocaleID",
+    "value": "/xmlns:Invoice/cbc:Note"
+  },
   "details": {
     ".": "/xmlns:Invoice/cac:InvoiceLine",
     "id": "/xmlns:Invoice/cac:InvoiceLine/cbc:ID",
@@ -127,11 +151,14 @@
       "codeListName": "/cac:Item/cac:AdditionalItemProperty/cbc:NameCode/@listName",
       "codeListAgencyName": "/cac:Item/cac:AdditionalItemProperty/cbc:NameCode/@listAgencyName",
       "codeListURI": "/cac:Item/cac:AdditionalItemProperty/cbc:NameCode/@listURI",
+      "quantity": "/cac:Item/cac:AdditionalItemProperty/cbc:ValueQuantity",
+      "quantityUnitCode": "/cac:Item/cac:AdditionalItemProperty/cbc:ValueQuantity/@unitCode",
       "value": "/cac:Item/cac:AdditionalItemProperty/cbc:Value",
       "fecInicio": "/cac:Item/cac:AdditionalItemProperty/cac:UsabilityPeriod/cbc:StartDate",
       "horInicio": "/cac:Item/cac:AdditionalItemProperty/cac:UsabilityPeriod/cbc:StartTime",
       "fecFin": "/cac:Item/cac:AdditionalItemProperty/cac:UsabilityPeriod/cbc:EndDate",
-      "duracion": "/cac:Item/cac:AdditionalItemProperty/cac:UsabilityPeriod/cbc:DurationMeasure"
+      "duracion": "/cac:Item/cac:AdditionalItemProperty/cac:UsabilityPeriod/cbc:DurationMeasure",
+      "duracionUnitCode": "/cac:Item/cac:AdditionalItemProperty/cac:UsabilityPeriod/cbc:DurationMeasure/@unitCode"
     },
     "descripcion": "/xmlns:Invoice/cac:InvoiceLine/cac:Item/cbc:Description",
     "mtoValorUnitario": "/xmlns:Invoice/cac:InvoiceLine/cac:Price/cbc:PriceAmount",
@@ -142,8 +169,6 @@
     "mtoTypeListUri": "/xmlns:Invoice/cac:InvoiceLine/cac:PricingReference/cac:AlternativeConditionPrice/cbc:PriceTypeCode/@listURI",
     "mtoPrecioUnitario": "/xmlns:Invoice/cac:InvoiceLine/cac:PricingReference/cac:AlternativeConditionPrice/cbc:PriceAmount",
     "mtoPrecioUnitarioCurrencyId": "/xmlns:Invoice/cac:InvoiceLine/cac:PricingReference/cac:AlternativeConditionPrice/cbc:PriceAmount/@currencyID",
-    "mtoValorGratuito": "/xmlns:Invoice/cac:InvoiceLine/cac:PricingReference/cac:AlternativeConditionPrice/cbc:PriceAmount",
-    "mtoValorGratuitoCurrencyId": "/xmlns:Invoice/cac:InvoiceLine/cac:PricingReference/cac:AlternativeConditionPrice/cbc:PriceAmount/@currencyID",
     "totalTax": {
       ".": "/cac:TaxTotal",
       "taxAmount": "/cac:TaxTotal/cbc:TaxAmount",
@@ -185,6 +210,60 @@
       "montoCurrencyId": "/cac:Allowancecharge/cbc:Amount/@currencyID",
       "montoBase": "/cac:Allowancecharge/cbc:BaseAmount",
       "montoBaseCurrencyId": "/cac:Allowancecharge/cbc:BaseAmount/@currencyID"
+    },
+    "envio": {
+      "partida": {
+        "ubigueo": "/cac:Delivery/cac:Despatch/cac:DespatchAddress/cbc:ID",
+        "ubigueoSchemeAgencyName": "/cac:Delivery/cac:Despatch/cac:DespatchAddress/cbc:ID/@schemeAgencyName",
+        "ubigueoSchemeName": "/cac:Delivery/cac:Despatch/cac:DespatchAddress/cbc:ID/@schemeName",
+        "direccion": "/cac:Delivery/cac:Despatch/cac:DespatchAddress/cac:AddressLine/cbc:Line"
+      },
+      "llegada": {
+        "ubigueo": "/cac:Delivery/cac:DeliveryLocation/cac:Address/cbc:ID",
+        "ubigueoSchemeAgencyName": "/cac:Delivery/cac:DeliveryLocation/cac:Address/cbc:ID/@schemeAgencyName",
+        "ubigueoSchemeName": "/cac:Delivery/cac:DeliveryLocation/cac:Address/cbc:ID/@schemeName",
+        "direccion": "/cac:Delivery/cac:DeliveryLocation/cac:Address/cac:AddressLine/cbc:Line"
+      },
+      "desTraslado": "/cac:Delivery/cac:Despatch/cbc:Instructions",
+      "terminos": {
+        ".": "/cac:Delivery/cac:DeliveryTerms",
+        "type": "/cac:Delivery/cac:DeliveryTerms/cbc:ID",
+        "value": "/cac:Delivery/cac:DeliveryTerms/cbc:Amount",
+        "valueCurrencyId": "/cac:Delivery/cac:DeliveryTerms/cbc:Amount/@currencyID"
+      }
+    },
+    "vehiculo": {
+      "tramo": {
+        "partida": {
+          "ubigueo": "/cac:Delivery/cac:Shipment/cac:Consignment/cac:PlannedPickupTransportEvent/cac:Location/cbc:ID",
+          "ubigueoSchemeAgencyName": "/cac:Delivery/cac:Shipment/cac:Consignment/cac:PlannedPickupTransportEvent/cac:Location/cbc:ID/@schemeAgencyName",
+          "ubigueoSchemeName": "/cac:Delivery/cac:Shipment/cac:Consignment/cac:PlannedPickupTransportEvent/cac:Location/cbc:ID/@schemeName",
+          "id": "/cac:Delivery/cac:Shipment/cbc:ID"
+        },
+        "llegada": {
+          "ubigueo": "/cac:Delivery/cac:Shipment/cac:Consignment/cac:PlannedDeliveryTransportEvent/cac:Location/cbc:ID",
+          "ubigueoSchemeAgencyName": "/cac:Delivery/cac:Shipment/cac:Consignment/cac:PlannedDeliveryTransportEvent/cac:Location/cbc:ID/@schemeAgencyName",
+          "ubigueoSchemeName": "/cac:Delivery/cac:Shipment/cac:Consignment/cac:PlannedDeliveryTransportEvent/cac:Location/cbc:ID/@schemeName"
+        },
+        "description": "/cac:Delivery/cac:Shipment/cac:Consignment/cbc:CarrierServiceInstructions",
+        "id": "/cac:Delivery/cac:Shipment/cac:Consignment/cbc:ID",
+        "value": "/cac:Delivery/cac:Shipment/cac:Consignment/cac:DeliveryTerms/cbc:Amount",
+        "valueCurrencyId": "/cac:Delivery/cac:Shipment/cac:Consignment/cac:DeliveryTerms/cbc:Amount/@currencyID"
+      },
+      "config": "/cac:Delivery/cac:Shipment/cac:Consignment/cac:TransportHandlingUnit/cac:TransportEquipment/cbc:SizeTypeCode",
+      "configListAgencyName": "/cac:Delivery/cac:Shipment/cac:Consignment/cac:TransportHandlingUnit/cac:TransportEquipment/cbc:SizeTypeCode/@listAgencyName",
+      "configListName": "/cac:Delivery/cac:Shipment/cac:Consignment/cac:TransportHandlingUnit/cac:TransportEquipment/cbc:SizeTypeCode/@listName",
+      "usefulLoadType": "/cac:Delivery/cac:Shipment/cac:Consignment/cac:TransportHandlingUnit/cac:MeasurementDimension/cbc:AttributeID",
+      "usefulLoadTm": "/cac:Delivery/cac:Shipment/cac:Consignment/cac:TransportHandlingUnit/cac:MeasurementDimension/cbc:Measure",
+      "usefulLoadTmUnitCode": "/cac:Delivery/cac:Shipment/cac:Consignment/cac:TransportHandlingUnit/cac:MeasurementDimension/cbc:Measure/@unitCode",
+      "effectiveLoadType": "/cac:Delivery/cac:Shipment/cac:Consignment/cac:TransportHandlingUnit/cac:MeasurementDimension/cbc:AttributeID",
+      "effectiveLoadTm": "/cac:Delivery/cac:Shipment/cac:Consignment/cac:TransportHandlingUnit/cac:MeasurementDimension/cbc:Measure",
+      "effectiveLoadUnitCode": "/cac:Delivery/cac:Shipment/cac:Consignment/cac:TransportHandlingUnit/cac:MeasurementDimension/cbc:Measure/@unitCode",
+      "refValue": "/cac:Delivery/cac:Shipment/cac:Consignment/cac:TransportHandlingUnit/cac:TransportEquipment/cac:Delivery/cac:DeliveryTerms/cbc:Amount",
+      "refValueCurrencyId": "/cac:Delivery/cac:Shipment/cac:Consignment/cac:TransportHandlingUnit/cac:TransportEquipment/cac:Delivery/cac:DeliveryTerms/cbc:Amount/@currencyID",
+      "nominalLoad": "/cac:Delivery/cac:Shipment/cac:Consignment/cbc:DeclaredForCarriageValueAmount",
+      "nominalLoadCurrencyId": "/cac:Delivery/cac:Shipment/cac:Consignment/cbc:DeclaredForCarriageValueAmount/@currencyID",
+      "returnFactor": "/cac:Delivery/cac:Shipment/cac:Consignment/cac:TransportHandlingUnit/cac:TransportEquipment/cbc:ReturnabilityIndicator"
     }
   },
   "totalTax": {
@@ -218,23 +297,6 @@
     "monto": "/xmlns:Invoice/cac:AllowanceCharge/cbc:Amount",
     "montoCurrencyId": "/xmlns:Invoice/cac:AllowanceCharge/cbc:Amount/@currencyID"
   },
-  "mtoDescuentos": "string(/xmlns:Invoice/cac:LegalMonetaryTotal/cbc:AllowanceTotalAmount)",
-  "mtoDescuentosCurrencyId": "string(/xmlns:Invoice/cac:LegalMonetaryTotal/cbc:AllowanceTotalAmount/@currencyID)",
-  "sumOtrosCargos": "string(/xmlns:Invoice/cac:LegalMonetaryTotal/cbc:ChargeTotalAmount)",
-  "sumOtrosCargosCurrencyId": "string(/xmlns:Invoice/cac:LegalMonetaryTotal/cbc:ChargeTotalAmount/@currencyID)",
-  "mtoImpVenta": "string(/xmlns:Invoice/cac:LegalMonetaryTotal/cbc:PayableAmount)",
-  "mtoImpVentaCurrencyId": "string(/xmlns:Invoice/cac:LegalMonetaryTotal/cbc:PayableAmount/@currencyID)",
-  "valorVenta": "string(/xmlns:Invoice/cac:LegalMonetaryTotal/cbc:LineExtensionAmount)",
-  "valorVentaCurrencyId": "string(/xmlns:Invoice/cac:LegalMonetaryTotal/cbc:LineExtensionAmount/@currencyID)",
-  "precioVenta": "string(/xmlns:Invoice/cac:LegalMonetaryTotal/cbc:TaxInclusiveAmount)",
-  "precioVentaCurrencyId": "string(/xmlns:Invoice/cac:LegalMonetaryTotal/cbc:TaxInclusiveAmount/@currencyID)",
-  "mtoRndImpVenta": "string(/xmlns:Invoice/cac:LegalMonetaryTotal/cbc:PayableRoundingAmount)",
-  "mtoRndImpVentaCurrencyId": "string(/xmlns:Invoice/cac:LegalMonetaryTotal/cbc:PayableRoundingAmount/@currencyID)",
-  "legends": {
-    ".": "/xmlns:Invoice/cbc:Note",
-    "code": "/xmlns:Invoice/cbc:Note/@languageLocaleID",
-    "value": "/xmlns:Invoice/cbc:Note"
-  },
   "perception": {
     "indicator": "string(/xmlns:Invoice/cac:PaymentTerms/cbc:ID)",
     "mtoTotal": "string(/xmlns:Invoice/cac:PaymentTerms/cbc:Amount)",
@@ -242,6 +304,7 @@
   },
   "detraccion": {
     "indicator": "string(/xmlns:Invoice/cac:PaymentMeans/cbc:ID)",
+    "authorization": "string(/xmlns:Invoice/cac:PaymentMeans/cbc:PaymentID)",
     "ctaBanco": "string(/xmlns:Invoice/cac:PaymentMeans/cac:PayeeFinancialAccount/cbc:ID)",
     "codMedioPago": "string(/xmlns:Invoice/cac:PaymentMeans/cbc:PaymentMeansCode)",
     "codMedioPagoListName": "string(/xmlns:Invoice/cac:PaymentMeans/cbc:PaymentMeansCode/@listName)",

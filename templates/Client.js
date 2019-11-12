@@ -7,7 +7,6 @@ var listContribuyente = require('../catalogs/listContribuyente.json')
 class Client {
   constructor () {
     this._warning = []
-
     this._tipoDoc = null
     this._tipoDocSchemeName = null
     this._tipoDocSchemeAgencyName = null
@@ -101,6 +100,21 @@ class Client {
 
   set address (value) {
     this._address = value
+  }
+
+  toJSON () {
+    return {
+      warning: this.warning,
+      tipoDoc: this.tipoDoc,
+      tipoDocSchemeName: this.tipoDocSchemeName,
+      tipoDocSchemeAgencyName: this.tipoDocSchemeAgencyName,
+      tipoDocSchemeURI: this.tipoDocSchemeURI,
+      numDoc: this.numDoc,
+      rznSocial: this.rznSocial,
+      address: this.address.toJSON(),
+      email: this.email,
+      telephone: this.telephone
+    }
   }
 }
 

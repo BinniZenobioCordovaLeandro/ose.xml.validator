@@ -73,7 +73,7 @@ class Invoice extends BaseSale {
 
   set mtoDescuentos (value) {
     if (!/^[+]?[0-9]{1,12}\.[0-9]{1,2}$/.test(value) ||
-      !/^[+-0.]{1,}$/.test(value)) throw new Error('2065')
+      Number(value) !== 0) throw new Error('2065')
     this._mtoDescuentos = value
   }
 
@@ -172,7 +172,7 @@ class Invoice extends BaseSale {
   set valorVenta (value) {
     if (value &&
       !/^[+]?[0-9]{1,12}\.[0-9]{1,2}$/.test(value) &&
-      !/^[+-0.]{1,}$/.test(value)) throw new Error('2062')
+      Number(value) !== 0) throw new Error('2031')
     this._valorVenta = value
   }
 
@@ -189,9 +189,10 @@ class Invoice extends BaseSale {
   }
 
   set precioVenta (value) {
+    if (!value) this.warning.push('4317')
     if (value &&
       !/^[+]?[0-9]{1,12}\.[0-9]{1,2}$/.test(value) &&
-      !/^[+-0.]{1,}$/.test(value)) throw new Error('3019')
+      Number(value) !== 0) throw new Error('3019')
     this._precioVenta = value
   }
 
@@ -208,6 +209,7 @@ class Invoice extends BaseSale {
   }
 
   set mtoRndImpVenta (value) {
+    if (value && Math.abs(value) > 1) this.warning.push('4314')
     this._mtoRndImpVenta = value
   }
 
