@@ -36,7 +36,7 @@
   "homepage": "https://github.com/BinniZenobioCordovaLeandro/ose.xml.validator#readme",
   "dependencies": {
     "chalk": "^2.4.2",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "path": "^0.12.7",
     "xmldom": "^0.1.27",
     "xpath": "0.0.27"
